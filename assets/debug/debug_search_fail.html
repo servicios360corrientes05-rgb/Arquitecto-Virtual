@@ -1,0 +1,286 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keyword" content="">
+    <meta http-equiv="PRAGMA" content="NO-CACHE">
+
+    <title>GeoSIT</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/webapp/Content/bootstrap.css" rel="stylesheet">
+    <!--external css-->
+    <link href="/webapp/Content/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/webapp/Content/glyphicons/css/glyphicons.css" rel="stylesheet">
+    <!-- Common styles -->
+    <link href="/webapp/Content/style.css" rel="stylesheet">
+    <link href="/webapp/Content/style-responsive.css" rel="stylesheet">
+    <link href="/webapp/Content/theme.css" rel="stylesheet">
+    <link href="/webapp/Content/site.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    
+    <link href="/webapp/Content/login.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('~/../../Content/images/background.jpg');
+            background-size: cover;
+        }
+    </style>
+
+    <style>
+        .blocking-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 20000;
+            background-color: rgba(0,0,0,0.4);
+        }
+    </style>
+    <script>
+        var BASE_URL = "/webapp/";
+        var API_URL = "http://localhost/services/web.api/";
+    </script>
+    <script type="text/javascript" id="polyfills">
+        if (window.NodeList && !NodeList.prototype.forEach) {
+            NodeList.prototype.forEach = Array.prototype.forEach;
+        }
+        if (typeof window.CustomEvent !== 'function') {
+            function CustomEvent(event, params) {
+                params = params || { bubbles: false, cancelable: false, detail: undefined };
+                var evt = document.createEvent('CustomEvent');
+                evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+                return evt;
+            }
+            CustomEvent.prototype = window.Event.prototype;
+            window.CustomEvent = CustomEvent;
+        }
+        if (typeof Object.assign !== 'function') {
+            Object.defineProperty(Object, 'assign', {
+                enumerable: false,
+                configurable: true,
+                writable: true,
+                value: function (target) {
+                    'use strict';
+                    if (target === undefined || target === null) {
+                        throw new TypeError('Cannot convert first argument to object');
+                    }
+
+                    var to = Object(target);
+                    for (var i = 1; i < arguments.length; i++) {
+                        var nextSource = arguments[i];
+                        if (nextSource === undefined || nextSource === null) {
+                            continue;
+                        }
+                        nextSource = Object(nextSource);
+
+                        var keysArray = Object.keys(Object(nextSource));
+                        for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
+                            var nextKey = keysArray[nextIndex];
+                            var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
+                            if (desc !== undefined && desc.enumerable) {
+                                to[nextKey] = nextSource[nextKey];
+                            }
+                        }
+                    }
+                    return to;
+                }
+            });
+        }
+        if (typeof Object.toXML !== 'function') {
+            Object.defineProperty(Object, 'toXML', {
+                enumerable: false,
+                configurable: true,
+                writable: true,
+                value: function (obj, root) {
+                    'use strict';
+                    if (obj === undefined || obj === null) {
+                        throw new TypeError('Cannot convert first argument to object');
+                    }
+                    root = root || "root";
+                    var xml = "<" + root + ">";
+                    //loop through and add each property as a an xml tag as well as sub properties
+                    for (var prop in obj) {
+                        if (!obj.hasOwnProperty(prop) || obj[prop] == "undefined") {
+                            continue;
+                        }
+                        if (obj[prop] && typeof obj[prop] === "object") {
+                            xml += Object.toXML(obj[prop], prop);
+                        } else {
+                            xml += "<" + prop + ">";
+                            xml += new String(obj[prop] || "").replace(/(&)/g, '&amp;').replace(/(<)/g, '&lt;').replace(/(>)/g, '&gt;').replace(/(')/g, '&apos;');
+                            xml += "</" + prop + ">";
+                        }
+                    }
+                    xml += "</" + root + ">";
+                    // searches the string for numbers surrounded by underscores and removes them; used for multiple properties in the json that are set up an an object instead of an array
+                    return xml.replace(/([_]\d)\w+/g, '');
+                }
+            });
+        }
+        if (typeof Array.prototype.flat !== 'function') {
+            Object.defineProperty(Array.prototype, "flat", {
+                configurable: true,
+                writable: true,
+                value: function () {
+                    return Array.prototype.concat.apply([], this);
+                }
+            });
+            Object.defineProperty(Array.prototype, "flatMap", {
+                configurable: true,
+                writable: true,
+                value: function () {
+                    return Array.prototype.map.apply(this, arguments).flat();
+                }
+            });
+        }
+        if (typeof Array.prototype.distinct !== 'function') {
+            Object.defineProperty(Array.prototype, 'distinct', {
+                configurable: true,
+                writable: true,
+                value: function () {
+                    return this.filter(function (elem, idx, array) { return array.indexOf(elem) === idx; });
+                }
+            });
+        }
+        //# sourceURL=polyfills.js
+    </script>
+
+    <script src="/webapp/Scripts/jquery-2.1.3.min.js"></script>
+    
+    <script src="/webapp/Scripts/jquery-ui.js"></script>
+
+    
+    
+    <script src="/webapp/Scripts/jquery.validate.js"></script>
+    <script src="/webapp/Scripts/jquery.validate.unobtrusive.js"></script>
+
+
+    <script src="/webapp/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script>$.widget.bridge('uitooltip', $.ui.tooltip);</script>
+    <script src="/webapp/Scripts/bootstrap.js"></script>
+    <script src="/webapp/Scripts/CryptoJS/rollups/md5.js"></script>
+    <script src="/webapp/Scripts/Negocio/utilidades.js"></script>
+    <script src="/webapp/Scripts/detect.min.js"></script>
+    <script src="/webapp/Scripts/bluebird.min.js"></script>
+    
+    <script>
+        const SESSION_ACTIVE_KEY = 'geoSit_globalSessionActive';
+        const TAB_INSTANCE_ID_KEY = 'geoSit_tabInstanceID';
+        const forceCleanup = 'false';
+
+        if (forceCleanup === 'true') {
+            console.warn("[GeoSit-Auth] Ejecutando limpieza forzada de LocalStorage.");
+            localStorage.removeItem(SESSION_ACTIVE_KEY);
+            localStorage.removeItem(SESSION_ACTIVE_KEY + '_time');
+            sessionStorage.removeItem(TAB_INSTANCE_ID_KEY);
+        }
+
+        function hacerLogin() {
+            $('.sesion-expirada').addClass("hidden");
+            $('.form-login').removeClass("hidden");
+        }
+
+        $(document).ready(function () {
+            $('#loginbtn').click(function (e) {
+                e.preventDefault();
+                $("#LoginForm").submit();
+            });
+        });
+    </script>
+
+</head>
+
+<body>
+    
+
+<div class="container login-page">
+    <div class="form-login ">
+        <h2 class="form-login-heading">
+            Acceder a mi cuenta
+        </h2>
+        <div class="login-wrap ">
+<form action="/webapp/Account/Login" id="LoginForm" method="post" novalidate="" role="form"><input name="__RequestVerificationToken" type="hidden" value="OjGYdA-afrrbF8MgQaEKlenciR4zt3FNrdoNJxNsrexda2557wbqsf0WWUmInAyj88qzez-4KFOX732KkudmQMXh4xiU_UoyjSSTlPubG2Q1"><input autofocus="" class="form-control new-control valid" data-val="true" data-val-required="El usuario es obligatorio." id="Login" name="Login" placeholder="User ID" required="" type="text" value="arneaz90">                <br>
+<input class="form-control  new-control input-validation-error" data-val="true" data-val-required="La contraseña es obligatoria." id="Password" name="Password" placeholder="Password" required="" type="password">                <label class="checkbox">
+                    <span class="pull-right">
+                        <a href="/webapp/Account/ForgotPassword">Olvidé mi clave</a>
+                    </span>
+                </label>
+<div class="validation-summary-errors text-danger"><ul><li>Ha superado el límite de conexiones permitidas por usuario.</li>
+</ul></div>                <br><br><button type="submit" id="loginbtn" class="btn btn-theme btn-block">INGRESAR</button>
+                <hr>
+</form>            <div class="centered texto-condiciones">
+                <p>Operar con GeoSITM implica aceptar los <a data-toggle="modal" href="#terminos-condiciones" tabindex="1">Términos y Condiciones</a> en los que se ofrece el servicio.</p>
+            </div>
+        </div>
+        <div id="terminos-condiciones" aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Terminos y condiciones</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Powered by Geosystems</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-default" type="button">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sesion-expirada hidden">
+        <h2 class="sesion-expirada-heading" style="padding-top: 95px;">
+            Sesión Expirada
+        </h2>
+        <div class="sesion-expirada-wrap">
+            <p>Su Sesión ha Expirado</p>
+            <p>Si desea volver a ingresar haga <a class="cursor-pointer" onclick="hacerLogin()">click aquí</a></p>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+
+    <div class="modal fade theme_new" id="blockScreenModal" tabindex="-100" role="dialog" aria-labelledby="LabelModal" aria-hidden="true" data-backdrop="false" data-keyboard="false">
+        <div class="col-md-4 col-lg-4"></div>
+        <div class="panel col-lg-4 col-md-4" style="height:200px; padding-top:10px">
+            <div class="center-block prompt">
+                <p>La aplicación se ha bloqueado por inactividad. Para desbloquearla, reingrese su contraseña</p>
+            </div>
+            <div class="form-group" style="display:none" data-ng-class="{'has-error': vm.submitAttempted &amp;&amp; vm.form.userName.$invalid}">
+                <div class="input-group">
+                    <input id="txtUser" name="userName" class="form-control" type="text" data-ng-model="vm.userName" required="">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-user"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group" data-ng-class="{'has-error': vm.submitAttempted &amp;&amp; vm.form.password.$invalid}">
+                <br>
+                <label>Contraseña:</label>
+                <div class="input-group">
+                    <input id="txtPass" autocomplete="off" name="password" class="form-control" type="password" data-ng-model="vm.password" required="" autofocus="">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-lock"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group buttons">
+                <div id="SumaryPassword" class="validation-summary-errors text-danger" style="display:none">
+                    <ul>
+                        <li>Contraseña incorrecta.</li>
+                    </ul>
+                </div>
+                <button id="btnIngresar" type="button" class="btn btn-theme btn-block">Ingresar</button>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4"></div>
+    </div>
+    <div class="blocking-backdrop"></div>
+
+
+</body></html>

@@ -1,0 +1,591 @@
+; This PGP file was created with the AutoCAD Alias Editor.
+; Last modified 27/07/2021,   11:22 p.m.
+
+; Use the Alias Editor (ALIASEDIT command) to edit this file.
+
+﻿; 
+; 
+;  Archivo de parámetros de programa para Autodesk AutoCAD 2020
+;   Comandos externos y definiciones de alias de comandos
+
+;  Copyright 2019 Autodesk, Inc.  All rights reserved.
+;
+;  Use of this software is subject to the terms of the Autodesk license 
+;  agreement provided at the time of installation or download, or which 
+;  otherwise accompanies this software in either electronic or hard copy form.
+
+;  Cada vez que se abre un dibujo nuevo o existente, AutoCAD busca 
+;  la ruta de soporte y lee el primer archivo acad.pgp que encuentra.
+
+;  -- Comandos externos --
+;  Mientras AutoCAD se esté ejecutando, puede iniciar otros programas o utilidades,
+;  como comandos de sistema, utilidades y aplicaciones de Windows.
+;  Para definir comandos externos, precise el nombre de comando que se utilizará
+;  desde la solicitud de comando de AutoCAD y una cadena de comando ejecutable  
+;  que se transmite al sistema operativo. 
+
+;  -- Alias de comandos --
+;  La sección Alias de comandos de este archivo ofrece parámetros por defecto para
+;  las abreviaturas de comando de AutoCAD. Nota: No se recomienda modificar 
+;  directamente esta sección del archivo PGP, ya que cualquier cambio realizado en 
+;  la misma no se migrará correctamente al actualizar a una versión más moderna de
+;  AutoCAD. En su lugar, realice los cambios en la nueva sección Alias de comandos 
+;  definidos por el usuario que aparece al final de este archivo.
+
+;  -- Alias de comandos definidos por el usuario --
+;  Puede abreviar los comandos de AutoCAD de uso frecuente definiendo alias para
+;  los mismos en la sección Alias de comandos definidos por el usuario de acad.pgp.
+;  Puede crear un alias para cualquier comando de AutoCAD, comando de controlador
+;  de dispositivo o comando externo.
+
+;  Recomendación: Haga una copia de seguridad de este archivo antes de editarlo. Para
+;  asegurarse de que los cambios realizados en los parámetros PGP se pueden migrar
+;  correctamente al actualizar a la siguiente versión de AutoCAD, se sugiere realizar
+;  los cambios de los parámetros por defecto en la sección Alias de comandos 
+;  definidos por el usuario que aparece al final de este archivo.
+
+;  Formato de los comandos externos:
+;  <Nombre de comando>,[<solicitud de Shell>],<Indicador de bits>,[*]<Solicitud>,
+
+;  Los bits del indicador de bits poseen los siguientes significados:
+;  Bit 1: si se establece, no espera a que termine la aplicación
+;  Bit 2: si se establece, ejecuta la aplicación minimizada
+;  Bit 4: si se establece, ejecuta la aplicación en modo "oculto"
+;  Bit 8: si se establece, coloca la cadena del argumento entre comillas
+;
+;  Rellena el campo de indicadores de bits con la suma de de los bits deseados.
+;  Los bits 2 y 4 se excluyen mutuamente; si se indican los dos, sólo se utiliza el bit 2.
+;  Los valores más útiles suelen ser 0 (iniciar la aplicación y esperar a que termine),
+;  1 (iniciar la aplicación y no esperar), 3 (minimizar y no esperar) y
+;  5 (ocultar y no esperar). Los valores 2 y 4 suelen evitarse, ya que hacen
+;  que AutoCAD no se encuentre disponible hasta que la aplicación haya finalizado.
+;
+;  El bit 8 permite a los comandos como DEL funcionar correctamente con nombres de archivos 
+;  que tienen espacios, como "nombre archivo largo.dwg". Tenga en cuenta que esto puede 
+;  interferir al pasar listas de nombres de archivos delimitadas por espacios a dichos comandos.
+;  Si prefiere tener un soporte de varios archivos para usar nombres de archivos largos, 
+;  desactive el bit "8" para dichos comandos.
+
+;  Ejemplos de comandos externos para ventanas de comandos
+
+CATALOG,   DIR /W,         8,Especificación de archivos: ,
+DEL,       DEL,            8,Archivo que se va a borrar: ,
+DIR,       DIR,            8,Especificación de archivos: ,
+EDIT,      START EDIT,     9,Archivo que se va a editar: ,
+SH,        ,               1,*Comando del sistema operativo: ,
+SHELL,     ,               1,*Comando del sistema operativo: ,
+START,     START,          1,*Aplicación que se va a iniciar: ,
+TYPE,      TYPE,           8,Archivo que se va a enumerar: ,
+
+; Ejemplos de comandos externos para Windows
+; Véase también la función STARTAPP de AutoLISP para un método alternativo.
+EXPLORER,  START EXPLORER, 1,,
+NOTEPAD,   START NOTEPAD,  1,*Archivo que se va a editar: ,
+PBRUSH,    START PBRUSH,   1,,
+
+
+; Formato de los alias de comandos:
+;   <Alias>,*<Nombre completo del comando>
+
+;  A continuación se ofrecen directrices para crear alias de comandos.
+;  1. Un alias debería reducir un comando en al menos dos caracteres. 
+;      Los comandos que dispongan una tecla de control, un botón de la barra de estado o 
+;        tecla de función no precisan un alias de comando. 
+;      Ejemplos: Control N,  A,  I y  G para Nuevo, Abrir, Imprimir y Guardar.
+;  2. Pruebe con el primer carácter del comando, después con los dos primeros y, 
+;         finalmente, con los tres primeros.
+;  3. Una vez haya definido un alias, añada sufijos a los alias relacionados: 
+;      Ejemplos: RE para Redibuja, RT para Redibt, L para Linea o TL Tipolin.
+;  4. Utilice un guión para diferenciar entre la línea de comando y los comandos de
+;      los cuadros de diálogo.
+;      Ejemplo: BQ para Bloque, -BQ para -Bloque.
+;
+; Entre las excepciones a las reglas se encuentran AA para Area, PE para Editpol, PR para
+;      Ddchprop.
+
+;  -- Ejemplos de alias para comandos de AutoCAD --
+;  Estos ejemplos incluyen los comandos de uso más frecuente. NOTA: Se recomienda 
+;  no realizar cambios en esta sección del archivo PGP para garantizar la migración 
+;  correcta de las personalizaciones al actualizar a la siguiente versión de 
+;  AutoCAD. Los alias que aparecen en esta sección se repiten en la sección Alias de
+;  comandos definidos por el usuario al final de este archivo, la cual se puede editar
+;  con seguridad, al tiempo que se garantiza que los cambios se migrarán correctamente.
+
+
+
+DADINAMICA,     *ASIST
+3A,        *3DARRAY
+3DO,       *3DORBITA
+3C,        *3DCARA
+3P,        *3DPOL
+TRASLADADC,*ADCNAVIGATE
+A,         *ARCO
+DC,        *ADC
+DCENTER,   *ADC
+AA,        *AREA
+ALI,       *ALINEAR
+APL,       *APPLOAD
+MA,        *MATRIZ
+-MA,       *-MATRIZ
+AT,        *ATRDEF
+-AT,       *-ATRDEF
+ATR,       *ATREDIT
+-ATR,      *-ATREDIT
+BQ,        *BLOQUE
+-BQ,       *-BLOQUE
+SB,        *SOMBREA
+CN,        *CONTORNO
+-CN,       *-CONTORNO
+P,         *PARTE
+EMPAQ,     *PACK
+CI,        *CIRCULO
+PR,        *PROPIEDADES
+-CM,       *CAMBIA
+MODBLQ,    *BLOQUE
+CH,        *CHAFLAN
+VFN,	   *VERIFICANORMAS
+COLOR,     *COLOR
+COL,       *COLOR
+CP,        *COPIA
+DUP,       *COPIA
+AES,       *ACOESTIL
+ACOALI,    *ACOALINEADA
+ACOANG,    *ACOANGULO
+ACOLINE,   *ACOLINEABASE
+CBD,       *CONEXIONBD
+ACOCEN,    *ACOCENTRO
+CCC,       *ACOCONTINUA
+DDA,       *DIMDISASSOCIATE
+ACODIA,    *ACODIAMETRO
+AED,       *ACOEDIC
+D,         *DIST
+DIV,       *DIVIDE
+ACOLIN,    *ACOLINEAL
+AR,        *ARANDELA
+ACOCOO,    *ACOCOORDENADA
+ACOREMP,   *ACOREMPLAZAR
+OB,        *ORDENAOBJETOS
+ACORAD,    *ACORADIO
+DRE,       *DIMREASSOCIATE
+PAD,       *PARAMSDIB
+ACES,      *ACOESTIL
+T,         *TEXTO
+VD,        *VISTADIN
+B,         *BORRA
+EL,        *ELIPSE
+A,         *ALARGA
+Q,         *QUITA
+EX,        *EXPORTAR
+EXT,       *EXTRUSION
+EDITDBLCLC, *DBLCLKEDIT
+EXPORTARIGES, *IGESEXPORT
+MP,        *EMPALME
+FI,        *FILTER
+GRU,       *GRUPO
+-GRU,      *-GRUPO
+GR,        *DDGRIPS
+LAYER,     *CAPA
+OPCION,    *OPCIONES
+SMB,       *SOMBREA
+-SMB,      *SOMBREA
+EB,        *EDITSOMB
+OC,        *OCULTA
+IN,        *INSERT
+-IN,       *-INSERT
+AIM,       *AJUSTARIMG
+EIM,       *ENLAZARIMG
+ICL,       *DELIMITARIMG
+IMG,       *IMAGEN
+-IMG,      *-IMAGEN
+IM,        *IMPORTAR
+INT,       *INTERSEC
+INF,       *INTERF
+IF,        *INSERTOBJ
+IMPORTARIGES, *IGESIMPORT
+L,         *LINEA
+CCC,       *CAPA
+-CA,       *-CAPA
+DIRR,      *DIRECTRIZR
+LG,        *LONGITUD
+LS,        *LIST
+GLINEA,    *GROSORLIN
+PRES,      *-PRESENTACION
+LT,        *LIST
+TL,        *TIPOLIN
+-TL,       *-TIPOLIN
+TLINEA,    *TIPOLIN
+-TLINEA,   *-TIPOLIN
+EC,        *ESCALATL
+GLIN,      *GROSORLIN
+DE,        *DESPLAZA
+IP,        *IGUALARPROP
+GD,        *GRADUA
+SS,        *SIMETRIA
+LNM,       *LINEAM
+PROP,      *PROPIEDADES
+EM,        *ESPACIOM
+TXM,       *TEXTOM
+VM,        *VMULT
+T,         *DESFASE
+T,         SS*DESFASE
+OP,        *OPCIONES
+ORBIT,     *3DORBITA
+REF,       *REFENT
+-REF,      *-REFENT
+E,         *ENCUADRE
+-E,        *-ENCUADRE
+PA,        *PEGAESP
+ABRIRPARCIAL,    *-ABRIRPARCIAL
+PE,        *EDITPOL
+PL,        *POL
+PU,        *PUNTO
+PG,        *POLIGONO
+OPC,       *OPCIONES
+CPRO,      *CERPROP
+PROPS,     *PROPIEDADES
+PRE,       *PREVISUALIZAR
+IMPR,      *TRAZAR
+EP,        *ESPACIOP
+LI,        *LIMPIA
+-LI,       *-LIMPIA
+RE,        *REDIBUJA
+RT,        *REDIBT
+RG,        *REGEN
+RGT,       *REGENT
+REC,       *RECTANG
+REG,       *REGION
+RB,        *RENOMBRA
+-RN,       *-RENOMBRA
+RV,        *REVOLUCION
+GI,        *GIRA
+PRR,       *PREFR
+R,         *RENDER
+EI,        *ESTIRA
+ES,        *ESCALA
+SR,        *SCRIPT
+PARD,      *PARAMSDIB
+SC,        *SECCION
+MV,        *MODIVAR
+SM,        *MODOSOMBRA
+CO,        *CORTE
+FC,        *FORZCURSOR
+SO,        *SOLID
+SOLIDO,    *SOLID
+ORT,       *ORTOGRAFIA
+SPL,       *SPLINE
+SPE,       *EDITSPLINE
+EST,       *ESTILO
+N,	   *NORMAS
+DIF,       *DIFERENCIA
+EDITREF,   *REFEDIT
+-EDITREF,  *-REFEDIT
+CONJREF,   *REFSET
+CERREF,    *REFCLOSE
+-TXM,      *-TEXTOM
+TH,        *THICKNESS
+TM,        *TILEMODE
+BH,        *BARRAHERR
+TOL,       *TOLERANCIA
+TOR,       *TOROIDE
+TP,        *PALETASHERR	
+R,         *RECORTA
+SP,        *ADMINSCP
+UNS,       *UNIDADES
+-UNS,      *-UNIDADES
+UNI,       *UNION
+SALVADWF,  *PLOT
+VI,        *VISTA
+-VI,       *-VISTA
+PV,        *PTOVISTA
+-PV,       *-PTOVISTA
+BD,        *BLOQUEDISC
+-BD,       *-BLOQUEDISC
+CU,        *CUÑA
+DP,        *DESCOMP
+ENX,       *ENLAZARX
+UX,        *UNIRX
+-UX,       *-UNIRX
+LX,        *DELIMITARX
+XL,        *LINEAX
+RX,        *REFX
+-RX,       *-REFX
+Z,         *ZOOM
+AAAA,      *ZOOM2X
+CT,        *CTABLESTYLE
+CJP,       *CONJUNTOPLANOS
+TAB,       *TABLA
+ETA,       *ESTILOTABLA
+MR,        *MARCAREV
+CCC,       *CAPA
+AB,        *ACCIONBLOQUE
+CB,        *CERRARBLOQUE
+EBL,       *EDITARBLOQUE
+GB,        *GUARDARBLOQUE
+AAR,       *ACOARCO
+ARE,       *ACORECODO
+RCD,       *RECUPDIBUJO
+DG,        *DEGRADADO
+U,         *UNIR
+PARAM,     *PARAMBLOQUE
+CR,        *CALCURAPIDA
+EV,        *ESTADOVISBLOQUE
+RECODO,    *ACORECODO
+S3,        *SIMETRIA3D
+D3,        *DESPLAZA3D
+G3,        *GIRA3D
+E3,        *ESCALA3D
+CAM,       *CAMARA
+CIL,       *CILINDRO
+REX,       *REFEXTERNAS
+GEO,       *GEOPLANA
+PSOL,      *POLISOLIDO
+PIR,       *PIRAMIDE
+PLAS,      *PLANOSECCION
+3DP,       *3DPASEO
+MAT,       *ABRIREXPLORADORMAT
+RC,        *RECORTARENDER
+VPM,       *VALORPREDEFMODEL
+VR,        *VENTANRENDER
+GEO,      *POSICIONGEO
+NORTE,     *POSICIONGEO
+DIRNORTE,  *POSICIONGEO
+EVA,	   *ESTVISACTUAL
+EVIS,      *ESTILVISUAL
+-EVIS,     *-ESTILVISUAL
+Navegar3D,	*3DPASEO
+AECTOACAD, *-ExportToAutoCAD
+A3D,	   *ALINEAR3D
+ESITU,	   *EDITATRINSITU
+XD,	   *EXTRACDAT
+PUNTOLIBRE, *LUZPUNTUAL
+ESTADCA,   *ESTADOCAPAS
+ALIDM,	   *ALINDIRECTRIZM
+COLDM,	   *COLECDIRECTRIZM
+DM,	   *DIRECTRIZM
+EDITDM,	   *EDITARDIRECTRIZM
+ESTDM,	   *ESTILDIRECTRIZM
+CUIR,      *CUIRAPID
+ACOLR,       *ACOLINRECOD
+VINCD,        *VINCUDAT
+ACTVINCD,       *ACTUALVINCUDAT
+ADMCA,	*ESTADOCAPAS
+REPT,     *REPROTODO
+ARR,       *ACTRECORD
+ACMU,       *ACCIONMENSUSU
+-ACMU,      *-ACCIONMENSUSU
+ACEU,       *ACCIONEENTUSU
+ACDET,       *ACCIONDETENER
+-ACDET,       *-ACCIONDETENER
+CUBE,      *NAVVCUBE
+EINST,     *EDITARINSTA
+VIRD,       *VRDIBUJO
+VIRDC,      *VRDIBUJOCERRAR
+VIRP,       *VRPRES
+VIRPC,      *VRPRESCERRAR
+MOTION,    *NAVSMOTION
+MOTIONCER, *NAVSMOTIONCERRAR
+NINST,     *INSTANUEVA
+NVISTA,     *VISTANUEVA
+REPSEC,     *REPROSECUENCIA
+VIR,       *IRAVISTA
+REPVISTA,     *REPROVISTA
+WHEEL,     *NAVSWHEEL
+PDES,	   *HIDEPALETTES
+PACT,	   *SHOWPALETTES
+3DI,	   *IMPRIMIR3D
+3DTRAZ,    *IMPRIMIR3D
+3E,        *ESCALA3D
+BARR,      *BARRARESTRIC
+PARAMR,    *PARAMRESTRICBLOQUE
+PLIEGUE,    *PLIEGUEMALLA
+PARAMR, *PARAMRESTRIC
+RCOTA,      *RESTRICCOTA
+BORRES,    *BORRARRESTRIC
+RGEOM,      *RESTRICGEOM
+GENERARSECCION,  *PLANOSECCIONABLOQUE
+SECCIONRECODO,  *PLANOSECCIONRECODO
+MENOS,      *SUAVIZARMALLAMENOS
+MED,       *MEDIRGEOM
+MAS,      *SUAVIZARMALLAMAS
+PROTOTIPORAPID, *IMPRIMIR3D
+PAR,       *PARAMETROS
+-PAR,      *-PARAMETROS
+REFINAR,    *REFINARMALLA
+SUAVIZAR,    *SUAVIZARMALLA
+DIVIDIR,     *DIVIDIRMALLA
+TEDIT,     *EDITARTEXTO
+QUITARPLI,  *QUITARPLIEGUEMALLA
+VBACARGAR, *VBALOAD
+FUSI,  *FUSIONASUPERF
+SUAV,  *SUAVIZARMALLA
+ESCU,  *ESCULPESUPERF
+ANCU,  *ANALISISCURVATURA
+DRAFTANGLEANALYSIS, *ANALYSISDRAFTANGLE
+ALAR,  *ALARGASUPERF
+EMPA,  *EMPALMESUPERF
+HB,        *HATCHTOBACK
+AGRE,  *AGREGAVC
+ISOL,  *ISOLATEOBJECTS
+REDS,  *REDSUPERF
+DESF,  *DESFASESUPERF
+PARC,  *PARCHESUPERF
+ENLA,  *ENLAZARNUBEPUNTOS
+MOST,  *MOSTRARVC
+OCUL,  *OCULTAVC
+REGE,  *REGENERAVC
+ELIM,  *ELIMINAVC
+UNHIDE,    *UNISOLATEOBJECTS
+UNISOLATE, *UNISOLATEOBJECTS
+ANCE,  *ANALISISCEBRA
+QP,        *QUICKPROPERTIES
+DELETE,    *BORRA
+DDEDIC,  *EDITARTEXTO
+DDPTYPE,  *TIPOPUNTO
+DDVPOINT, *PTOVISTA
+ED,       *EDITARTEXTO
+AT,       *ALINEARTEXTO
+CARGARWEB, *WEBLOAD
+PROPIEDADESRAPIDAS, *QUICKPROPERTIES
+ENLAZARMC,  *ENLAZARMODELOCOORDINACION
+-ENLAZARMC,  *-ENLAZARMODELOCOORDINACION
+EPDFSHX,    *PDFSHX
+CM,					*MARCACENTRO
+CL,					*LINEACENTRO
+
+; A continuación se ofrecen alias alternativos y alias proporcionados con AutoCAD Versión 13.
+
+VA,        *VISTAEREA
+C,         *COPIA
+CA,        *ACOALINEADA
+ACOANG,    *ACOANGULO
+ACOLINE,   *ACOLINEABASE
+CC,        *ACOCONTINUA
+ACODIA,    *ACODIAMETRO
+ACOED,     *ACOEDIC
+ACOTED,    *ACOTEDIC
+DIMLIN,    *ACOLINEAL
+ACOCOO,    *ACOCOORDENADA
+ACORAD,    *ACORADIO
+ACOEST,    *ACOESTIL
+ACOREMP,   *ACOREMPLAZAR
+DIREC,     *DIRECTRIZ
+TM,        *TILEMODE
+
+; Alias que se utilizan por compatibilidad con Hipervínculos/URL Release 14:
+GUARDARURL,  *GUARDAR
+ABREURL,     *ABRE
+INSERTARURL, *INSERT
+
+; Aliases de comandos que ya no se utilizan en AutoCAD 2000:
+ASA,        *CONEXIONBD
+ASE,        *CONEXIONBD 
+ASL,        *CONEXIONBD 
+ASQ,        *CONEXIONBD 
+ASR,        *CONEXIONBD 
+ASS,        *CONEXIONBD
+AT,         *ATRDEF
+ATX,        *ATREXT
+DDATTEXT,   *ATREXT
+DDCHPROP,   *PROPIEDADES
+DDCOLOR,    *COLOR
+DDLMODES,   *CAPA
+DDLTYPE,    *TIPOLIN
+DDMODIFY,   *PROPIEDADES
+DDOSNAP,    *OSNAP
+DDSCP,      *SCP
+LINEWEIGHT, *LWEIGHT
+
+; Alias de comandos que ya no se utilizan en AutoCAD 2004:
+ACADBLOCKDIALOG,    *BLOQUE
+ACADWBLOCKDIALOG,   *BLOQUEDISC
+BMAKE,	            *BLOQUE
+BMOD,	            *BLOQUE
+POLCONT,	    *CONTORNO
+CONTENT,	    *ADCENTER
+DDATTE,	            *ATREDIT
+DCOTA,	            *ACOESTIL
+DDINSERT,	    *INSERTCLASICO
+DDSELLOIMP,	    *SELLOIMP
+DDRMODES,	    *PARAMSDIB
+ESTILODD,	    *ESTILO
+DDSCP,	            *ADMINSCP
+DDUCSP,	            *ADMINSCP
+DDUNITS,	    *UNIDADES
+DDVIEW,	            *VISTA
+CL,     	    *ACOLINEAL
+ACOGIRADA,	    *ACOLINEAL
+ACOVERTICAL,	    *ACOLINEAL
+ARANDELA,	    *ARANDELA
+TEXTODIN,	    *TEXTO
+PLOT,	            *TRAZAR
+DWFOUT,	            *PLOT
+CARGADXF,	    *ABRE
+SALVADXF,	    *GUARDARCOMO
+COPIARPROP,	    *reincui
+PREFERENCIAS,	    *OPCIONES
+RECTANGLE,	    *RECTANG
+SOMBRA,	            *MODOSOMBRA
+VENTANAS,	    *VENTANAS
+EDWFX,               *EXPORTARDWFX 
+EDWF,                 *EXPORTARDWF 
+EPDF,                  *EXPORTARPDF 
+-EXP,             *-EXPORTAR
+
+; Alias de comandos que ya no se utilizan en AutoCAD 2007:
+MATERIALR, *ABRIREXPLORADORMAT
+ACABADO,   *ABRIREXPLORADORMAT
+MAPEADO,   *MAPAMAT
+MOSTRMAT,  *LIST
+OPCARCHR,  *VALORPREDEFMODEL
+PANTR,     *VENTANRENDER
+NIEBLA,        *ENTORNORENDER
+
+; Alias de comandos que ya no se utilizan en AutoCAD 2009:
+
+; Alias de comandos que ya no se utilizan en AutoCAD 2014:
+CONFIG3D,  *CONFIGGRAFICA
+-CONFIG3D, *-CONFIGGRAFICA
+
+; Alias de comandos que ya no se utilizan en AutoCAD 2013:
+RASTERPREVIEW,      *THUMBSAVE
+PULSARTIRAR,            *PRESIONARTIRAR
+ATEXT,            *TEXTOA
+BMOD,            *MODBLQ
+BROWSER,            *EXAMINAR
+EPLOTEXT,            *EXTRAZE
+FILTER,            *FILTRO
+MTEDIT,            *EDITTXTM
+MTEXT,            *TEXTOM
+MTPROP,            *PROPTM
+OLESCALE,            *ESCALAOLE
+ONLINESHARE,            *COMPARTENLINEA
+ONLINEUPLOAD,            *CARGARENLINEA
+OPENONMOBILE,            *ABRIRENMOVIL
+PARÁMETROS,            *PARAMETROS
+POINTCLOUDATTACH,            *ENLAZARNUBEPUNTOS
+POINTCLOUDCLIP,            *RECORTANUBEPUNTOS
+POINTCLOUDINDEX,            *INDICENUBEPUNTOS
+POINTCLOUDINTENSITYEDIT,            *EDITAINTENSNUBEPUNTOS
+MOTIFPS,            *RELLENAPS
+VIEWSTD,            *ESTVISTA
+BARREACTIONSBLOC,            *BARRAACCIONESBLOQUE
+BACTIONBAR,            *BARRAACCIONESBLOQUE
+RENDERPRESETS,            *PREDEFRENDER
+-RENDERPRESETS,            *-PREDEFRENDER
+AUTOCOMPLETE,       *-INPUTSEARCHOPTIONS
+AUTOCOMPLETEMODE,   *-INPUTSEARCHOPTIONS
+AUTOCOMPLETEDELAY,  *INPUTSEARCHDELAY
+
+;  -- Alias de comandos definidos por el usuario --
+;  Realice en esta sección los cambios o adiciones a los alias de comandos 
+;  por defecto de AutoCAD para garantizar la migración correcta de dichos
+;  parámetros a la siguiente versión de AutoCAD. Si un alias de comando
+;  aparece más de una vez en este archivo, los elementos de Alias de comandos
+;  definidos por el usuario tienen prioridad sobre los duplicados que aparezcan
+;  previamente en el archivo.
+;  **********----------**********  ; No xlate ; DO NOT REMOVE
+
+D,         *DIST
+
+
+

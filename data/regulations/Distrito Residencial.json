@@ -1,0 +1,627 @@
+[
+  {
+    "5.1.1_Distrito_R1": {
+      "identificacion": {
+        "distritos": [
+          "R1"
+        ],
+        "normativas_referencia": [
+          "Ordenanza 6579"
+        ]
+      },
+      "a_caracter": {
+        "Distrito_R1": "Residencial predominante de densidad alta"
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Según plano Nº 3 – zonificación",
+        "c_subdivision": {
+          "parcela_sup_min_m2": 300,
+          "frente_minimo_m": 10
+        },
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Entre Medianeras",
+            "Perímetro Libre",
+            "Semi Perímetro Libre"
+          ],
+          "condiciones": "Con o sin basamento"
+        }
+      },
+      "tejido": {
+        "relacion_h_d": 3,
+        "fos_maximo": 0.7,
+        "condicion_suelo": "50% de la superficie libre resultante deberá ser terreno absorbente",
+        "fot_maximos": {
+          "EM": 4.5,
+          "SPL": 5,
+          "PL": 6,
+          "usos_complementarios": 4
+        },
+        "alturas_maximas_y_plantas": {
+          "EM": {
+            "metros": 18
+          },
+          "SPL": {
+            "metros": 24
+          },
+          "PL": {
+            "metros": 36
+          },
+          "basamento": {
+            "metros": 9
+          }
+        }
+      },
+      "retiros_de_frente": {
+        "inicio_de_retiro": "Sobre altura de basamento (9m) o nivel de acera si carece de él",
+        "edificaciones_semi_perimetro_libre": {
+          "general_m": 3
+        },
+        "edificaciones_perimetro_libre": {
+          "general_m": 5,
+          "esquina_m": 3
+        }
+      },
+      "retiro_de_fondo": {
+        "verificacion_minimos_obligatorios": [
+          {
+            "condicion": "Altura <= 24m (8 plantas)",
+            "minimo_m": 4.0
+          },
+          {
+            "condicion": "Altura > 24m (8 plantas)",
+            "minimo_m": 6.0
+          },
+          {
+            "condicion": "Altura > 36m (12 plantas)",
+            "minimo_m": 7.0
+          }
+        ],
+        "excepcion_uso": "Superficie libre resultante podrá ocuparse hasta un 25% con edificaciones de hasta planta baja sin azotea accesible (respetando FOS)"
+      }
+    }
+  },
+  {
+    "5.1.2_Distrito_R2": {
+      "identificacion": {
+        "distritos": [
+          "R2"
+        ],
+        "normativas_referencia": [
+          "Ordenanza 6579"
+        ]
+      },
+      "a_caracter": {
+        "Distrito_R2": "Residencial predominante de densidad media"
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Según plano Nº 3 – zonificación",
+        "c_subdivision": {
+          "parcela_sup_min_m2": 300,
+          "frente_minimo_m": 12
+        },
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Entre Medianeras",
+            "Perímetro Libre",
+            "Semi Perímetro Libre"
+          ],
+          "condiciones": "Con o sin basamento"
+        }
+      },
+      "tejido": {
+        "relacion_h_d": 2,
+        "fos_maximo": 0.7,
+        "condicion_suelo": "50% de la superficie libre resultante deberá ser terreno absorbente",
+        "fot_maximos": {
+          "uso_residencial": 3,
+          "usos_complementarios": 1.5
+        },
+        "alturas_maximas_y_plantas": {
+          "EM": {
+            "metros": 12
+          },
+          "SPL": {
+            "metros": 21
+          },
+          "PL": {
+            "metros": 21
+          },
+          "basamento": {
+            "metros": 9
+          }
+        }
+      },
+      "retiros_de_frente": {
+        "inicio_de_retiro": "A partir de la altura del basamento",
+        "edificaciones_semi_perimetro_libre": {
+          "general_m": 3
+        },
+        "edificaciones_perimetro_libre": {
+          "general_m": 3
+        }
+      },
+      "retiro_de_fondo": {
+        "excepcion_uso": "Superficie libre resultante podrá ocuparse hasta un 25% con edificaciones de hasta planta baja sin azotea accesible (respetando FOS)"
+      }
+    }
+  },
+  {
+    "5.1.3.1_Distrito_R3a": {
+      "identificacion": {
+        "distritos": [
+          "R3.a"
+        ],
+        "normativas_referencia": [
+          "Ordenanza 6579"
+        ]
+      },
+      "a_caracter": {
+        "Distrito_R3a": "Residencial predominante de densidad media - baja. De desarrollo Prioritario"
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Según plano Nº 3 – zonificación",
+        "c_subdivision": {
+          "parcela_sup_min_m2": 300,
+          "frente_minimo_m": 12
+        },
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Entre Medianeras",
+            "Perímetro Libre",
+            "Semi Perímetro Libre"
+          ]
+        }
+      },
+      "tejido": {
+        "relacion_h_d": 1.5,
+        "fos_maximo": 0.65,
+        "condicion_suelo": "50% de la superficie libre resultante deberá ser terreno absorbente",
+        "fot_maximos": {
+          "uso_residencial": 2,
+          "usos_complementarios": 1
+        },
+        "alturas_maximas_y_plantas": {
+          "todas_tipologias": {
+            "metros": 9
+          }
+        }
+      },
+      "retiro_de_fondo": {
+        "excepcion_uso": "Superficie libre resultante podrá ocuparse hasta un 25% con edificaciones de hasta planta baja sin azotea accesible (respetando FOS)"
+      }
+    }
+  },
+  {
+    "5.1.3.2_Distrito_R3b": {
+      "identificacion": {
+        "distritos": [
+          "R3.b"
+        ],
+        "normativas_referencia": [
+          "Ordenanza 6579"
+        ]
+      },
+      "a_caracter": {
+        "Distrito_R3b": "Residencial predominante de densidad baja. De desarrollo Diferido"
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Según plano Nº 3 – zonificación",
+        "c_subdivision": {
+          "parcela_sup_min_m2": 300,
+          "frente_minimo_m": 12
+        },
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Entre Medianeras",
+            "Perímetro Libre",
+            "Semi Perímetro Libre"
+          ],
+          "condiciones": "Altura limitada"
+        }
+      },
+      "tejido": {
+        "relacion_h_d": 1,
+        "fos_maximo": 0.6,
+        "condicion_suelo": "50% de la superficie libre resultante deberá ser terreno absorbente",
+        "fot_maximos": {
+          "uso_residencial_y_complementario": 1
+        },
+        "alturas_maximas_y_plantas": {
+          "todas_tipologias": {
+            "metros": 7
+          },
+          "pendiente_techos": "Se toma hasta el nivel inferior de los elementos de la estructura resistente"
+        }
+      },
+      "retiro_de_fondo": {
+        "excepcion_uso": "Superficie libre resultante podrá ocuparse hasta un 25% con edificaciones de hasta planta baja sin azotea accesible (respetando FOS)"
+      }
+    }
+  },
+  {
+    "5.1.4_Distrito_Re1": {
+      "identificacion": {
+        "distritos": [
+          "Re1"
+        ],
+        "normativas_referencia": [
+          "Ordenanza 2338",
+          "Ordenanza 3684"
+        ]
+      },
+      "a_caracter": {
+        "Distrito_Re1": "Residencial predominante zona costera"
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Según plano Nº3 – Zonificación",
+        "c_subdivision": {
+          "parcela_sup_min_m2": 500,
+          "frente_minimo_m": 15
+        },
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Perímetro Libre",
+            "Semi Perímetro Libre",
+            "Entre Medianeras (solo en parcelas preexistentes con frente <= 10m)"
+          ],
+          "condiciones": "Sin basamento"
+        }
+      },
+      "tejido": {
+        "relacion_h_d": 2.0,
+        "fos_maximo": "Resultante de aplicar las Normas del tejido",
+        "fot_maximos": {
+          "PL_SPL": 4.0,
+          "EM": 2.0
+        },
+        "alturas_maximas_y_plantas": {
+          "EM": {
+            "metros": 9
+          },
+          "SPL": {
+            "metros": 36
+          },
+          "PL": {
+            "metros": 36
+          }
+        }
+      },
+      "retiros_de_frente": {
+        "general_m": 3,
+        "excepcion_Av_Costanera": {
+          "tramo": "Inicio hasta calle San Luis",
+          "retiro_m": 5
+        }
+      }
+    }
+  },
+  {
+    "5.1.5_Distrito_Re2": {
+      "identificacion": {
+        "distritos": [
+          "Re2"
+        ],
+        "normativas_referencia": [
+          "Ordenanza 2338"
+        ]
+      },
+      "a_caracter": {
+        "Distrito_Re2": "Residencial, institucional predominante"
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Según Plano Nº3 – Zonificación",
+        "c_subdivision": {
+          "parcela_sup_min_m2": 500,
+          "frente_minimo_m": 15
+        },
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Perímetro Libre",
+            "Semi Perímetro Libre",
+            "Entre Medianeras (solo en parcelas preexistentes con frente <= 10m)"
+          ]
+        }
+      },
+      "tejido": {
+        "relacion_h_d": 2.0,
+        "fos_maximo": "Resultante de aplicar las normas del tejido",
+        "fot_maximos": {
+          "PL_SPL_uso_residencial": 4.0,
+          "EM_uso_residencial": 2.5,
+          "usos_complementarios": 4.0
+        },
+        "alturas_maximas_y_plantas": {
+          "EM": {
+            "metros": 12
+          },
+          "SPL": {
+            "metros": 36
+          },
+          "PL": {
+            "metros": 36
+          }
+        }
+      },
+      "retiros_de_frente": {
+        "general_m": "d (según R=h/d)",
+        "excepcion_Av_Juan_Pujol": {
+          "retiro_minimo_m": 5
+        },
+        "condicion": "Sobre espacio LM-LE solo se permiten salientes de balcones/aleros vuelo <= 1.40m a partir de 3m altura"
+      }
+    }
+  },
+  {
+    "5.1.5_BIS_Distrito_Re3": {
+      "identificacion": {
+        "distritos": [
+          "Re3"
+        ],
+        "normativas_referencia": [
+          "Ordenanza 4518",
+          "Ordenanza 6579"
+        ]
+      },
+      "a_caracter": {
+        "Distrito_Re3": "Mixto: Comercial, socio-cultural, recreativo-deportivo, predominante. Residencial de alta y media densidad"
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Entorno Av. Costanera Juan Pablo II (Ver límites específicos en texto)",
+        "c_subdivision": {
+          "parcela_sup_min_m2": 500,
+          "frente_minimo_m": 15
+        },
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Perímetro Libre",
+            "Semi Perímetro Libre (solo preexistentes <15m frente)",
+            "Entre Medianeras (solo preexistentes <15m frente)"
+          ]
+        }
+      },
+      "tejido": {
+        "relacion_h_d": 3.0,
+        "fos_maximo": {
+          "uso_residencial": 0.60,
+          "usos_complementarios": 0.75
+        },
+        "fot_maximos": {
+          "PL_residencial_y_complementario": 7.0,
+          "SPL_EM_residencial": 1.5,
+          "SPL_EM_complementarios": 2.0
+        },
+        "alturas_maximas_y_plantas": {
+          "PL": {
+            "condicion": "Altura > 9m solo en lotes ancho >= 15m y sup >= 500m2. Resultante de normas de tejido"
+          },
+          "SPL_EM": {
+            "metros": 9
+          },
+          "basamento": {
+            "metros": 9
+          }
+        }
+      },
+      "retiros_de_frente": {
+        "Av_Jorge_Romero": 4,
+        "calles_internas": 3,
+        "condicion_espacio": "Libre de edificación y parquizado (50% absorbente). Permite estacionamiento descubierto."
+      }
+    }
+  },
+  {
+    "5.1.5_TER_Distrito_Re4": {
+      "identificacion": {
+        "distritos": [
+          "Re4"
+        ],
+        "normativas_referencia": [
+          "Ordenanza 4544"
+        ]
+      },
+      "a_caracter": {
+        "Distrito_Re4": "Mixto: Comercial, recreativo, socio-cultural predominante. Residencial de alta y mediana densidad"
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Según Plano Nº3",
+        "c_subdivision": {
+          "parcela_sup_min_m2": 500,
+          "frente_minimo_m": 15
+        },
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Perímetro Libre"
+          ]
+        }
+      },
+      "tejido": {
+        "relacion_h_d": 3.0,
+        "fos_maximo": {
+          "uso_residencial": 0.60,
+          "usos_complementarios": 0.75
+        },
+        "fot_maximos": {
+          "uso_residencial": 7.0,
+          "usos_complementarios": 7.0
+        },
+        "alturas_maximas_y_plantas": {
+          "PL": {
+            "condicion": "Resultante de la aplicación de las normas de tejido"
+          }
+        }
+      },
+      "retiros_de_frente": {
+        "Av_Pomar_Centenario_Resoagli": 5,
+        "calles_internas": 3,
+        "condicion_espacio": "Libre de edificación y parquizado. Permite estacionamiento descubierto."
+      }
+    }
+  },
+  {
+    "5.1.6_Distrito_Rep": {
+      "identificacion": {
+        "distritos": [
+          "Rep"
+        ],
+        "normativas_referencia": [
+          "Ordenanza 5730"
+        ]
+      },
+      "a_caracter": {
+        "Distrito_Rep": "Residencial de baja densidad (Barrio Yapeyú)"
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Av. Gdor Ruiz, Estados Unidos, Av. Ayacucho, Av. Gdor Pujol, Tránsito Cocomarola",
+        "c_subdivision": "Actual parcelamiento catastral. PH hasta 3 unidades.",
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Perímetro Libre",
+            "Semi Perímetro Libre"
+          ]
+        }
+      },
+      "tejido": {
+        "fos_maximo": 0.7,
+        "fot_maximos": 1,
+        "alturas_maximas_y_plantas": {
+          "metros": 7
+        }
+      },
+      "retiros_de_frente": {
+        "general_m": 5,
+        "excepcion": "Cocheras o locales pueden llegar hasta LM en un ancho de 4m."
+      }
+    }
+  },
+  {
+    "5.1.7.1_Distrito_Rpa": {
+      "identificacion": {
+        "distritos": [
+          "Rpa"
+        ],
+        "normativas_referencia": [
+          "Ordenanza 6579"
+        ]
+      },
+      "a_caracter": {
+        "Distrito_Rpa": "Residencial Plan a - Conjuntos Habitacionales con características particulares"
+      },
+      "disposiciones_generales": {
+        "c_subdivision": "No subdivisiones. Solo englobamientos. PH hasta 3 unidades.",
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Entre Medianeras",
+            "Perímetro Libre",
+            "Semi Perímetro Libre"
+          ]
+        }
+      },
+      "tejido": {
+        "relacion_h_d": 2,
+        "fos_maximo": 0.7,
+        "condicion_suelo": "50% de la superficie libre resultante deberá ser terreno absorbente",
+        "fot_maximos": {
+          "uso_residencial": 1.8,
+          "usos_complementarios": 0.7
+        },
+        "alturas_maximas_y_plantas": {
+          "metros": 9
+        }
+      },
+      "retiros_de_frente": {
+        "Residencial_Sta_Rosa": 5,
+        "resto_distrito": 3,
+        "ocupacion_retiro": "Hasta 40% del ancho con edificaciones de hasta planta baja y 1 piso alto",
+        "excepcion": "Barrio Cacique Canindeyú exento"
+      },
+      "retiro_de_fondo": {
+        "excepcion_uso": "Superficie libre resultante podrá ocuparse hasta un 25% con edificaciones de hasta planta baja sin azotea accesible (respetando FOS)"
+      }
+    }
+  },
+  {
+    "5.1.7.2_Distrito_Rpb": {
+      "identificacion": {
+        "distritos": [
+          "Rpb"
+        ],
+        "normativas_referencia": [
+          "Ordenanza 6579"
+        ]
+      },
+      "a_caracter": {
+        "Distrito_Rpb": "Residencial Plan b - Conjuntos Habitacionales tipología Dúplex"
+      },
+      "disposiciones_generales": {
+        "c_subdivision": "No subdivisiones. Solo englobamientos. PH hasta 2 unidades.",
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Entre Medianeras",
+            "Perímetro Libre",
+            "Semi Perímetro Libre"
+          ]
+        }
+      },
+      "tejido": {
+        "relacion_h_d": 2,
+        "fos_maximo": 0.7,
+        "condicion_suelo": "50% de la superficie libre resultante deberá ser terreno absorbente",
+        "fot_maximos": {
+          "uso_residencial": 1.6,
+          "usos_complementarios": 0.7
+        },
+        "alturas_maximas_y_plantas": {
+          "metros": 7
+        }
+      },
+      "retiros_de_frente": {
+        "general_m": 3,
+        "ocupacion_retiro": "Hasta 50% del ancho con edificaciones de hasta planta baja y 1 piso alto"
+      },
+      "retiro_de_fondo": {
+        "excepcion_uso": "Superficie libre resultante podrá ocuparse hasta un 25% con edificaciones de hasta planta baja sin azotea accesible (respetando FOS)"
+      }
+    }
+  },
+  {
+    "5.1.8_Distrito_R4": {
+      "identificacion": {
+        "distritos": [
+          "R4"
+        ]
+      },
+      "a_caracter": {
+        "Distrito_R4": "Residencial predominante de densidad baja – Pequeños Núcleos extraurbanos preexistentes"
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Según plano Nº 3",
+        "c_subdivision": {
+          "parcela_sup_min_m2": 300,
+          "frente_minimo_m": 12
+        },
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Perímetro Libre",
+            "Semi Perímetro Libre",
+            "Entre Medianeras (solo parcelas preexistentes con frente <= 10m)"
+          ]
+        }
+      },
+      "tejido": {
+        "relacion_h_d": 1,
+        "fos_maximo": 0.6,
+        "fot_maximos": 0.6,
+        "alturas_maximas_y_plantas": {
+          "metros": 7
+        },
+        "densidad": "Una sola vivienda por predio o por cada 300m2 de superficie",
+        "linea_interna_basamento": "Suprimida",
+        "limite_fondo": "Edificación no podrá avanzar más allá de la línea de frente interno"
+      },
+      "retiros_de_frente": {
+        "general_m": 3
+      }
+    }
+  }
+]

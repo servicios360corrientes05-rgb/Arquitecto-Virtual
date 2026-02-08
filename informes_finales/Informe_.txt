@@ -1,0 +1,183 @@
+---
+**INFORME TÉCNICO DE VIABILIDAD ARQUITECTÓNICA Y ECONÓMICA**
+
+**PROYECTO: "RENACER URBANO CN"**
+**FECHA:** 26 de Octubre de 2023
+**EMITIDO POR:** [Su Nombre/Departamento de Arquitectura Senior]
+**PÁGINA 1 DE 4**
+
+---
+
+### **1. FICHA TÉCNICA Y RESUMEN EJECUTIVO**
+
+#### **1.1. Ficha Técnica del Proyecto**
+
+*   **Identificación del Lote:**
+    *   **Partida:** 01-01-C-001-005 (Ejemplo, a definir)
+    *   **Distrito:** CN (Centro)
+    *   **Dirección Estimada:** Calle Principal 1234, Centro (Ejemplo, a definir)
+    *   **Nomenclatura Catastral:** XX-XX-CN-XX-XXX
+*   **Dimensiones del Terreno:**
+    *   **Superficie Total:** 232.36 m²
+    *   **Frente:** 8.30 m
+    *   **Fondo Estimado:** ~28.00 m (calculado a partir de superficie y frente)
+*   **Indicadores Urbanísticos Vigentes (Según Normativa de Distrito CN):**
+    *   **Factor de Ocupación del Suelo (FOS):** 0.75
+    *   **Altura Máxima:** 30.00 m
+    *   **Niveles Permitidos:** Planta Baja (PB) + 9 Pisos (Total 10 Niveles sobre rasante)
+    *   **Retiros:**
+        *   Frente: Según Línea Municipal.
+        *   Laterales: Según Código de Edificación (Probable medianera).
+        *   Fondo: Según Código de Edificación (Probable mínimo 3.00m o patio de aire y luz si aplica).
+*   **Potencial Constructivo:**
+    *   **Superficie Total Construible (GBA):** 1580 m² (máximo permitido)
+    *   **Factor de Ocupación Total (FOT) Calculado:** 1580 m² / 232.36 m² = 6.80
+
+#### **1.2. Resumen Ejecutivo**
+
+El presente informe técnico evalúa la viabilidad arquitectónica y económica de un lote de 232.36 m² con 8.30 m de frente, ubicado en el estratégico Distrito CN (Centro). El análisis se enfoca en maximizar el potencial constructivo de 1580 m², permitido por un FOS de 0.75 y una altura máxima de 30 m (PB + 9 Pisos).
+
+A pesar de las dimensiones acotadas del frente, la profundidad del lote y los generosos indicadores urbanísticos confieren un alto potencial para el desarrollo de un proyecto de uso mixto (comercial en PB y residencial en altura) o exclusivamente residencial, alineado con la demanda del sector central.
+
+La propuesta volumétrica preliminar explora un esquema de eficiencia en planta, optimizando la superficie para unidades de vivienda (monoambientes y 1 dormitorio), dada la limitación del frente. La ecuación económica inicial, basada en el FOT de 6.8 y proyecciones de mercado, indica una rentabilidad potencial atractiva, sujeta a una gestión rigurosa de costos de construcción y una adecuada estrategia comercial.
+
+Este informe concluye que el lote presenta una excelente oportunidad de inversión, con un potencial de desarrollo que capitaliza la ubicación central y la normativa favorable, aunque requiere un diseño arquitectónico innovador para superar las limitaciones geométricas y una planificación económica detallada para optimizar los márgenes.
+
+---
+**PÁGINA 2 DE 4**
+
+### **2. ANÁLISIS DEL LOTE (GEOMETRÍA Y ENTORNO)**
+
+#### **2.1. Geometría del Lote**
+
+*   **Forma y Dimensiones:**
+    El lote presenta una forma predominantemente rectangular, con un frente de 8.30 metros y una profundidad estimada de aproximadamente 28.00 metros. Esta proporción (estrecho y profundo) es característica de muchos terrenos en zonas centrales urbanas densificadas.
+*   **Limitaciones Intrínsecas:**
+    *   **Frente Reducido:** Los 8.30 metros de frente representan el principal desafío de diseño. Dificulta la disposición de múltiples unidades por planta que requieran fachadas exteriores y limita las opciones de acceso vehicular (entrada y salida simultánea de vehículos si se planteara).
+    *   **Iluminación y Ventilación:** La profundidad del lote, combinada con la estrechez, exige una estrategia de diseño cuidadosa para garantizar iluminación y ventilación natural adecuadas para todas las unidades, posiblemente a través de patios internos o conductos de aire y luz bien dimensionados en el contrafrente, además de las fachadas principal y posterior.
+    *   **Estructura y Muros Medianeros:** La alta densidad de ocupación implicará la construcción sobre medianeras en gran parte de la profundidad del lote, lo que requiere una coordinación precisa con los linderos y consideraciones estructurales específicas para evitar afectaciones.
+*   **Oportunidades Geométricas:**
+    *   **Profundidad Aprovechable:** A pesar de la estrechez del frente, la profundidad permite la disposición de un núcleo vertical (ascensores y escaleras) en una posición central o posterior, liberando el frente para áreas habitables y comerciales en PB.
+    *   **Flexibilidad de Distribución:** Aunque desafiante, la geometría puede dar lugar a tipologías de unidades alargadas o a la combinación de unidades compactas (monoambientes, 1 dormitorio) que aprovechen al máximo las aberturas permitidas.
+
+#### **2.2. Análisis del Entorno (Distrito CN - Centro)**
+
+*   **Contexto Urbano:**
+    El distrito "Centro" se caracteriza por su alta densidad poblacional y constructiva. Es un nodo vital de actividad económica, administrativa, cultural y de servicios. Predominan edificios de altura, tanto residenciales como de oficinas y comerciales.
+*   **Conectividad y Accesibilidad:**
+    *   **Transporte Público:** Excelente conectividad con múltiples líneas de transporte público (autobuses, metro/subte, tren si aplica) en las inmediaciones, facilitando el acceso desde y hacia cualquier punto de la ciudad.
+    *   **Peatonal y Ciclovías:** Alta transitabilidad peatonal y potencial para conexión con redes de ciclovías existentes, promoviendo modos de transporte sostenibles.
+    *   **Infraestructura Existente:** La zona cuenta con una infraestructura de servicios (agua, cloacas, electricidad, gas, telecomunicaciones) robusta y consolidada, minimizando costos y tiempos en las conexiones.
+*   **Uso del Suelo Predominante:**
+    Mixto, con una fuerte presencia comercial en planta baja (locales, oficinas, galerías) y residencial en los niveles superiores. Es común encontrar edificios históricos que conviven con desarrollos modernos.
+*   **Público Objetivo Potencial:**
+    *   **Residencial:** Profesionales jóvenes, estudiantes, parejas sin hijos, inversores en alquiler temporario o permanente, que valoran la centralidad y la cercanía a sus lugares de trabajo/estudio y oferta cultural/recreativa.
+    *   **Comercial (PB):** Pequeñas empresas de servicios, tiendas de conveniencia, gastronomía de escala reducida, dada la alta afluencia peatonal.
+*   **Impacto de los Linderos:**
+    Es previsible que el lote esté flanqueado por edificios existentes de altura similar, lo que influirá en las vistas, la privacidad y la entrada de luz natural desde los laterales. Un estudio de soleamiento y sombras detallado será crucial en etapas posteriores. La integración estética y funcional con el entorno inmediato deberá ser cuidadosamente considerada.
+
+---
+**PÁGINA 3 DE 4**
+
+### **3. PROPUESTA VOLUMÉTRICA (ESQUEMA DE CORTE Y PLANTAS)**
+
+La propuesta volumétrica busca optimizar el aprovechamiento de los 1580 m² de potencial constructivo, respetando los indicadores urbanísticos y sorteando las limitaciones de la geometría del lote, con especial atención a la eficiencia espacial y la calidad habitable.
+
+#### **3.1. Esquema de Corte (Sección Transversal Descriptiva)**
+
+*   **Nivel -1 (Subsuelo / Opción a Evaluar):**
+    *   **Uso:** Posible área técnica (cisternas, bombas, sala de tableros eléctricos), depósitos para unidades, bicicletero.
+    *   **Factibilidad:** La excavación en un lote angosto en área céntrica puede ser compleja y costosa. Se evaluaría la necesidad de parking, ya que 8.3m de frente limitan seriamente el acceso vehicular a un subsuelo, siendo más viable el uso de estacionamientos públicos cercanos o el descarte de cocheras en el proyecto. Se priorizaría el uso de subsuelo para servicios y no para estacionamiento.
+*   **Planta Baja (PB):**
+    *   **Uso:** Acceso principal al edificio, lobby residencial, núcleo de circulación vertical (escalera y ascensor/es), local comercial al frente.
+    *   **Distribución:** El acceso peatonal y el local comercial se ubicarán hacia el frente de 8.3m, aprovechando la visibilidad de la calle. El núcleo vertical se ubicará en la parte central o posterior del lote para minimizar su impacto en la fachada principal y dejar un área de lobby generosa.
+    *   **Servicios:** Cuarto de residuos, sala de medidores, acceso técnico.
+*   **Pisos Tipo (Nivel 1 al 9):**
+    *   **Uso:** Unidades de vivienda.
+    *   **Altura:** Cada piso tendrá una altura libre adecuada para vivienda (aprox. 2.60m - 2.80m).
+    *   **Distribución de Unidades:** La restricción de 8.3m de frente invita a optimizar la distribución. Se proponen dos escenarios:
+        *   **Opción A (2 unidades por piso):** Dos unidades compactas por piso (ej. monoambientes o apartamentos de 1 dormitorio), una orientada al frente y otra al contrafrente. Ambas se servirían de un pequeño hall o pasillo que sale directamente del núcleo vertical. El FOT de 6.80 permite unos 175 m² de superficie construible por planta, lo que para 2 unidades significa aprox. 87.5 m² por unidad, incluyendo áreas comunes. Esto es un área generosa que podría permitir unidades de 2 dormitorios o unidades flexibles.
+        *   **Opción B (1 unidad grande por piso):** Una unidad más amplia que abarque toda la profundidad del lote, con expansiones al frente y al contrafrente. Esto implicaría menos unidades pero de mayor valor unitario.
+    *   **Iluminación y Ventilación:** Se garantizará a través de las fachadas principal y contrafrente, y mediante la incorporación de patios interiores o pozos de aire y luz bien dimensionados en la parte central del lote, en caso de ser necesarios para áreas de servicio o dormitorios interiores.
+*   **Azotea (Nivel 10):**
+    *   **Uso:** Amenities para residentes (terraza, solárium, parrilla, SUM de menor escala), sala de máquinas de ascensores, tanques de agua, equipos de aire acondicionado.
+    *   **Acceso:** Por escalera y ascensor.
+
+#### **3.2. Esquema de Plantas (Distribución Tipo Descriptiva)**
+
+*   **Planta Baja:**
+    *   **Frente (8.30m):** Acceso principal con portal, vidriera para local comercial.
+    *   **Centro:** Hall de entrada con espacio para recepción o seguridad, acceso a ascensor(es) y escalera. Área de servicios/sanitarios para local comercial.
+    *   **Fondo:** Posible patio trasero o área de servicio/depósito para el local comercial, o un pequeño patio de aire y luz para el edificio si es requerido por normativa.
+*   **Planta Tipo (Ejemplo con 2 unidades por piso):**
+    *   **Núcleo Central:** Ascensor, escalera de emergencia.
+    *   **Unidad Frente (aprox. 50-60 m²):** Living-comedor con cocina integrada, balcón (si la normativa lo permite y es estético en el frente estrecho), dormitorio con placard, baño completo. Orientación directa a la calle.
+    *   **Unidad Contrafrente (aprox. 50-60 m²):** Living-comedor con cocina integrada, dormitorio con placard, baño completo. Ventilación a patio trasero o pozo de aire y luz.
+    *   **Eficiencia:** El diseño buscará minimizar áreas de circulación comunes para maximizar la superficie útil de las unidades.
+*   **Consideraciones de Diseño:**
+    *   **Fachada:** Dada la ubicación en Centro, se propone una fachada contemporánea que dialogue con la arquitectura existente, utilizando materiales duraderos y de bajo mantenimiento.
+    *   **Estructura:** La estructura deberá ser resuelta con criterios de economía y eficiencia, probablemente a base de hormigón armado, considerando la alta densidad y el aprovechamiento máximo de los linderos.
+    *   **Instalaciones:** Diseño eficiente de instalaciones para optimizar recursos y costos.
+    *   **Sustentabilidad:** Incorporación de criterios de eficiencia energética (iluminación natural, ventilación cruzada si es posible, aislamiento térmico) y gestión de residuos.
+
+---
+**PÁGINA 4 DE 4**
+
+### **4. ECUACIÓN ECONÓMICA (INCIDENCIA Y RENTABILIDAD)**
+
+El análisis económico se basa en proyecciones y supuestos de mercado para el Distrito CN, con el objetivo de evaluar la rentabilidad potencial del proyecto. La "Incidencia 6.8x" se interpreta como el Factor de Ocupación Total (FOT) del lote, calculado previamente como 1580 m² / 232.36 m² = 6.80.
+
+#### **4.1. Premisas y Supuestos Económicos**
+
+*   **Superficie Potencial Constructiva Total (GBA):** 1580 m²
+*   **Factor de Eficiencia (m² útil/vendible respecto a GBA):** 0.80 (Se estima que el 80% de la superficie construida será útil/vendible, considerando muros, circulaciones, áreas comunes, etc.)
+*   **Superficie Vendible Total Estimada:** 1580 m² * 0.80 = **1264 m²**
+*   **Precio de Venta Promedio por m² útil:** USD 2.800/m² (Valor promedio para unidades residenciales en un distrito central, puede variar por tipología y nivel de terminación).
+*   **Costo de Construcción por m² construible:** USD 1.400/m² (Estimación de costo directo e indirecto de construcción en la zona).
+*   **Costo del Terreno:** USD 1.500/m² (Valor de referencia para un terreno de estas características y ubicación en el Centro).
+*   **Otros Costos del Proyecto:** Se estima un 15% de los Ingresos Potenciales para cubrir gastos indirectos (honorarios profesionales, marketing y ventas, impuestos, tasas, gastos legales, financieros y contingencias).
+
+#### **4.2. Cálculos de la Ecuación Económica**
+
+1.  **Ingresos Potenciales del Proyecto:**
+    *   Superficie Vendible Total * Precio de Venta por m² útil
+    *   1264 m² * USD 2.800/m² = **USD 3.539.200**
+
+2.  **Costo Total del Terreno:**
+    *   Superficie del Terreno * Costo del Terreno por m²
+    *   232.36 m² * USD 1.500/m² = **USD 348.540**
+
+3.  **Costo Total de Construcción:**
+    *   Superficie Potencial Constructiva Total * Costo de Construcción por m² construible
+    *   1580 m² * USD 1.400/m² = **USD 2.212.000**
+
+4.  **Otros Costos del Proyecto:**
+    *   15% de los Ingresos Potenciales
+    *   USD 3.539.200 * 0.15 = **USD 530.880**
+
+5.  **Costo Total del Proyecto:**
+    *   Costo Terreno + Costo Construcción + Otros Costos
+    *   USD 348.540 + USD 2.212.000 + USD 530.880 = **USD 3.091.420**
+
+6.  **Ganancia Bruta Estimada (Utilidad antes de Impuestos sobre Ganancias):**
+    *   Ingresos Potenciales - Costo Total del Proyecto
+    *   USD 3.539.200 - USD 3.091.420 = **USD 447.780**
+
+7.  **Rentabilidad sobre el Costo Total del Proyecto:**
+    *   (Ganancia Bruta / Costo Total del Proyecto) * 100
+    *   (USD 447.780 / USD 3.091.420) * 100 = **14.48%**
+
+#### **4.3. Conclusiones Económicas y Consideraciones**
+
+*   **Rentabilidad Viable:** El proyecto muestra una rentabilidad potencial del 14.48% sobre el costo total del proyecto, lo cual es un margen atractivo para un desarrollo inmobiliario en una ubicación premium.
+*   **Sensibilidad de la Rentabilidad:** Este margen está sensiblemente ligado a los supuestos de precio de venta por m² y costo de construcción. Variaciones significativas en cualquiera de estos parámetros pueden impactar considerablemente el resultado final.
+*   **Valor del Terreno:** La "incidencia" del terreno en el costo total del proyecto es de aproximadamente el 11.27% (348.540 / 3.091.420), lo cual es saludable y permite un margen de maniobra.
+*   **Estrategia Comercial:** Dada la tipología de unidades pequeñas y la ubicación central, una estrategia comercial enfocada en inversores (para alquiler) y profesionales/estudiantes (para vivienda propia) maximizará el valor de venta.
+*   **Gestión de Costos:** Para asegurar la rentabilidad proyectada, será fundamental una gestión de costos de construcción extremadamente eficiente y una supervisión rigurosa durante todas las fases del proyecto.
+*   **Financiación:** Se deberá evaluar el costo de financiación del proyecto, ya que impactará directamente la rentabilidad final.
+*   **Uso Mixto:** La inclusión de un local comercial en PB puede mejorar la rentabilidad al diversificar los ingresos y capitalizar la alta afluencia peatonal del Centro.
+
+**Recomendación:** Los resultados preliminares son positivos y justifican avanzar a una fase de anteproyecto que refine la propuesta volumétrica y de unidades, permitiendo estimaciones de costos más precisas y un análisis de mercado más detallado.
+
+---
+**FIN DEL INFORME**

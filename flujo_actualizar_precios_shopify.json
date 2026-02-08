@@ -1,0 +1,226 @@
+{
+    "name": "Actualizar Precios en Shopify desde Google Sheets",
+    "flow": [
+        {
+            "id": 1,
+            "module": "google-sheets:watchRows",
+            "version": 2,
+            "parameters": {
+                "limit": 100,
+                "headerRow": 1
+            },
+            "mapper": {
+                "mode": "select",
+                "spreadsheetId": "TU_ID_DE_SPREADSHEET_AQUI",
+                "sheetId": "Hoja1",
+                "includesHeaders": true
+            },
+            "metadata": {
+                "designer": {
+                    "x": 0,
+                    "y": 0,
+                    "name": "1. Leer Google Sheets (Handle + Precio)"
+                },
+                "restore": {},
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:google",
+                        "label": "Conexión Google",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "spreadsheetId",
+                        "type": "text",
+                        "label": "ID del Spreadsheet",
+                        "required": true
+                    },
+                    {
+                        "name": "sheetId",
+                        "type": "text",
+                        "label": "Nombre de la Hoja",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 2,
+            "module": "shopify:searchProducts",
+            "version": 4,
+            "parameters": {},
+            "mapper": {
+                "query": "handle:{{1.Handle}}",
+                "limit": 1
+            },
+            "metadata": {
+                "designer": {
+                    "x": 300,
+                    "y": 0,
+                    "name": "2. Buscar Producto en Shopify"
+                },
+                "restore": {},
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:shopify",
+                        "label": "Conexión Shopify",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "query",
+                        "type": "text",
+                        "label": "Consulta de Búsqueda (Handle)",
+                        "required": true
+                    },
+                    {
+                        "name": "limit",
+                        "type": "number",
+                        "label": "Límite de resultados"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 3,
+            "module": "shopify:updateProductVariant",
+            "version": 5,
+            "parameters": {},
+            "filter": {
+                "name": "Producto Encontrado",
+                "conditions": [
+                    [
+                        {
+                            "a": "{{2.id}}",
+                            "o": "exist"
+                        }
+                    ]
+                ]
+            },
+            "mapper": {
+                "productId": "{{2.id}}",
+                "variantId": "{{2.variants[1].id}}",
+                "price": "{{1.`Variant Price`}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 600,
+                    "y": 0,
+                    "name": "3. Actualizar Precio de Variante"
+                },
+                "restore": {},
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:shopify",
+                        "label": "Conexión Shopify",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "productId",
+                        "type": "uinteger",
+                        "label": "ID del Producto",
+                        "required": true
+                    },
+                    {
+                        "name": "variantId",
+                        "type": "uinteger",
+                        "label": "ID de la Variante",
+                        "required": true
+                    },
+                    {
+                        "name": "price",
+                        "type": "number",
+                        "label": "Nuevo Precio",
+                        "required": true
+                    }
+                ]
+            }
+        }
+    ],
+    "metadata": {
+        "instant": false,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "us1.make.com",
+        "notes": [
+            {
+                "moduleIds": [
+                    1
+                ],
+                "content": "<h1>📋 Columnas Requeridas en Google Sheets</h1><p>Tu hoja debe tener estas columnas:<br><strong>• Handle</strong> - El identificador único del producto en Shopify<br><strong>• Variant Price</strong> - El nuevo precio a actualizar</p><p>Ejemplo:<br>Handle | Variant Price<br>camiseta-azul | 29.99<br>pantalon-negro | 49.99</p>",
+                "isFilterNote": false,
+                "metadata": {
+                    "color": "#1fae5b"
+                }
+            },
+            {
+                "moduleIds": [
+                    2
+                ],
+                "content": "<h1>🔍 Búsqueda por Handle</h1><p>Busca el producto en Shopify usando el Handle de la columna A.<br><br>El Handle es el identificador único que aparece en la URL del producto:<br>tutienda.myshopify.com/products/<strong>handle-aqui</strong></p>",
+                "isFilterNote": false,
+                "metadata": {
+                    "color": "#0d8ce9"
+                }
+            },
+            {
+                "moduleIds": [
+                    3
+                ],
+                "content": "<h1>💰 Actualizar Precio</h1><p>Este módulo actualiza el precio de la primera variante del producto encontrado.<br><br>Solo se ejecuta si el producto fue encontrado en el paso anterior.</p>",
+                "isFilterNote": false,
+                "metadata": {
+                    "color": "#ff6a00"
+                }
+            }
+        ]
+    },
+    "instructions": {
+        "setup": [
+            "1. Ve a Make.com y crea un nuevo escenario",
+            "2. Importa este JSON (icono de 3 puntos → Import Blueprint)",
+            "3. Conecta tu cuenta de Google en el módulo 1",
+            "4. Reemplaza 'TU_ID_DE_SPREADSHEET_AQUI' con el ID de tu Google Sheet",
+            "5. Conecta tu cuenta de Shopify en los módulos 2 y 3",
+            "6. Ejecuta una prueba con 'Run once'",
+            "7. Si funciona, activa el escenario para que corra automáticamente"
+        ],
+        "google_sheet_format": {
+            "columnas": [
+                "Handle",
+                "Variant Price"
+            ],
+            "ejemplo": [
+                {
+                    "Handle": "camiseta-azul",
+                    "Variant Price": "29.99"
+                },
+                {
+                    "Handle": "pantalon-negro",
+                    "Variant Price": "49.99"
+                }
+            ]
+        }
+    }
+}

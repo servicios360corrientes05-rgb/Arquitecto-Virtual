@@ -1,0 +1,412 @@
+[
+  {
+    "5.4.1_Distrito_I1": {
+      "identificacion": {
+        "distritos": [
+          "I1"
+        ],
+        "normativas_referencia": [
+          "Ordenanza 5870"
+        ]
+      },
+      "a_caracter": {
+        "descripcion": "Industrial exclusivo"
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Según Plano Nº 3",
+        "c_subdivision": {
+          "parcela_sup_min_m2": 10000,
+          "frente_minimo_m": 100
+        },
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Perímetro Libre"
+          ]
+        }
+      },
+      "tejido": {
+        "fot_maximo": 0.3,
+        "alturas_maximas_y_plantas": {
+          "metros": 10
+        },
+        "condicion_molestias": "Deben absorberse dentro de la parcela"
+      },
+      "retiros_obligatorios": {
+        "perimetro_parcela": {
+          "minimo_m": 20,
+          "condicion": "Superficie obligatoriamente forestada. Solo admite 20% para solados de estacionamiento."
+        },
+        "cercos_sobre_LM": {
+          "altura_maxima_m": 1.10,
+          "muretes_m": 0.40
+        }
+      }
+    }
+  },
+  {
+    "5.4.2_Distrito_I2": {
+      "identificacion": {
+        "distritos": [
+          "I2"
+        ],
+        "normativas_referencia": [
+          "Ordenanza 5870"
+        ]
+      },
+      "a_caracter": {
+        "descripcion": "Industrial predominante"
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Según Plano Nº 3",
+        "normativa_aplicable": "Rigen las mismas normas que para I1, sin excepción de los referentes al uso (Planillas Nº3 y 4)."
+      }
+    }
+  },
+  {
+    "5.4.3_Distrito_I3": {
+      "identificacion": {
+        "distritos": [
+          "I3"
+        ],
+        "normativas_referencia": [
+          "Ordenanza 5870"
+        ]
+      },
+      "a_caracter": {
+        "descripcion": "Industrial dominante"
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Según Plano Nº 3",
+        "c_subdivision": {
+          "parcela_sup_min_m2": 2000,
+          "frente_minimo_m": 20
+        },
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Perímetro Libre",
+            "Semi Perímetro Libre"
+          ]
+        }
+      },
+      "tejido": {
+        "fot_maximo": 0.6,
+        "alturas_maximas_y_plantas": {
+          "metros": 10
+        }
+      }
+    }
+  },
+  {
+    "5.4.4_Distrito_I4": {
+      "identificacion": {
+        "distritos": [
+          "I4"
+        ],
+        "nombre_completo": "Parque Industrial",
+        "normativas_referencia": [
+          "Ordenanza 5802"
+        ]
+      },
+      "a_caracter": {
+        "descripcion": "Industrial"
+      },
+      "disposiciones_generales": {
+        "normativa_aplicable": "Cumplirá las normas definidas en el Proyecto 'Parque industrial Tecnológico Santa Catalina'."
+      }
+    }
+  },
+  {
+    "5.5_Zona_Reserva_Urbana": {
+      "identificacion": {
+        "distritos": [
+          "Z.R.U"
+        ],
+        "normativas_referencia": [
+          "Ordenanza 5870"
+        ]
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Según Plano Nº 3",
+        "c_subdivision": {
+          "superficie_minima": "1 ha = 1 manzana"
+        },
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Edificios en planta baja únicamente"
+          ]
+        }
+      },
+      "tejido": {
+        "fot_maximo": 0.50,
+        "densidad": "No más de una vivienda por cada unidad de subdivisión o por cada 10.000 m2"
+      },
+      "usos": {
+        "permitidos": [
+          "Vivienda unifamiliar",
+          "Instalaciones agropecuarias",
+          "Industrias derivadas"
+        ]
+      }
+    }
+  },
+  {
+    "5.5.1_Zona_Reserva_Plan_Especial": {
+      "identificacion": {
+        "distritos": [
+          "ZRPE"
+        ],
+        "normativas_referencia": [
+          "Ordenanza 6840"
+        ]
+      },
+      "disposiciones_generales": {
+        "instrumento_planificacion": "Plan Especial (art. 0.5.1)",
+        "objetivo": "Garantizar urbanización planificada y programada"
+      }
+    }
+  },
+  {
+    "5.5.2_Zona_Reserva_Plan_Sector": {
+      "identificacion": {
+        "distritos": [
+          "ZRPS"
+        ],
+        "normativas_referencia": [
+          "Ordenanza 6840"
+        ]
+      },
+      "disposiciones_generales": {
+        "instrumento_planificacion": "Plan de Sector (art. 0.5.1)"
+      }
+    }
+  },
+  {
+    "5.6_Zonas_Recuperacion": {
+      "identificacion": {
+        "distritos": [
+          "Z.R."
+        ],
+        "normativas_referencia": [
+          "Ordenanza 3684"
+        ]
+      },
+      "disposiciones_generales": {
+        "delimitacion_ribera": "A partir del replanteo de la Línea de Ribera (Res. 320/98 ICAA)",
+        "franja_costanera": "50 metros de ancho desde línea de ribera",
+        "limite_opuesto": "Línea paralela distante mínimo 250m"
+      }
+    }
+  },
+  {
+    "5.7.1_ZEIS": {
+      "identificacion": {
+        "distritos": [
+          "ZEIS"
+        ],
+        "nombre_completo": "Zonas Especiales de Interés Social"
+      },
+      "disposiciones_generales": {
+        "descripcion": "Áreas con ocupaciones irregulares precarias",
+        "instrumento": "Plan Especial de Reordenamiento Urbano o Programa de Organismo Oficial",
+        "normativa_referencia": [
+          "Ordenanza 6671",
+          "Ley 27453"
+        ]
+      }
+    }
+  },
+  {
+    "5.7.2_ZEDP": {
+      "identificacion": {
+        "distritos": [
+          "ZEDP"
+        ],
+        "nombre_completo": "Zonas Especiales de Desarrollo Prioritario"
+      },
+      "disposiciones_generales": {
+        "descripcion": "Sectores vacantes o subutilizados",
+        "objetivo": "Afectación a parcelas baldías para urbanizar y/o edificar con plazos establecidos"
+      }
+    }
+  },
+  {
+    "5.8_Reservas_Viales": {
+      "identificacion": {
+        "distritos": [
+          "R.V."
+        ]
+      },
+      "usos": {
+        "permitidos": [
+          "Usos agrarios",
+          "Espacio libre parquizado"
+        ]
+      }
+    }
+  },
+  {
+    "5.9_Bandas_Viales": {
+      "identificacion": {
+        "distritos": [
+          "B.V."
+        ]
+      },
+      "tejido": {
+        "fot_bonificacion": "Incremento hasta un 10%"
+      },
+      "retiros_de_frente": {
+        "lme_retiro_minimo_m": 4,
+        "uso_retiro": "Espacio libre parquizado"
+      },
+      "accesos": {
+        "vehiculos_carga": "No menos de 40m de la intersección más próxima"
+      }
+    }
+  },
+  {
+    "5.10_Area_Urbana_Expansion": {
+      "identificacion": {
+        "distritos": [
+          "A.U.E"
+        ],
+        "normativas_referencia": [
+          "Ordenanza 6840"
+        ]
+      },
+      "disposiciones_generales": {
+        "contenido": "Zonas de Reserva Urbana y Zonas de Reserva para Planes Especiales o de Sector"
+      }
+    }
+  },
+  {
+    "5.11_Area_Rural_Proteccion": {
+      "identificacion": {
+        "distritos": [
+          "AR-ZP"
+        ],
+        "normativas_referencia": [
+          "Ordenanza 6840"
+        ]
+      },
+      "disposiciones_generales": {
+        "c_subdivision": {
+          "superficie_minima": "2 ha"
+        }
+      },
+      "usos": {
+        "permitidos": [
+          "Agropecuarios",
+          "Chacras",
+          "Quintas",
+          "Viviendas fin de semana"
+        ],
+        "prohibidos": [
+          "Toda localización industrial"
+        ]
+      }
+    }
+  },
+  {
+    "5.12_Zona_Interes_Paisajistico": {
+      "identificacion": {
+        "distritos": [
+          "Z.I.P."
+        ],
+        "normativas_referencia": [
+          "Ordenanza 5050",
+          "Ordenanza 6840"
+        ]
+      },
+      "disposiciones_generales": {
+        "c_subdivision": {
+          "parcela_sup_min_m2": 2500,
+          "frente_minimo_m": 25
+        },
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Perímetro Libre"
+          ]
+        }
+      },
+      "tejido": {
+        "fot_maximo": "0.3%",
+        "fos_maximo": "30%",
+        "alturas_maximas_y_plantas": {
+          "metros": 6
+        }
+      },
+      "usos": {
+        "permitidos": [
+          "Vivienda unifamiliar",
+          "Recreativos",
+          "Deportivos",
+          "Conjuntos residenciales permanentes/fin de semana",
+          "Cementerios parque",
+          "Clubes de campo"
+        ]
+      }
+    }
+  },
+  {
+    "5.13_ZP_PA": {
+      "identificacion": {
+        "distritos": [
+          "ZP-PA"
+        ],
+        "nombre_completo": "Zona de Promoción Agropecuaria y Protección Ambiental",
+        "normativas_referencia": [
+          "Ordenanza 5050"
+        ]
+      },
+      "usos": {
+        "prohibidos": [
+          "Extracción de tierra",
+          "Modificación de drenaje",
+          "Toda localización industrial"
+        ],
+        "promovidos": [
+          "Agrícola",
+          "Pecuario de cría"
+        ]
+      }
+    }
+  },
+  {
+    "5.14_ZPA": {
+      "identificacion": {
+        "distritos": [
+          "Z.P.A"
+        ],
+        "nombre_completo": "Zona de Protección Ambiental",
+        "normativas_referencia": [
+          "Ordenanza 6416"
+        ]
+      },
+      "disposiciones_generales": {
+        "c_subdivision": "Prohibida"
+      },
+      "usos": {
+        "permitidos": [
+          "Relacionados con cuidado y mantenimiento del área"
+        ]
+      }
+    }
+  },
+  {
+    "5.15_ZMA": {
+      "identificacion": {
+        "distritos": [
+          "ZMA"
+        ],
+        "nombre_completo": "Zona de Mitigación Ambiental",
+        "normativas_referencia": [
+          "Ordenanza 6840"
+        ]
+      },
+      "disposiciones_generales": {
+        "descripcion": "Predio de disposición final de residuos y entorno",
+        "requerimiento": "Proceso de mitigación y saneamiento ambiental al cesar el uso"
+      }
+    }
+  }
+]

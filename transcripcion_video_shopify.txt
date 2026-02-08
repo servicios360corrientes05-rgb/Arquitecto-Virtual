@@ -1,0 +1,123 @@
+TRANSCRIPCIÓN: Subir Productos masivos a Shopify
+Video: https://www.youtube.com/watch?v=GFrrmkdneMk
+============================================================
+
+[00:00] Tienes una tienda online y quieres
+[00:02] ahorrar tiempo en la subida de tus
+[00:04] productos masivamente y automáticamente
+[00:06] a tu plataforma. Acá te voy a mostrar
+[00:08] cómo poder hacerlo con make.com y
+[00:11] subirlos a Shopify.
+[00:14] Bueno, este es un flujo en make.com que
+[00:17] es bastante sencillo. Se me ocurrió
+[00:18] hacerlo de esta forma. Estos son una
+[00:21] planilla donde tú pones los productos.
+[00:23] Esta la inventé con Chargpt. Entonces
+[00:26] acá vas poniendo todas las eh los datos
+[00:28] de tus productos, los precios, el
+[00:30] inventario, eh la imagen si está
+[00:32] guardado en algún lado, el título SEO y
+[00:35] la descripción SEO, está todo el detalle
+[00:37] de los productos. Entonces acá podrías
+[00:39] agregar, no sé,
+[00:43] 10,000 productos, da lo mismo, los que
+[00:44] tú quieras.
+[00:46] Entonces, con esta automatización, con
+[00:48] este módulo make, lo que hace es mirar
+[00:51] cuando hay nuevas filas en esta planilla
+[00:54] y las va a ir agregando
+[00:57] a Shopify. Entonces acá bajamos la foto.
+[01:00] Bueno, vamos a ver cómo lo cómo lo
+[01:02] desarrollamos. Vamos a partir de cero.
+[01:06] Entonces, la idea es, no me deja borrar
+[01:09] esto. Ahí
+[01:12] la idea es que desde un Google Sheets
+[01:13] donde tenemos la información acá va a
+[01:16] ser un watch new row, o sea, cada vez
+[01:17] que ingresa una nueva fila en la
+[01:19] plantilla, en la planilla, perdón, esto
+[01:22] va a traer la información hacia make.
+[01:27] Entonces, vamos a agregar el ID del
+[01:28] sprite de la hoja de Google Sheets.
+[01:42] límite
+[01:45] si yo eh this mod only que me muestre
+[01:49] todo lo que tiene la planilla.
+[02:00] Está la información.
+[02:03] Entonces, una vez que está la
+[02:04] información, lo que yo quiero es bajar
+[02:05] la foto o el Sí, bien digo la foto.
+[02:09] Entonces, acá voy a poner un geta file.
+[02:11] La URL va a ser acá la información que
+[02:15] viene de este módulo. Acá está imagen
+[02:18] source, image source.
+[02:22] Entonces ahí se supone que bajamos y
+[02:24] luego por último un módulo de Shopify
+[02:30] y vamos a crear un producto.
+[02:36] Tu conexión a Shopify
+[02:40] y acá tienes todos los datos a rellenar
+[02:42] del producto. Entonces, por ejemplo,
+[02:45] el título
+[02:49] del producto, eh, ¿dónde está esto?
+[02:54] Ah, todo
+[02:56] el tipo de producto,
+[03:00] el estatus, quiero que me haga un draft
+[03:01] para poder revisarlo y después subirlo a
+[03:04] Shopify.
+[03:05] El body HTML
+[03:08] es lo que tenemos escrito ahí.
+[03:10] El vendedor, esto es opcional, pero
+[03:12] bueno, acá tenemos como puesto vendor,
+[03:14] mi tienda, puede ser cualquiera.
+[03:17] Eh, los tags,
+[03:20] vamos a poner acá.
+[03:25] Esto no es necesario. Pull scope.
+[03:30] Opciones.
+[03:35] Variantes. Acá el precio.
+[03:43] El SKU.
+[03:48] SKU.
+[03:54] la cantidad de inventario.
+[03:58] Bueno, ahí tú puedes ir rellenando los
+[04:00] datos que estimes conveniente.
+[04:03] Y acá por último, las imágenes. Quiero
+[04:07] que la imagen sea la que viene de acá
+[04:10] del módulo de HTTP data,
+[04:13] salvo.
+[04:16] Y entonces, por ejemplo, acá en Shopify
+[04:19] no tengo los productos. Entonces, me va
+[04:21] a crear los draft de estos cuatro
+[04:22] productos.
+[04:24] Ahora voy a correr la automatización
+[04:30] y debiera funcionar.
+[04:34] Ahí bajó dos, tres,
+[04:37] cuatro fotos y agregó los cuatro
+[04:39] productos a Shopify en un draft. Si me
+[04:42] voy a Shopify, voy a actualizar.
+[04:47] Si te fijas acá los productos ya
+[04:49] debieran estar ahí está, están todos en
+[04:51] borrador. Entonces, por ejemplo, yo
+[04:53] pincho acá, puedo ver cómo quedó
+[04:56] camiseta andina, el precio, la
+[04:58] descripción y así de fácil puedes subir
+[05:02] tus productos masivamente a
+[05:05] a Shopify.
+[05:08] Si tienes más ideas de automatizaciones,
+[05:10] quieres automatizar algo, no sabes cómo
+[05:12] hacerlo, déjame ideas acá abajo en los
+[05:14] comentarios y voy a ver si los puedo ir
+[05:16] desarrollando.
+[05:17] Eh, si necesitas aplicar e
+[05:20] automatizaciones con inteligencia
+[05:21] artificial en tu empresa, eh puedes
+[05:25] contactarme en el link que también dejo
+[05:26] acá abajo, donde es un formulario donde
+[05:29] puedes agendar una reunión conmigo y
+[05:31] podemos ver cómo te puedo ayudar.
+[05:33] Eso, sígueme, dame dame un me gusta que
+[05:36] me ayuda bastante acá en YouTube y eso,
+[05:38] un abrazo y nos vemos en un próximo
+[05:39] video. Espero que esto le haya sido útil
+[05:41] a todos.
+
+============================================================
+TEXTO COMPLETO:
+Tienes una tienda online y quieres ahorrar tiempo en la subida de tus productos masivamente y automáticamente a tu plataforma. Acá te voy a mostrar cómo poder hacerlo con make.com y subirlos a Shopify. Bueno, este es un flujo en make.com que es bastante sencillo. Se me ocurrió hacerlo de esta forma. Estos son una planilla donde tú pones los productos. Esta la inventé con Chargpt. Entonces acá vas poniendo todas las eh los datos de tus productos, los precios, el inventario, eh la imagen si está guardado en algún lado, el título SEO y la descripción SEO, está todo el detalle de los productos. Entonces acá podrías agregar, no sé, 10,000 productos, da lo mismo, los que tú quieras. Entonces, con esta automatización, con este módulo make, lo que hace es mirar cuando hay nuevas filas en esta planilla y las va a ir agregando a Shopify. Entonces acá bajamos la foto. Bueno, vamos a ver cómo lo cómo lo desarrollamos. Vamos a partir de cero. Entonces, la idea es, no me deja borrar esto. Ahí la idea es que desde un Google Sheets donde tenemos la información acá va a ser un watch new row, o sea, cada vez que ingresa una nueva fila en la plantilla, en la planilla, perdón, esto va a traer la información hacia make. Entonces, vamos a agregar el ID del sprite de la hoja de Google Sheets. límite si yo eh this mod only que me muestre todo lo que tiene la planilla. Está la información. Entonces, una vez que está la información, lo que yo quiero es bajar la foto o el Sí, bien digo la foto. Entonces, acá voy a poner un geta file. La URL va a ser acá la información que viene de este módulo. Acá está imagen source, image source. Entonces ahí se supone que bajamos y luego por último un módulo de Shopify y vamos a crear un producto. Tu conexión a Shopify y acá tienes todos los datos a rellenar del producto. Entonces, por ejemplo, el título del producto, eh, ¿dónde está esto? Ah, todo el tipo de producto, el estatus, quiero que me haga un draft para poder revisarlo y después subirlo a Shopify. El body HTML es lo que tenemos escrito ahí. El vendedor, esto es opcional, pero bueno, acá tenemos como puesto vendor, mi tienda, puede ser cualquiera. Eh, los tags, vamos a poner acá. Esto no es necesario. Pull scope. Opciones. Variantes. Acá el precio. El SKU. SKU. la cantidad de inventario. Bueno, ahí tú puedes ir rellenando los datos que estimes conveniente. Y acá por último, las imágenes. Quiero que la imagen sea la que viene de acá del módulo de HTTP data, salvo. Y entonces, por ejemplo, acá en Shopify no tengo los productos. Entonces, me va a crear los draft de estos cuatro productos. Ahora voy a correr la automatización y debiera funcionar. Ahí bajó dos, tres, cuatro fotos y agregó los cuatro productos a Shopify en un draft. Si me voy a Shopify, voy a actualizar. Si te fijas acá los productos ya debieran estar ahí está, están todos en borrador. Entonces, por ejemplo, yo pincho acá, puedo ver cómo quedó camiseta andina, el precio, la descripción y así de fácil puedes subir tus productos masivamente a a Shopify. Si tienes más ideas de automatizaciones, quieres automatizar algo, no sabes cómo hacerlo, déjame ideas acá abajo en los comentarios y voy a ver si los puedo ir desarrollando. Eh, si necesitas aplicar e automatizaciones con inteligencia artificial en tu empresa, eh puedes contactarme en el link que también dejo acá abajo, donde es un formulario donde puedes agendar una reunión conmigo y podemos ver cómo te puedo ayudar. Eso, sígueme, dame dame un me gusta que me ayuda bastante acá en YouTube y eso, un abrazo y nos vemos en un próximo video. Espero que esto le haya sido útil a todos.

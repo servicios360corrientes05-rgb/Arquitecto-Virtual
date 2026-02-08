@@ -1,0 +1,142 @@
+[
+  {
+    "timestamp": "2026-01-26T16-39-29-007Z",
+    "contexto": "GeneralCritical",
+    "error": "Execution context was destroyed, most likely because of a navigation.",
+    "url": "https://dgc.corrientes.gob.ar/webapp/",
+    "screenshot": "D:\\DANIEL\\Downloads\\Antigravity\\Proyectos\\Arquitecto Virtual\\assets\\debug\\error_2026-01-26T16-39-29-007Z.png"
+  },
+  {
+    "timestamp": "2026-01-26T16-45-05-617Z",
+    "contexto": "GeneralCritical",
+    "error": "Execution context was destroyed, most likely because of a navigation.",
+    "url": "https://dgc.corrientes.gob.ar/webapp/",
+    "screenshot": "D:\\DANIEL\\Downloads\\Antigravity\\Proyectos\\Arquitecto Virtual\\assets\\debug\\error_2026-01-26T16-45-05-617Z.png"
+  },
+  {
+    "timestamp": "2026-01-28T01-57-28-137Z",
+    "contexto": "GeneralCritical",
+    "error": "superficieDGC is not defined",
+    "url": "https://dgc.corrientes.gob.ar/webapp/",
+    "screenshot": "D:\\DANIEL\\Downloads\\Antigravity\\Proyectos\\Arquitecto Virtual\\assets\\debug\\error_2026-01-28T01-57-28-137Z.png"
+  },
+  {
+    "timestamp": "2026-01-28T03-09-30-429Z",
+    "contexto": "GeneralCritical",
+    "error": "Waiting for selector `.n-search input, input[type=\"search\"], .input-search` failed",
+    "url": "https://dgc.corrientes.gob.ar/webapp/",
+    "screenshot": "D:\\DANIEL\\Downloads\\Antigravity\\Proyectos\\Arquitecto Virtual\\assets\\debug\\error_2026-01-28T03-09-30-429Z.png"
+  },
+  {
+    "timestamp": "2026-01-28T03-13-04-673Z",
+    "contexto": "GeneralCritical",
+    "error": "Waiting for selector `.n-search input, input[type=\"search\"], .input-search` failed",
+    "url": "https://dgc.corrientes.gob.ar/webapp/",
+    "screenshot": "D:\\DANIEL\\Downloads\\Antigravity\\Proyectos\\Arquitecto Virtual\\assets\\debug\\error_2026-01-28T03-13-04-673Z.png"
+  },
+  {
+    "timestamp": "2026-01-29T14-48-21-097Z",
+    "contexto": "Login",
+    "error": "Waiting for selector `#Login` failed",
+    "url": "https://dgc.corrientes.gob.ar/webapp/",
+    "screenshot": "D:\\DANIEL\\Downloads\\Antigravity\\Proyectos\\Arquitecto Virtual\\assets\\debug\\error_2026-01-29T14-48-21-097Z.png"
+  },
+  {
+    "timestamp": "2026-01-29T14-48-21-185Z",
+    "contexto": "GeneralCritical",
+    "error": "Waiting for selector `#Login` failed",
+    "url": "https://dgc.corrientes.gob.ar/webapp/",
+    "screenshot": "D:\\DANIEL\\Downloads\\Antigravity\\Proyectos\\Arquitecto Virtual\\assets\\debug\\error_2026-01-29T14-48-21-185Z.png"
+  },
+  {
+    "timestamp": "2026-01-30T16-04-28-580Z",
+    "contexto": "Login",
+    "error": "Waiting for selector `#Login` failed",
+    "url": "https://dgc.corrientes.gob.ar/webapp/",
+    "screenshot": "D:\\DANIEL\\Downloads\\Antigravity\\Proyectos\\Arquitecto Virtual\\assets\\debug\\error_2026-01-30T16-04-28-580Z.png"
+  },
+  {
+    "timestamp": "2026-01-30T16-04-28-679Z",
+    "contexto": "GeneralCritical",
+    "error": "Waiting for selector `#Login` failed",
+    "url": "https://dgc.corrientes.gob.ar/webapp/",
+    "screenshot": "D:\\DANIEL\\Downloads\\Antigravity\\Proyectos\\Arquitecto Virtual\\assets\\debug\\error_2026-01-30T16-04-28-679Z.png"
+  },
+  {
+    "timestamp": "2026-01-30T16-47-42-812Z",
+    "contexto": "Login",
+    "error": "Waiting for selector `#Login` failed",
+    "url": "https://dgc.corrientes.gob.ar/webapp/",
+    "screenshot": "D:\\DANIEL\\Downloads\\Antigravity\\Proyectos\\Arquitecto Virtual\\assets\\debug\\error_2026-01-30T16-47-42-812Z.png"
+  },
+  {
+    "timestamp": "2026-01-30T16-47-42-899Z",
+    "contexto": "GeneralCritical",
+    "error": "Waiting for selector `#Login` failed",
+    "url": "https://dgc.corrientes.gob.ar/webapp/",
+    "screenshot": "D:\\DANIEL\\Downloads\\Antigravity\\Proyectos\\Arquitecto Virtual\\assets\\debug\\error_2026-01-30T16-47-42-899Z.png"
+  },
+  {
+    "timestamp": "2026-01-30T17-13-00-477Z",
+    "contexto": "Login",
+    "error": "Waiting for selector `#Login` failed",
+    "url": "https://dgc.corrientes.gob.ar/webapp/",
+    "screenshot": "D:\\DANIEL\\Downloads\\Antigravity\\Proyectos\\Arquitecto Virtual\\assets\\debug\\error_2026-01-30T17-13-00-477Z.png"
+  },
+  {
+    "timestamp": "2026-01-30T17-13-00-613Z",
+    "contexto": "GeneralCritical",
+    "error": "Waiting for selector `#Login` failed",
+    "url": "https://dgc.corrientes.gob.ar/webapp/",
+    "screenshot": "D:\\DANIEL\\Downloads\\Antigravity\\Proyectos\\Arquitecto Virtual\\assets\\debug\\error_2026-01-30T17-13-00-613Z.png"
+  },
+  {
+    "timestamp": "2026-01-31T00-29-54-053Z",
+    "contexto": "Login",
+    "error": "Waiting for selector `#Login` failed",
+    "url": "https://dgc.corrientes.gob.ar/webapp/",
+    "screenshot": "D:\\DANIEL\\Downloads\\Antigravity\\Proyectos\\Arquitecto Virtual\\assets\\debug\\error_2026-01-31T00-29-54-053Z.png"
+  },
+  {
+    "timestamp": "2026-01-31T00-29-54-178Z",
+    "contexto": "GeneralCritical",
+    "error": "Waiting for selector `#Login` failed",
+    "url": "https://dgc.corrientes.gob.ar/webapp/",
+    "screenshot": "D:\\DANIEL\\Downloads\\Antigravity\\Proyectos\\Arquitecto Virtual\\assets\\debug\\error_2026-01-31T00-29-54-178Z.png"
+  },
+  {
+    "timestamp": "2026-02-03T03-05-15-857Z",
+    "contexto": "Login",
+    "error": "Waiting for selector `#Login` failed",
+    "url": "https://dgc.corrientes.gob.ar/webapp/",
+    "screenshot": "D:\\DANIEL\\Downloads\\Antigravity\\Proyectos\\Arquitecto Virtual\\assets\\debug\\error_2026-02-03T03-05-15-857Z.png"
+  },
+  {
+    "timestamp": "2026-02-03T03-05-15-987Z",
+    "contexto": "GeneralCritical",
+    "error": "Waiting for selector `#Login` failed",
+    "url": "https://dgc.corrientes.gob.ar/webapp/",
+    "screenshot": "D:\\DANIEL\\Downloads\\Antigravity\\Proyectos\\Arquitecto Virtual\\assets\\debug\\error_2026-02-03T03-05-15-987Z.png"
+  },
+  {
+    "timestamp": "2026-02-03T04-27-59-692Z",
+    "contexto": "Login",
+    "error": "Waiting for selector `#Login` failed",
+    "url": "https://dgc.corrientes.gob.ar/webapp/",
+    "screenshot": "D:\\DANIEL\\Downloads\\Antigravity\\Proyectos\\Arquitecto Virtual\\assets\\debug\\error_2026-02-03T04-27-59-692Z.png"
+  },
+  {
+    "timestamp": "2026-02-03T04-27-59-806Z",
+    "contexto": "GeneralCritical",
+    "error": "Waiting for selector `#Login` failed",
+    "url": "https://dgc.corrientes.gob.ar/webapp/",
+    "screenshot": "D:\\DANIEL\\Downloads\\Antigravity\\Proyectos\\Arquitecto Virtual\\assets\\debug\\error_2026-02-03T04-27-59-806Z.png"
+  },
+  {
+    "timestamp": "2026-02-03T21-23-40-970Z",
+    "contexto": "GeneralCritical",
+    "error": "Page.captureScreenshot timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.",
+    "url": "https://dgc.corrientes.gob.ar/webapp/Account/Login?ReturnUrl=%2fwebapp%2fAccount%2fLogOff",
+    "screenshot": "D:\\DANIEL\\Downloads\\Antigravity\\Proyectos\\Arquitecto Virtual\\assets\\debug\\error_2026-02-03T21-23-40-970Z.png"
+  }
+]

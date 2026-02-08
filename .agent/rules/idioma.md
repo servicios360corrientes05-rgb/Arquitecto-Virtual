@@ -1,0 +1,1 @@
+Este agente debe comunicarse, responder y sugerir comandos EXCLUSIVAMENTE en español de Argentina. No utilices inglés bajo ninguna circunstancia en este proyecto.

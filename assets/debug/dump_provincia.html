@@ -1,0 +1,965 @@
+<html lang="en"><head><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keyword" content="">
+    <meta http-equiv="PRAGMA" content="NO-CACHE">
+
+    <title>GeoSIT</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/webapp/Content/bootstrap.css" rel="stylesheet">
+    <!--external css-->
+    <link href="/webapp/Content/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/webapp/Content/glyphicons/css/glyphicons.css" rel="stylesheet">
+    <!-- Common styles -->
+    <link href="/webapp/Content/style.css" rel="stylesheet">
+    <link href="/webapp/Content/style-responsive.css" rel="stylesheet">
+    <link href="/webapp/Content/theme.css" rel="stylesheet">
+    <link href="/webapp/Content/site.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    
+    <link href="/webapp/Content/ol.css" rel="stylesheet">
+    <link href="/webapp/Content/mapa.css" rel="stylesheet">
+    <link href="/webapp/Content/jquery-ui.css" rel="stylesheet">
+    <link href="/webapp/Content/searchform.css" rel="stylesheet">
+    <link href="/webapp/Content/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="/webapp/Content/bootstrap-datepicker.min.css" rel="stylesheet">
+    <link href="/webapp/Content/accordian-menu.css" rel="stylesheet">
+    <link href="/webapp/Content/theme_new.css" rel="stylesheet">
+    <link href="/webapp/Content/custom.css" rel="stylesheet">
+
+    <style>
+        #modalInfoProvisoria [role="alert"]:not(:last-of-type) {
+            margin-bottom: 10px;
+        }
+
+        #modalInfoProvisoria [role="alert"] > p {
+		    font-size: 14px;
+            margin: 0 0 0 140px;
+			text-align: justify;
+            width: calc(100% - 340px);
+        }
+
+		    #modalInfoProvisoria [role="alert"] > p:not(:first-of-type) {
+			    margin-top:8px;
+            }
+
+		#modalInfoProvisoria [role="alert"] > img.qr {
+			top: 55px;
+            height: 125px;
+			position: absolute;
+        }
+
+		#modalInfoProvisoria [role="alert"] > img:not(.qr) {
+			height: 170px;
+            top: 40px;
+            position: absolute;
+            right: 20px;
+        }
+    </style>
+
+    <style>
+        .blocking-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 20000;
+            background-color: rgba(0,0,0,0.4);
+        }
+    </style>
+    <script type="text/javascript" id="www-widgetapi-script" src="https://www.youtube.com/s/player/652bbb94/www-widgetapi.vflset/www-widgetapi.js" async=""></script><script src="https://www.youtube.com/iframe_api"></script><script>
+        var BASE_URL = "/webapp/";
+        var API_URL = "http://localhost/services/web.api/";
+    </script>
+    <script type="text/javascript" id="polyfills">
+        if (window.NodeList && !NodeList.prototype.forEach) {
+            NodeList.prototype.forEach = Array.prototype.forEach;
+        }
+        if (typeof window.CustomEvent !== 'function') {
+            function CustomEvent(event, params) {
+                params = params || { bubbles: false, cancelable: false, detail: undefined };
+                var evt = document.createEvent('CustomEvent');
+                evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+                return evt;
+            }
+            CustomEvent.prototype = window.Event.prototype;
+            window.CustomEvent = CustomEvent;
+        }
+        if (typeof Object.assign !== 'function') {
+            Object.defineProperty(Object, 'assign', {
+                enumerable: false,
+                configurable: true,
+                writable: true,
+                value: function (target) {
+                    'use strict';
+                    if (target === undefined || target === null) {
+                        throw new TypeError('Cannot convert first argument to object');
+                    }
+
+                    var to = Object(target);
+                    for (var i = 1; i < arguments.length; i++) {
+                        var nextSource = arguments[i];
+                        if (nextSource === undefined || nextSource === null) {
+                            continue;
+                        }
+                        nextSource = Object(nextSource);
+
+                        var keysArray = Object.keys(Object(nextSource));
+                        for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
+                            var nextKey = keysArray[nextIndex];
+                            var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
+                            if (desc !== undefined && desc.enumerable) {
+                                to[nextKey] = nextSource[nextKey];
+                            }
+                        }
+                    }
+                    return to;
+                }
+            });
+        }
+        if (typeof Object.toXML !== 'function') {
+            Object.defineProperty(Object, 'toXML', {
+                enumerable: false,
+                configurable: true,
+                writable: true,
+                value: function (obj, root) {
+                    'use strict';
+                    if (obj === undefined || obj === null) {
+                        throw new TypeError('Cannot convert first argument to object');
+                    }
+                    root = root || "root";
+                    var xml = "<" + root + ">";
+                    //loop through and add each property as a an xml tag as well as sub properties
+                    for (var prop in obj) {
+                        if (!obj.hasOwnProperty(prop) || obj[prop] == "undefined") {
+                            continue;
+                        }
+                        if (obj[prop] && typeof obj[prop] === "object") {
+                            xml += Object.toXML(obj[prop], prop);
+                        } else {
+                            xml += "<" + prop + ">";
+                            xml += new String(obj[prop] || "").replace(/(&)/g, '&amp;').replace(/(<)/g, '&lt;').replace(/(>)/g, '&gt;').replace(/(')/g, '&apos;');
+                            xml += "</" + prop + ">";
+                        }
+                    }
+                    xml += "</" + root + ">";
+                    // searches the string for numbers surrounded by underscores and removes them; used for multiple properties in the json that are set up an an object instead of an array
+                    return xml.replace(/([_]\d)\w+/g, '');
+                }
+            });
+        }
+        if (typeof Array.prototype.flat !== 'function') {
+            Object.defineProperty(Array.prototype, "flat", {
+                configurable: true,
+                writable: true,
+                value: function () {
+                    return Array.prototype.concat.apply([], this);
+                }
+            });
+            Object.defineProperty(Array.prototype, "flatMap", {
+                configurable: true,
+                writable: true,
+                value: function () {
+                    return Array.prototype.map.apply(this, arguments).flat();
+                }
+            });
+        }
+        if (typeof Array.prototype.distinct !== 'function') {
+            Object.defineProperty(Array.prototype, 'distinct', {
+                configurable: true,
+                writable: true,
+                value: function () {
+                    return this.filter(function (elem, idx, array) { return array.indexOf(elem) === idx; });
+                }
+            });
+        }
+        //# sourceURL=polyfills.js
+    </script>
+
+    <script src="/webapp/Scripts/jquery-2.1.3.min.js"></script>
+    
+    <script src="/webapp/Scripts/jquery-ui.js"></script>
+
+    
+    
+    <script src="/webapp/Scripts/jquery.validate.js"></script>
+    <script src="/webapp/Scripts/jquery.validate.unobtrusive.js"></script>
+
+
+    <script src="/webapp/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script>$.widget.bridge('uitooltip', $.ui.tooltip);</script>
+    <script src="/webapp/Scripts/bootstrap.js"></script>
+    <script src="/webapp/Scripts/CryptoJS/rollups/md5.js"></script>
+    <script src="/webapp/Scripts/Negocio/utilidades.js"></script>
+    <script src="/webapp/Scripts/detect.min.js"></script>
+    <script src="/webapp/Scripts/bluebird.min.js"></script>
+    
+    <script src="/webapp/Scripts/moment.min.js"></script>
+    <script src="/webapp/Scripts/moment-with-locales.js" type="text/javascript"></script>
+
+    <script src="/webapp/Scripts/angular.min.js"></script>
+    <script src="/webapp/Scripts/ui-bootstrap-tpls-0.12.0.min.js"></script>
+    <script src="/webapp/Scripts/proj4.js"></script>
+    <script src="/webapp/Scripts/ol.js"></script>
+    <script src="/webapp/Scripts/composer.js"></script>
+    <script src="/webapp/Scripts/jquery.scrollTo.min.js"></script>
+    <script src="/webapp/Scripts/jquery.nicescroll.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/webapp/Scripts/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="/webapp/Scripts/Mapas/MapaOSM.js"></script>
+    <script src="/webapp/Scripts/Mapas/polyline.js"></script>
+    <script src="/webapp/Scripts/jquery.dataTables.js"></script>
+    <script src="/webapp/Scripts/dataTables.bootstrap.js"></script>
+    <script src="/webapp/Scripts/bootstrap-datepicker.min.js"></script>
+    <script src="/webapp/Scripts/locales/bootstrap-datepicker.es.min.js"></script>
+    <script src="/webapp/Scripts/Negocio/app.js"></script>
+    <script src="/webapp/Scripts/Negocio/seguridadresource.js"></script>
+    <script src="/webapp/Scripts/Negocio/searchresults.js"></script>
+    <script src="/webapp/Scripts/Negocio/Directives/Search/resultTypes.js"></script>
+    <script src="/webapp/Scripts/Negocio/Directives/Search/resultGroup.js"></script>
+    <script src="/webapp/Scripts/Negocio/Directives/autocomplete.js"></script>
+    <script src="/webapp/Scripts/Negocio/Filters/hightlight.js"></script>
+    <script src="/webapp/Scripts/Negocio/Filters/searchGroupHeader.js"></script>
+    <script src="/webapp/Scripts/Negocio/Filters/capitalize.js"></script>
+    <script src="/webapp/Scripts/Negocio/Services/security.js"></script>
+    <script src="/webapp/Scripts/Negocio/Controllers/searchCtrl.js"></script>
+    <script src="/webapp/Scripts/accordian-menu.js"></script>
+    <script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu-OrksoQEQIm9xY2OkuOcicYOf3ty5pA"></script>
+    <script>
+
+        var tag = document.createElement('script');
+
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var YTPlayer;
+        function onYouTubeIframeAPIReady() {
+            YTPlayer = new YT.Player('YTPlayer', {
+                playerVars: { 'autoplay': 1 },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady() {
+            YTPlayer.setVolume(100);
+            YTPlayer.playVideo();
+        }
+
+        
+
+        $(document).ready(function () {
+            $("#modalInfoProvisoria").one("shown.bs.modal", function () {
+                $("a[video]", this).on("click", function (evt) {
+                    $("#modalVideoIFrame")
+                        .one("hide.bs.modal", function () { YTPlayer.stopVideo(); })
+                        .one("show.bs.modal", function () {
+                            $("iframe", this).hide();
+                        })
+                        .one("shown.bs.modal", function () {
+                        var titulo = $(evt.target).html(),
+                            width = $(".modal-body", this).width(),
+                            height = width * .5625;
+                        YTPlayer.loadVideoById($(evt.target).attr("video"));
+                        $("iframe", this)
+                            .attr("title", titulo)
+                            .attr("height", height)
+                            .attr("width", width)
+                            .show();
+                        $("#TituloModalIframe", this).html("Tutorial - " + titulo)
+                    }).modal("show");
+                });
+            }).modal("show");
+        });
+        
+        moment.locale("es");
+        var APP_SRID = '5348';
+        
+        proj4.defs(APP_SRID,'PROJCS["POSGAR 2007 / Argentina 6",GEOGCS["POSGAR 2007",DATUM["Posiciones Geodesicas Argentinas 2007",SPHEROID["GRS 1980", 6378137.0, 298.257222101, AUTHORITY["EPSG", "7019"]],TOWGS84[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],AUTHORITY["EPSG", "1062"]],PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG", "8901"]],UNIT["degree", 0.017453292519943295],AXIS["Geodetic longitude", EAST],AXIS["Geodetic latitude", NORTH],AUTHORITY["EPSG", "5340"]],PROJECTION["Transverse_Mercator", AUTHORITY["EPSG", "9807"]],PARAMETER["central_meridian", -57.0],PARAMETER["latitude_of_origin", -90.0],PARAMETER["scale_factor", 1.0],PARAMETER["false_easting", 6500000.0],PARAMETER["false_northing", 0.0],UNIT["m", 1.0],AXIS["Easting", EAST],AXIS["Northing", NORTH],AUTHORITY["EPSG", "5348"]]');
+        ol.proj.proj4.register(proj4);
+        
+
+        const SESSION_ACTIVE_KEY = 'geoSit_globalSessionActive';
+        const TAB_INSTANCE_ID_KEY = 'geoSit_tabInstanceID';
+        const masterTokenFromServer = 'w6aunddhGEuLoU+eRT5K2Q==';
+        const newTabInstanceID = 'ba1f5b00-6700-4f44-be53-7f3fff6385a9';
+        const logOffUrl = '/webapp/Account/LogOff';
+
+        // --- PARA refresh F5 ---
+        // ID que tenia esta pestaña antes de que el servidor nos diera uno nuevo
+        const previousTabID = sessionStorage.getItem(TAB_INSTANCE_ID_KEY);
+
+        sessionStorage.setItem(TAB_INSTANCE_ID_KEY, newTabInstanceID);
+        console.log("=> ID Pestaña unica:", newTabInstanceID);
+
+        function handleTabRestriction() {
+            const currentTabID = sessionStorage.getItem(TAB_INSTANCE_ID_KEY);
+            const globalActiveKey = localStorage.getItem(SESSION_ACTIVE_KEY);
+            const currentKey = masterTokenFromServer + '|' + currentTabID;
+
+            if (!masterTokenFromServer) { window.location.href = logOffUrl; return; }
+
+            if (globalActiveKey && globalActiveKey !== currentKey) {
+                const parts = globalActiveKey.split('|');
+                const globalMasterToken = parts[0];
+                const globalTabID = parts[1];
+
+                if (globalMasterToken === masterTokenFromServer) {                 
+                    //    // control F5: El ID que manda el localStorage es el mismo antes del f5?
+                    if (previousTabID && globalTabID === previousTabID) {
+                        //  es F5: Avisar y permitir que el codigo siga para actualizar la llave
+                        console.log("%c[autorizado] F5 detectado. Actualizando ID de Pestaña Maestra.", "color:blue");
+                    }
+                    else {
+                        // Es una pestaña duplicada  =>Bloqueo
+                        console.error("%c[=>] Conflicto detectado", "background:red;color:white");
+                        alert('Tienes otra pestaña abierta. Esta se cerrará.');
+                        window.location.href = "about:blank";
+                        return;
+                    }
+                }
+            }
+            localStorage.setItem(SESSION_ACTIVE_KEY, currentKey);
+            localStorage.setItem(SESSION_ACTIVE_KEY + '_time', Date.now());
+            console.log("%c[GeoSit-Auth] Pestaña Maestra Activa", "color:green");
+        }
+
+        // Configuración Global AJAX para enviar el ID al Filtro C#
+        $.ajaxSetup({
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-Tab-Instance-ID', sessionStorage.getItem(TAB_INSTANCE_ID_KEY));
+
+            },
+            error: function (xhr) {
+                if (xhr.status === 403) window.location.href = logOffUrl;
+            }
+        });
+
+        setInterval(function() {
+            const tabId = sessionStorage.getItem(TAB_INSTANCE_ID_KEY);
+            localStorage.setItem(SESSION_ACTIVE_KEY + '_time', Date.now());
+            // Heartbeat al servidor
+            $.post('/webapp/Home/Heartbeat', { tabId: tabId });
+        }, 5000);
+
+        $(document).ready(handleTabRestriction);
+    </script>
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        var cleanPass,
+            idleTimer,
+            idleState = false,
+            idleWait = parseInt(900000) || 60000
+
+        let failedAttempts = 0
+
+        var evalExpiredSession = function () {
+            var original = XMLHttpRequest.prototype.send;
+            XMLHttpRequest.prototype.send = function () {
+                this.addEventListener('readystatechange', function (evt) {
+                    if (this.responseURL.includes(BASE_URL) && this.readyState === 4) {
+                        if (this.status === 401 && this.responseText === "EXPIRED") {
+                            window.location.assign('/webapp/Account/ExpiredSession');
+                            this.abort();
+                            evt.preventDefault();
+                            evt.stopPropagation();
+                        }
+                    }
+                }, false);
+                original.apply(this, arguments);
+            };
+        };
+
+        var hideBlockingWindow = function () {
+            console.log('ENTRA A BLOQUEAR VENTANA DE BLOQUEO')
+            $(".blocking-backdrop").css("display", "none");
+            $("#blockScreenModal").modal("hide");
+            idleState = false;
+        };
+
+        var showBlockingWindow = function () {
+            $("#SumaryPassword").hide();
+            $("#txtPass").val("");
+            $(".blocking-backdrop").css("display", "block");
+            $("#blockScreenModal").modal("show");
+            idleState = true;
+        };
+
+        var heartbeat = function (tout) {
+            $.post('/webapp/Home/Heartbeat');
+            setTimeout(heartbeat, tout, tout);
+        };
+
+        evalExpiredSession();
+        heartbeat(20000);
+        $('*').bind('mousemove keydown scroll', function () {
+            if (idleState) return;
+            clearTimeout(idleTimer);
+            idleTimer = setTimeout(function () { $.post('/webapp/Seguridad/Bloquear', showBlockingWindow); }, idleWait);
+        });
+
+        $("#txtPass").bind("keyup", function (event) {
+            var keyCode = event.which || event.keyCode;
+            if (keyCode === 13) { // enterKeyCode = 13
+                $("#btnIngresar").click();
+                event.preventDefault();
+            } else {
+                clearTimeout(cleanPass);
+                cleanPass = setTimeout(function () { $("#txtPass").val(""); }, 15000);
+            }
+        });
+
+        $("#btnIngresar").click(function () {
+            $.ajax({
+                url: '/webapp/Seguridad/Login',
+                data: { pass: $("#txtPass").val() },
+                type: 'POST',
+                success: function (data) {
+                    if (data.valido) {
+                        hideBlockingWindow();
+                        $("body").trigger("mousemove")
+                    } else {
+                        $("#SumaryPassword").show()
+                        failedAttempts++
+
+                        if (failedAttempts >= 3) {
+                            window.location.href = "/webapp/Account/LogOff"
+                            hideBlockingWindow()
+                        }
+                    }
+                },
+                error: function () {
+                    hideBlockingWindow();
+                    window.location = "/webapp/Account/ExpiredSession"
+                }
+            })
+        })
+
+
+
+        $("body").trigger("mousemove");
+
+        $(document).on('show.bs.modal', '.modal', function () {
+            var zIndex = 1040 + (10 * $('.modal:visible').length);
+            $(this).css('z-index', zIndex);
+            setTimeout(function () {
+                $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+            }, 0);
+        });
+    });
+    </script>
+<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/63/13/intl/es_ALL/common.js"></script><script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/63/13/intl/es_ALL/util.js"></script></head>
+
+<body class="">
+    
+
+<section id="container" data-ng-app="app" class="ng-scope">
+    <header class="header black-bg n-header">
+        <div class="sidebar-toggle-box" onmouseup="hideSearchBlur()">
+            <div class="fa fa-bars n-bar" data-placement="right" data-original-title="Menu"></div>
+        </div>
+        <a class="logo"><img src="/webapp/Content/images/logo.png"></a>
+        <div class="nav search-bar-row ng-scope" id="top_menu" data-ng-controller="searchCtrl">
+            <div id="search-bar" class="nav">
+                <div class="search-input input-group">
+                    <form class="ng-valid ng-dirty ng-valid-parse">
+                        <input autocomplete="off" data-search="searchByText();" data-ng-model="texto" id="search-pattern" class="form-control n-search ng-valid ui-autocomplete-input ng-dirty ng-valid-parse ng-touched" placeholder="Buscar..." type="text">
+                    </form>
+                    <div class="input-group-btn">
+                        
+                            <input type="hidden" id="es-perfil-gestor" value="false">
+                        <button data-ng-click="searchByText();" name="search" class="btn btn-default" id="search-btn"><span class="icon-search-header"></span></button>
+                        <button data-ng-click="eraseSearch()" class="btn btn-default" id="erase-search-btn"><span class="icon-delete-header"></span></button>
+                        <button data-ng-click="collapseSearch();" class="btn btn-default" id="collapse-search-btn"><span class="icon-arrow-header open"></span></button>
+                    </div>
+                </div>
+                <div id="search-results" class="panel panel-primary collapse in" aria-expanded="true" style="background: none; max-height: 381px;">
+                    <div class="row">
+                        <div id="message">
+                            <span data-ng-bind="mensaje" class="ng-binding">Se han encontrado 4 resultados</span>
+                            <a class="reset-search-btn fa pull-right" href="#" data-placement="right" ng-show="resultados.length">
+                                <i class="fa-file-excel-o tooltips boton-nav-2" data-placement="top" title="" ng-click="exportarObjetosExcel($event)" ng-show="resultados.length" data-original-title="Exportar Objetos Seleccionados"></i>
+                                <i class="fa-th-large tooltips boton-nav-2" data-placement="top" title="" ng-click="generarColeccion($event)" ng-show="resultados.length" data-original-title="Generar Colección"></i>
+                            </a>
+                        </div>
+                        <div id="accordion" class="results" tabindex="5001" style="max-height: 341px; overflow-y: hidden; outline: none;">
+                            <!-- ngRepeat: grupo in resultados --><div data-result-group="ngSearchFinished" data-ng-repeat="grupo in resultados" permisos="permisos" pattern="pattern" limite="limite" grupo="grupo" class="ng-scope ng-isolate-scope"><div class="panel-heading bg-primary-2 cursor-pointer" role="tab" id="headingmensuras">
+    <div class="roundChkBox grpChkBox">
+        <input type="checkbox" id="grupomensuras" ng-model="selected" ng-change="toggleGroupSelection()" data-collapse="collapsemensuras" class="ng-pristine ng-untouched ng-valid collapse in" style="height: auto;">
+        <label for="grupomensuras"></label>
+    </div>
+    <a data-toggle="collapse" data-parent="#accordion" href="#collapsemensuras" aria-expanded="true" aria-controls="collapsemensuras" class="">
+        <div class="panel-title">
+            <div class="buscador-01 ng-binding">
+                Mensuras
+
+            </div>
+            <div class="buscador-02">
+                <span class="badge ng-binding" title="mostrando 2 de 2 registros encontrados">2</span>
+            </div>
+            <div class="buscador-03">
+                <div class="icons-group">
+                    <i ng-click="verEnMapa($event)" class="fa fa-map-marker"></i>
+                    <i class="arrow-head fa"></i>
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="clearfix"></div>
+    </a>
+</div>
+<input type="hidden" value="3">
+<div id="collapsemensuras" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingmensuras" aria-expanded="true">
+    <!-- ngRepeat: elem in grupo.Items --><div class="panel-body mensuras" data-ng-model="elem" data-ng-repeat="elem in grupo.Items">
+        <div tipo="grupo.Nombre" pattern="pattern" permisos="permisos" class="ng-isolate-scope ng-scope" result-mensuras=""><div class="srow mensuras">
+    <div class="controls fa pull-right" style="display: none;">
+        <!-- ngIf: tieneDocumento --><span class="opcion fa-external-link tooltips ng-scope" data-placement="bottom" ng-if="tieneDocumento" title="" ng-click="verDocumento($event)" data-original-title="Ver Documento"></span><!-- end ngIf: tieneDocumento -->
+        <!-- ngIf: tieneGrafico --><span class="opcion fa-map-marker tooltips ng-scope" data-placement="bottom" ng-if="tieneGrafico" title="" ng-click="verEnMapa($event,objeto,true)" data-original-title="Ver en mapa"></span><!-- end ngIf: tieneGrafico -->
+        <!-- ngIf: tieneGrafico --><span class="opcion fa-hand-pointer-o tooltips ng-scope" data-placement="bottom" ng-if="tieneGrafico" title="" ng-click="verEnMapa($event,objeto,false)" data-original-title="Seleccionar"></span><!-- end ngIf: tieneGrafico -->
+        <span class="opcion fa-file-excel-o tooltips" data-placement="bottom" title="" ng-click="exportarObjetoExcel($event)" data-original-title="Exportar a Excel"></span>
+    </div>
+    <div class="roundChkBox mensuras">
+        <input type="checkbox" data-name="273194" data-componente="mensuras" data-componente-ploteable="true" id="mensuras273194" ng-click="selectedChanged()" ng-model="objeto.selected" class="ng-pristine ng-untouched ng-valid">
+        <label for="mensuras273194"></label>
+    </div>
+    <div ng-click="showAtributos()">
+        <p class="text-primary">
+            <span data-ng-bind-html="objeto.nombre | highlight:pattern:true" class="ng-binding">29864-U</span>
+        </p>
+        <!-- ngIf: tieneDescripcion --><p ng-if="tieneDescripcion" class="ng-scope"><span data-ng-bind-html="objeto.descripcion | highlight:pattern:true" class="ng-binding">Tipo: Mensura, Proyecto de Unificación y Redistribución Parcelaria - Estado: REGISTRADA - Nombre documento: 29864-U</span></p><!-- end ngIf: tieneDescripcion -->
+    </div>
+</div></div>
+    </div><!-- end ngRepeat: elem in grupo.Items --><div class="panel-body mensuras" data-ng-model="elem" data-ng-repeat="elem in grupo.Items">
+        <div tipo="grupo.Nombre" pattern="pattern" permisos="permisos" class="ng-isolate-scope ng-scope" result-mensuras=""><div class="srow mensuras">
+    <div class="controls fa pull-right" style="display: none;">
+        <!-- ngIf: tieneDocumento --><span class="opcion fa-external-link tooltips ng-scope" data-placement="bottom" ng-if="tieneDocumento" title="" ng-click="verDocumento($event)" data-original-title="Ver Documento"></span><!-- end ngIf: tieneDocumento -->
+        <!-- ngIf: tieneGrafico --><span class="opcion fa-map-marker tooltips ng-scope" data-placement="bottom" ng-if="tieneGrafico" title="" ng-click="verEnMapa($event,objeto,true)" data-original-title="Ver en mapa"></span><!-- end ngIf: tieneGrafico -->
+        <!-- ngIf: tieneGrafico --><span class="opcion fa-hand-pointer-o tooltips ng-scope" data-placement="bottom" ng-if="tieneGrafico" title="" ng-click="verEnMapa($event,objeto,false)" data-original-title="Seleccionar"></span><!-- end ngIf: tieneGrafico -->
+        <span class="opcion fa-file-excel-o tooltips" data-placement="bottom" title="" ng-click="exportarObjetoExcel($event)" data-original-title="Exportar a Excel"></span>
+    </div>
+    <div class="roundChkBox mensuras">
+        <input type="checkbox" data-name="225168" data-componente="mensuras" data-componente-ploteable="true" id="mensuras225168" ng-click="selectedChanged()" ng-model="objeto.selected" class="ng-pristine ng-untouched ng-valid">
+        <label for="mensuras225168"></label>
+    </div>
+    <div ng-click="showAtributos()">
+        <p class="text-primary">
+            <span data-ng-bind-html="objeto.nombre | highlight:pattern:true" class="ng-binding">3140-U</span>
+        </p>
+        <!-- ngIf: tieneDescripcion --><p ng-if="tieneDescripcion" class="ng-scope"><span data-ng-bind-html="objeto.descripcion | highlight:pattern:true" class="ng-binding">Tipo: Mensura y Deslinde - Estado: REGISTRADA - Nombre documento: 3140-U</span></p><!-- end ngIf: tieneDescripcion -->
+    </div>
+</div></div>
+    </div><!-- end ngRepeat: elem in grupo.Items -->
+</div></div><!-- end ngRepeat: grupo in resultados --><div data-result-group="ngSearchFinished" data-ng-repeat="grupo in resultados" permisos="permisos" pattern="pattern" limite="limite" grupo="grupo" class="ng-scope ng-isolate-scope"><div class="panel-heading bg-primary-2 cursor-pointer" role="tab" id="headingunidadestributarias">
+    <div class="roundChkBox grpChkBox">
+        <input type="checkbox" id="grupounidadestributarias" ng-model="selected" ng-change="toggleGroupSelection()" data-collapse="collapseunidadestributarias" class="ng-pristine ng-untouched ng-valid collapse in" style="height: auto;">
+        <label for="grupounidadestributarias"></label>
+    </div>
+    <a data-toggle="collapse" data-parent="#accordion" href="#collapseunidadestributarias" aria-expanded="false" aria-controls="collapseunidadestributarias" class="collapsed">
+        <div class="panel-title">
+            <div class="buscador-01 ng-binding">
+                Unidades Tributarias
+
+            </div>
+            <div class="buscador-02">
+                <span class="badge ng-binding" title="mostrando 1 de 1 registro encontrado">1</span>
+            </div>
+            <div class="buscador-03">
+                <div class="icons-group">
+                    <i ng-click="verEnMapa($event)" class="fa fa-map-marker"></i>
+                    <i class="arrow-head fa"></i>
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="clearfix"></div>
+    </a>
+</div>
+<input type="hidden" value="3">
+<div id="collapseunidadestributarias" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingunidadestributarias" aria-expanded="false" style="height: 0px;">
+    <!-- ngRepeat: elem in grupo.Items --><div class="panel-body unidadestributarias" data-ng-model="elem" data-ng-repeat="elem in grupo.Items">
+        <div tipo="grupo.Nombre" pattern="pattern" permisos="permisos" class="ng-isolate-scope ng-scope" result-unidadestributarias=""><style>
+    .has-ducto-description {
+        background-color: #fff2cc;
+    }
+    
+    .has-no-innovar-description {
+        background-color: #f4cccc; /* Cambia el color de fondo */
+    }
+</style>
+<div id="result-ut" class="srow unidadestributarias" ng-class="{ 'has-no-innovar-description': unidadTributaria.tieneDescripcionNoInnovar, 'has-ducto-description':unidadTributaria.tieneDescripcionDucto }">
+    <div class="controls fa pull-right" style="display: none;">
+        <span class="opcion fa-map-marker tooltips" data-placement="bottom" title="" ng-click="verEnMapa($event,unidadTributaria,true)" data-ng-show="tieneGrafico" data-original-title="Ver en mapa"></span>
+        <span class="opcion fa-hand-pointer-o tooltips" data-placement="bottom" title="" ng-click="verEnMapa($event,unidadTributaria,false)" data-ng-show="tieneGrafico" data-original-title="Seleccionar"></span>
+        <span class="opcion fa-file-excel-o tooltips" data-placement="bottom" title="" ng-click="exportarObjetoExcel($event)" data-original-title="Exportar a Excel"></span>
+        <span class="opcion fa-file-pdf-o tooltips ng-hide" data-placement="bottom" title="" ng-click="generarReporteHistoricoTitulares()" data-ng-show="allowReporteHistoricoTitulares" data-original-title="Informe Histórico de Titulares"></span>
+        <!-- ngIf: !esTipoPH --><span class="opcion fa-file-pdf-o tooltips ng-scope ng-hide" data-placement="bottom" title="" data-ng-if="!esTipoPH" ng-click="generarReportePropiedad()" data-ng-show="allowReportePropiedad" data-original-title="Informe Catastral"></span><!-- end ngIf: !esTipoPH -->
+        <!-- ngIf: !esTipoPH --><span class="opcion fa-file-pdf-o tooltips ng-scope ng-hide" data-placement="bottom" title="" data-ng-if="!esTipoPH" ng-click="generarReporteSituacion()" data-ng-show="allowReporteSituacion" data-original-title="Informe de Situación"></span><!-- end ngIf: !esTipoPH --> 
+        <!-- ngIf: !esTipoPH --><span class="opcion fa-file-pdf-o tooltips ng-scope" data-placement="bottom" title="" data-ng-if="!esTipoPH" data-ng-click="getReporteUnidadTributaria()" data-original-title="Reporte Unidad Tributaria"></span><!-- end ngIf: !esTipoPH -->
+        <!-- ngIf: !esTipoPH --><span class="opcion fa-file-pdf-o tooltips ng-scope ng-hide" data-placement="bottom" title="" data-ng-if="!esTipoPH" data-ng-click="getCertificadoValuatorio()" data-ng-show="allowCertificadoValuatorio" data-original-title="Certificado Valuatorio"></span><!-- end ngIf: !esTipoPH -->
+        <span class="opcion fa fa-file-text-o tooltips ng-hide" data-placement="bottom" title="" data-ng-click="getAdministracionDDJJ()" data-ng-show="allowDDJJ" data-original-title="DDJJ"></span>
+        <span class="opcion fa-th tooltips" data-placement="bottom" title="" data-ng-click="abrir('MantenimientoParcelario/Test', unidadTributaria.idpadre)" data-ng-show="allowMantenedor" data-original-title="Mantenimiento Parcelario"></span>
+    </div>
+    <div class="roundChkBox parcelas">
+        <input type="checkbox" data-name="1803080" data-componente="unidadestributarias" id="unidadestributarias1803080" ng-click="selectedChanged()" ng-model="unidadTributaria.selected" class="ng-pristine ng-untouched ng-valid">
+        <label for="unidadestributarias1803080"></label>
+    </div>
+    <div ng-click="showAtributos()">
+        <p class="text-primary">
+            <span data-ng-bind-html="unidadTributaria.nombre | highlight:pattern:true" class="ng-binding"><span style="background-color:#ff0;">A10101921</span></span>
+        </p>
+        <!-- ngIf: tieneDescripcion --><p ng-if="tieneDescripcion" class="ng-scope"><span data-ng-bind-html="unidadTributaria.descripcion | highlight:pattern:true" class="ng-binding">Nomenclatura: 5843G5J4+2HW <br>Titulares: GRONDA, JOSE CAMILO  <br>Dominios: MATRICULA: 0000073718 <br> <br></span></p><!-- end ngIf: tieneDescripcion -->
+    </div>
+</div></div>
+    </div><!-- end ngRepeat: elem in grupo.Items -->
+</div></div><!-- end ngRepeat: grupo in resultados --><div data-result-group="ngSearchFinished" data-ng-repeat="grupo in resultados" permisos="permisos" pattern="pattern" limite="limite" grupo="grupo" class="ng-scope ng-isolate-scope"><div class="panel-heading bg-primary-2 cursor-pointer" role="tab" id="headingparcelas">
+    <div class="roundChkBox grpChkBox">
+        <input type="checkbox" id="grupoparcelas" ng-model="selected" ng-change="toggleGroupSelection()" data-collapse="collapseparcelas" class="ng-pristine ng-untouched ng-valid collapse in" style="height: auto;">
+        <label for="grupoparcelas"></label>
+    </div>
+    <a data-toggle="collapse" data-parent="#accordion" href="#collapseparcelas" aria-expanded="true" aria-controls="collapseparcelas" class="">
+        <div class="panel-title">
+            <div class="buscador-01 ng-binding">
+                Parcelas
+
+            </div>
+            <div class="buscador-02">
+                <span class="badge ng-binding" title="mostrando 1 de 1 registro encontrado">1</span>
+            </div>
+            <div class="buscador-03">
+                <div class="icons-group">
+                    <i ng-click="verEnMapa($event)" class="fa fa-map-marker"></i>
+                    <i class="arrow-head fa"></i>
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="clearfix"></div>
+    </a>
+</div>
+<input type="hidden" value="3">
+<div id="collapseparcelas" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingparcelas" aria-expanded="true">
+    <!-- ngRepeat: elem in grupo.Items --><div class="panel-body parcelas" data-ng-model="elem" data-ng-repeat="elem in grupo.Items">
+        <div tipo="grupo.Nombre" pattern="pattern" permisos="permisos" class="ng-isolate-scope ng-scope" result-parcelas=""><div class="srow parcelas">
+    <div class="controls fa pull-right" style="display: none;">
+        <span class="opcion fa-map-marker tooltips" directiva="" data-placement="bottom" title="" ng-click="verEnMapa($event,parcela,true)" data-ng-show="tieneGrafico" data-original-title="Ver en mapa"></span>
+        <span class="opcion fa-hand-pointer-o tooltips" data-placement="bottom" title="" ng-click="verEnMapa($event,parcela,false)" data-ng-show="tieneGrafico" data-original-title="Seleccionar"></span>
+        <span class="opcion fa-file-excel-o tooltips" data-placement="bottom" title="" ng-click="exportarObjetoExcel($event)" data-original-title="Exportar a Excel"></span>
+        <span class="opcion fa-file-pdf-o tooltips ng-hide" data-placement="bottom" title="" data-ng-click="getInformeParcelario()" ng-show="allowInformeParcelario" data-original-title="Reporte Parcelario"></span>
+        <span class="opcion fa-th tooltips" data-placement="bottom" title="" data-ng-click="abrir('MantenimientoParcelario/Test', parcela.id)" data-ng-show="allowMantenedor" data-original-title="Mantenimiento Parcelario"></span>
+    </div>
+    <div class="roundChkBox parcelas">
+        <input type="checkbox" data-name="1779492" data-componente="parcelas" data-componente-ploteable="true" id="parcelas1779492" ng-click="selectedChanged()" ng-model="parcela.selected" class="ng-pristine ng-untouched ng-valid">
+        <label for="parcelas1779492"></label>
+    </div>
+    <div ng-click="showAtributos()">
+        <p class="text-primary">
+            <span data-ng-bind-html="parcela.partida_nomenclatura | highlight:pattern:true" class="ng-binding"><span style="background-color:#ff0;">A10101921</span>-5843G5J4+2HW</span>
+        </p>
+        <!-- ngIf: tieneDescripcion --><p ng-if="tieneDescripcion" class="ng-scope"><span data-ng-bind-html="parcela.descripcion | highlight:pattern:true" class="ng-binding">Tipo: URBANA - Clase: PARCELA COMUN - Estado: EDIFICADO - Superficie: 432.13 m2 <br>Jurisdicción:CAPITAL <br>Designación: Departamento: CAPITAL - Localidad: CAPITAL - Sección: - - Calle: SAN LUIS - Nro: 1170 - Manzana: 0239 - Lote: 03</span></p><!-- end ngIf: tieneDescripcion -->
+    </div>
+</div></div>
+    </div><!-- end ngRepeat: elem in grupo.Items -->
+</div></div><!-- end ngRepeat: grupo in resultados -->
+                        </div>
+                    </div>
+                <div id="ascrail2001" class="nicescroll-rails" style="width: 8px; z-index: 9; cursor: default; position: absolute; top: 38px; left: 422px; height: 341px; opacity: 1; display: block;"><div style="position: relative; top: 0px; float: right; width: 8px; height: 282px; background-color: rgba(0, 0, 0, 0.5); background-clip: padding-box; border-radius: 5px;"></div></div></div>
+            </div>
+
+<div id="detalle-objeto-main" class="datos-adicionales panel panel-primary collapse ui-draggable" aria-expanded="false" style="position: absolute; width: 215px; top: 42px; left: 431px; max-height: 403px; display: none;">
+    <div class="row">
+            <div class="detalle-objeto-header ui-draggable-handle">
+                <span>Detalle de Objeto</span>
+                <a class="reset-search-btn fa pull-right " href="#" data-placement="right">
+                        <i class="minimizar fa fa-chevron-up white cursor-pointer" aria-label="Minimizar" title="Minimizar"></i>
+                    <i class="cerrar fa-close white cursor-pointer" title="Cerrar"></i>
+                </a>
+            </div>
+        <div id="accordion-detalle-objeto-main" class="datos-detalle" tabindex="5000" style="overflow-y: hidden; outline: none; max-height: 342px;">
+            <!-- DETALLE OBJETO - ATRIBUTOS -->
+            <div class="section-position">
+                <div class="panel-heading bg-primary-2" role="tab" id="headingAtributos-main">
+                    <a data-toggle="collapse" data-parent="#accordion-detalle-objeto-main" href="#collapseAtributos-main" aria-expanded="false" aria-controls="collapseAtributos-main" class="collapsed">
+                        <div class="panel-title">
+                            Atributos
+                            <div class="pull-right">
+                                <i class="fa"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div id="collapseAtributos-main" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingAtributos-main" aria-expanded="false" style="">
+                    <div class="panel-body">
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12"><table class="table table-striped table-bordered table-responsive grilla-atributos dataTable no-footer" cellspacing="0" style="width:100%" id="DataTables_Table_0" role="grid">
+                            <thead>
+                                <tr role="row"><th width="50%" aria-label="Nombre: Activar para ordenar la columna de manera ascendente" class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 50px;">Nombre</th><th width="50%" aria-label="Valor: Activar para ordenar la columna de manera ascendente" class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 50px;">Valor</th></tr>
+                            </thead>
+                            <tbody><tr role="row" class="odd"><td>Código Provincial</td><td>A10101921</td></tr><tr role="row" class="even"><td>Parcela</td><td>A10101921</td></tr><tr role="row" class="odd"><td>Unidad Funcional</td><td></td></tr><tr role="row" class="even"><td>% Copropiedad</td><td>0</td></tr><tr role="row" class="odd"><td>Calle</td><td></td></tr><tr role="row" class="even"><td>Altura</td><td></td></tr><tr role="row" class="odd"><td>Piso</td><td></td></tr><tr role="row" class="even"><td>Unidad</td><td></td></tr><tr role="row" class="odd"><td>Barrio</td><td></td></tr><tr role="row" class="even"><td>Localidad</td><td></td></tr><tr role="row" class="odd"><td>Municipio</td><td></td></tr><tr role="row" class="even"><td>Código Postal</td><td></td></tr><tr role="row" class="odd"><td>Tipo de Parcela</td><td>URBANA</td></tr><tr role="row" class="even"><td>Jurisdicción</td><td>CAPITAL</td></tr><tr role="row" class="odd"><td>Dominios</td><td>MATRICULA: 0000073718</td></tr><tr role="row" class="even"><td>Titulares</td><td>GRONDA, JOSE CAMILO </td></tr></tbody>
+                        </table></div></div><div class="row"><div class="col-sm-5"></div><div class="col-sm-7"></div></div></div>
+                    </div>
+                </div>
+            </div>
+            <!-- DETALLE OBJETO - RELACIONES -->
+            <div class="section-position">
+                <div class="panel-heading bg-primary-2" role="tab" id="headingRelacionesGC">
+                    <a data-toggle="collapse" data-parent="#accordion-detalle-objeto-main" href="#collapseRelaciones-main" aria-expanded="false" aria-controls="collapseRelaciones-main" class="collapsed">
+                        <div class="panel-title">
+                            Relaciones
+                            <div class="pull-right">
+                                <i class="fa"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div id="collapseRelaciones-main" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingRelaciones-main" aria-expanded="false" style="">
+                    <div class="panel-body">
+                        <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12"><table class="table table-striped table-bordered table-responsive grilla-relaciones dataTable no-footer" cellspacing="0" style="width:100%" id="DataTables_Table_1" role="grid">
+                            <thead>
+                                <tr role="row"><th width="40%" aria-label="Nombre: Activar para ordenar la columna de manera ascendente" class="sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" style="width: 40px;">Nombre</th><th width="45%" aria-label="Valor: Activar para ordenar la columna de manera ascendente" class="sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" style="width: 45px;">Valor</th><th width="15%" aria-label="" class="sorting_disabled" rowspan="1" colspan="1" style="width: 15px;"></th></tr>
+                            </thead>
+                            <tbody><tr role="row" class="odd"><td>Parcela</td><td>A10101921</td><td><span class="fa fa-map-marker cursor-pointer" title="Ver" name="ver-objeto-en-mapa" onclick="GeoSIT.MapaController.seleccionarObjetos([[[&quot;1779492&quot;]],[[&quot;1779492&quot;]]],[&quot;VW_PARCELAS_GRAF_ALFA&quot;,&quot;VW_PARCELAS_GRAF_ALFA_RURALES&quot;])" data-id-objeto="1779492" data-valor="A10101921" data-id-componente="76" data-descripcion-componente="Parcela"></span> <span id="1779492" class="fa  fa-list-alt cursor-pointer" title="Pasar a grilla de Resultados" name="pasar-a-grilla-de-resultados" data-id-objeto="1779492" data-id-componente="76" data-descripcion-componente="Parcela" onclick="pasarGrillaResultados(1779492,76)"></span></td></tr></tbody>
+                        </table></div></div><div class="row"><div class="col-sm-5"></div><div class="col-sm-7"></div></div></div>
+                    </div>
+                </div>
+            </div>
+            <!-- DETALLE OBJETO - GRAFICOS -->
+            <div class="section-position">
+                <div class="panel-heading bg-primary-2" role="tab" id="headingGraficos-main">
+                    <a data-toggle="collapse" data-parent="#accordion-detalle-objeto-main" href="#collapseGraficos-main" aria-expanded="true" aria-controls="collapseGraficos-main" class="">
+                        <div class="panel-title">
+                            Gráficos
+                            <div class="pull-right">
+                                <i class="fa"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div id="collapseGraficos-main" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingGraficos-main" aria-expanded="true" style="">
+                    <div class="panel-body">
+                        <div class="tabsGraficos">
+                            <ul class="nav nav-tabs hidden">
+                                <li data-tipo-grafico="1" class="hidden">
+                                    <a href="" data-target="#datosGraficosPoligonos-main" data-toggle="tab">Polígonos</a>
+                                </li>
+                                <li data-tipo-grafico="2" class="hidden">
+                                    <a href="" data-target="#datosGraficosLineas-main" data-toggle="tab">Líneas</a>
+                                </li>
+                                <li class="hidden" data-tipo-grafico="3">
+                                    <a href="" data-target="#datosGraficosPuntos-main" data-toggle="tab">Puntos</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane" id="datosGraficosPoligonos-main">
+                                    <div id="DataTables_Table_2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12"><table data-tipo-grafico="1" class="table table-striped table-bordered table-responsive dataTable no-footer" cellspacing="0" style="width:100%" id="DataTables_Table_2" role="grid">
+                                        <thead>
+                                            <tr role="row"><th width="50%" aria-label="Nombre: Activar para ordenar la columna de manera ascendente" class="sorting" tabindex="0" aria-controls="DataTables_Table_2" rowspan="1" colspan="1" style="width: 50px;">Nombre</th><th width="50%" aria-label="Valor: Activar para ordenar la columna de manera ascendente" class="sorting" tabindex="0" aria-controls="DataTables_Table_2" rowspan="1" colspan="1" style="width: 50px;">Valor</th></tr>
+                                        </thead>
+                                        <tbody><tr class="odd"><td valign="top" colspan="2" class="dataTables_empty">Ningún dato disponible en esta tabla</td></tr></tbody>
+                                    </table></div></div><div class="row"><div class="col-sm-5"></div><div class="col-sm-7"></div></div></div>
+                                    <div class="col-sm-12 grafico-wrapper" style="display: none;">
+                                        <img data-tipo-grafico="1">
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="datosGraficosLineas-main">
+                                    <div id="DataTables_Table_3_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12"><table data-tipo-grafico="2" class="table table-striped table-bordered table-responsive dataTable no-footer" cellspacing="0" style="width:100%" id="DataTables_Table_3" role="grid">
+                                        <thead>
+                                            <tr role="row"><th width="50%" aria-label="Nombre: Activar para ordenar la columna de manera ascendente" class="sorting" tabindex="0" aria-controls="DataTables_Table_3" rowspan="1" colspan="1" style="width: 50px;">Nombre</th><th width="50%" aria-label="Valor: Activar para ordenar la columna de manera ascendente" class="sorting" tabindex="0" aria-controls="DataTables_Table_3" rowspan="1" colspan="1" style="width: 50px;">Valor</th></tr>
+                                        </thead>
+                                        <tbody><tr class="odd"><td valign="top" colspan="2" class="dataTables_empty">Ningún dato disponible en esta tabla</td></tr></tbody>
+                                    </table></div></div><div class="row"><div class="col-sm-5"></div><div class="col-sm-7"></div></div></div>
+                                    <div class="col-sm-12 grafico-wrapper" style="display: none;">
+                                        <img data-tipo-grafico="2">
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="datosGraficosPuntos-main">
+                                    <div id="DataTables_Table_4_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12"><table data-tipo-grafico="3" class="table table-striped table-bordered table-responsive dataTable no-footer" cellspacing="0" style="width:100%" id="DataTables_Table_4" role="grid">
+                                        <thead>
+                                            <tr role="row"><th width="50%" aria-label="Nombre: Activar para ordenar la columna de manera ascendente" class="sorting" tabindex="0" aria-controls="DataTables_Table_4" rowspan="1" colspan="1" style="width: 50px;">Nombre</th><th width="50%" aria-label="Valor: Activar para ordenar la columna de manera ascendente" class="sorting" tabindex="0" aria-controls="DataTables_Table_4" rowspan="1" colspan="1" style="width: 50px;">Valor</th></tr>
+                                        </thead>
+                                        <tbody><tr class="odd"><td valign="top" colspan="2" class="dataTables_empty">Ningún dato disponible en esta tabla</td></tr></tbody>
+                                    </table></div></div><div class="row"><div class="col-sm-5"></div><div class="col-sm-7"></div></div></div>
+                                    <div class="col-sm-12 grafico-wrapper" style="display: none;">
+                                        <img data-tipo-grafico="3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<div id="ascrail2000" class="nicescroll-rails" style="width: 8px; z-index: 10; cursor: default; position: absolute; top: 0px; left: -8px; height: 0px; opacity: 1; display: none;"><div style="position: relative; top: 0px; float: right; width: 8px; height: 0px; background-color: rgba(0, 0, 0, 0.5); background-clip: padding-box; border-radius: 5px;"></div></div></div>
+
+        </div>
+        <div class="top-menu" onmouseup="hideSearchBlur()" id="menu1">
+            <button class="btn btn-flat help-btn icon-help-header no-mobile" onclick="javascript:loadView('/webapp/AyudaLinea/DatosAyudaLinea')" title="Más información" data-toggle="modal" data-target="#modal-window">
+            </button>
+
+            <div id="profile-menu" class="dropdown">
+                <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-user" data-target="#" href="#" aria-expanded="true">
+                    <span class="pull-left glyphicon glyphicon-chevron-down"></span>
+                    <span class="no-mobile">arneaz90</span>
+                    <img src="/webapp/Content/images/ui-sam.jpg">
+                </a>
+
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                    <div class="container-arrow arrow-white"></div>
+                    <li class="mobile">
+                        <a href="#" onclick="javascript:loadView('/webapp/AyudaLinea/DatosAyudaLinea')" tabindex="-1"><i class="fa fa-question-circle"></i>Ayuda</a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="javascript:loadView('/webapp/Account/UsuarioCambiarPassword')" tabindex="-1"><i class="fa fa-unlock-alt"></i>Cambiar contraseña</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="/webapp/Account/LogOff" tabindex="-1"><i class="fa fa-sign-out"></i>Salir</a>
+                    </li>
+                </ul>  
+            </div>
+        </div>
+    </header>
+    <div class="main-menu-container">
+        <div id="accordian">
+            <ul>
+            </ul>
+        </div>
+    </div>
+    <section id="main-content">
+        <section class="wrapper">
+            <div id="map-container">
+                <div id="map"><input type="range" class="hidden map-splitter"><div class="ol-viewport" data-view="20" style="position: relative; overflow: hidden; width: 100%; height: 100%; touch-action: none;"><canvas class="ol-unselectable" style="width: 100%; height: 100%;" width="782" height="432"></canvas><div class="ol-overlaycontainer"></div><div class="ol-overlaycontainer-stopevent"><div class="layer-selector closed"><ul><li><div class="layer-group"><i class="fa fa-chevron-up pull-right closed"></i><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="gid-visible-1769786343953-100" type="checkbox" obj-id="100"><label for="gid-visible-1769786343953-100"></label></div><label class="form-check-label" for="gid-visible-1769786343953-100">Catastro provincial</label><ul gid="100" class="closed"><li><div class="layer-group"><i class="fa fa-chevron-up pull-right closed"></i><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="gid-visible-1769786343953-20" type="checkbox" obj-id="20"><label for="gid-visible-1769786343953-20"></label></div><label class="form-check-label" for="gid-visible-1769786343953-20">Red Geodésica</label><ul gid="20" class="closed"><li><div class="layer-group"><i class="fa fa-chevron-up pull-right closed"></i><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="gid-visible-1769786343953-9" type="checkbox" obj-id="9"><label for="gid-visible-1769786343953-9"></label></div><label class="form-check-label" for="gid-visible-1769786343953-9">Red de Apoyo</label><ul gid="9" class="closed"><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-1" type="checkbox" obj-id="1"><label for="lid-visible-1769786343954-1"></label></div><label class="form-check-label" for="lid-visible-1769786343954-1">Red Planialtimetrica</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-10" type="checkbox" obj-id="10"><label for="lid-visible-1769786343954-10"></label></div><label class="form-check-label" for="lid-visible-1769786343954-10">PCC</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-11" type="checkbox" obj-id="11"><label for="lid-visible-1769786343954-11"></label></div><label class="form-check-label" for="lid-visible-1769786343954-11">PAF</label></div></li></ul></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-6" type="checkbox" obj-id="6"><label for="lid-visible-1769786343954-6"></label></div><label class="form-check-label" for="lid-visible-1769786343954-6">Red Principal</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-7" type="checkbox" obj-id="7"><label for="lid-visible-1769786343954-7"></label></div><label class="form-check-label" for="lid-visible-1769786343954-7">Red Secundaria</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-8" type="checkbox" obj-id="8"><label for="lid-visible-1769786343954-8"></label></div><label class="form-check-label" for="lid-visible-1769786343954-8">Red Tercera</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-9" type="checkbox" obj-id="9"><label for="lid-visible-1769786343954-9"></label></div><label class="form-check-label" for="lid-visible-1769786343954-9">Red Cuarta</label></div></li></ul></div></li><li><div class="layer-group"><i class="fa fa-chevron-up pull-right closed"></i><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="gid-visible-1769786343954-8" type="checkbox" obj-id="8"><label for="gid-visible-1769786343954-8"></label></div><label class="form-check-label" for="gid-visible-1769786343954-8">Parcelario</label><ul gid="8" class="closed"><li><div class="layer out-of-range"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-2" type="checkbox" obj-id="2" disabled="disabled"><label for="lid-visible-1769786343954-2"></label></div><label class="form-check-label" for="lid-visible-1769786343954-2">Manzanas</label></div></li><li><div class="layer out-of-range"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-58" type="checkbox" obj-id="58" disabled="disabled"><label for="lid-visible-1769786343954-58"></label></div><label class="form-check-label" for="lid-visible-1769786343954-58">Chacras</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-50" type="checkbox" obj-id="50"><label for="lid-visible-1769786343954-50"></label></div><label class="form-check-label" for="lid-visible-1769786343954-50">Espacios Verdes</label></div></li><li><div class="layer out-of-range"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-60" type="checkbox" obj-id="60" disabled="disabled"><label for="lid-visible-1769786343954-60"></label></div><label class="form-check-label" for="lid-visible-1769786343954-60">Parcelas a Sanear</label></div></li><li><div class="layer out-of-range"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-48" type="checkbox" obj-id="48" disabled="disabled"><label for="lid-visible-1769786343954-48"></label></div><label class="form-check-label" for="lid-visible-1769786343954-48">Parcelas Rurales</label></div></li><li><div class="layer out-of-range"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-49" type="checkbox" obj-id="49" disabled="disabled"><label for="lid-visible-1769786343954-49"></label></div><label class="form-check-label" for="lid-visible-1769786343954-49">Parcelas Urbanas</label></div></li><li><div class="layer out-of-range"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-68" type="checkbox" obj-id="68" disabled="disabled"><label for="lid-visible-1769786343954-68"></label></div><label class="form-check-label" for="lid-visible-1769786343954-68">Propiedades Horizontales</label></div></li><li><div class="layer out-of-range"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-56" type="checkbox" obj-id="56" disabled="disabled"><label for="lid-visible-1769786343954-56"></label></div><label class="form-check-label" for="lid-visible-1769786343954-56">Unidades Parcelarias</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-5" type="checkbox" obj-id="5"><label for="lid-visible-1769786343954-5"></label></div><label class="form-check-label" for="lid-visible-1769786343954-5">Prescripciones</label></div></li><li><div class="layer out-of-range"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-63" type="checkbox" obj-id="63" disabled="disabled"><label for="lid-visible-1769786343954-63"></label></div><label class="form-check-label" for="lid-visible-1769786343954-63">Parcelas de Regularización Dominial</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-67" type="checkbox" obj-id="67"><label for="lid-visible-1769786343954-67"></label></div><label class="form-check-label" for="lid-visible-1769786343954-67">Mejoras</label></div></li><li><div class="layer out-of-range"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-64" type="checkbox" obj-id="64" disabled="disabled"><label for="lid-visible-1769786343954-64"></label></div><label class="form-check-label" for="lid-visible-1769786343954-64">Parcelas para Reputacion de Dominio</label></div></li></ul></div></li><li><div class="layer-group"><i class="fa fa-chevron-up pull-right closed"></i><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="gid-visible-1769786343954-15" type="checkbox" obj-id="15"><label for="gid-visible-1769786343954-15"></label></div><label class="form-check-label" for="gid-visible-1769786343954-15">Ortofotos</label><ul gid="15" class="closed"><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-12" raster="100" type="checkbox" obj-id="12"><label for="lid-visible-1769786343954-12"></label></div><label class="form-check-label" for="lid-visible-1769786343954-12">Ortofoto general</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-34" type="checkbox" obj-id="34"><label for="lid-visible-1769786343954-34"></label></div><label class="form-check-label" for="lid-visible-1769786343954-34">Areas de Vuelo</label></div></li></ul></div></li><li><div class="layer-group"><i class="fa fa-chevron-up pull-right closed"></i><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="gid-visible-1769786343954-17" type="checkbox" obj-id="17"><label for="gid-visible-1769786343954-17"></label></div><label class="form-check-label" for="gid-visible-1769786343954-17">Relevamiento</label><ul gid="17" class="closed"><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-47" type="checkbox" obj-id="47"><label for="lid-visible-1769786343954-47"></label></div><label class="form-check-label" for="lid-visible-1769786343954-47">Areas Relevadas</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-38" type="checkbox" obj-id="38"><label for="lid-visible-1769786343954-38"></label></div><label class="form-check-label" for="lid-visible-1769786343954-38">Lagunas</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-44" type="checkbox" obj-id="44"><label for="lid-visible-1769786343954-44"></label></div><label class="form-check-label" for="lid-visible-1769786343954-44">Canales</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-43" type="checkbox" obj-id="43"><label for="lid-visible-1769786343954-43"></label></div><label class="form-check-label" for="lid-visible-1769786343954-43">Rios</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-41" type="checkbox" obj-id="41"><label for="lid-visible-1769786343954-41"></label></div><label class="form-check-label" for="lid-visible-1769786343954-41">Puentes</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-42" type="checkbox" obj-id="42"><label for="lid-visible-1769786343954-42"></label></div><label class="form-check-label" for="lid-visible-1769786343954-42">Alcantarillas</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-40" type="checkbox" obj-id="40"><label for="lid-visible-1769786343954-40"></label></div><label class="form-check-label" for="lid-visible-1769786343954-40">Ferrocarriles</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-35" type="checkbox" obj-id="35"><label for="lid-visible-1769786343954-35"></label></div><label class="form-check-label" for="lid-visible-1769786343954-35">Cordones</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-36" type="checkbox" obj-id="36"><label for="lid-visible-1769786343954-36"></label></div><label class="form-check-label" for="lid-visible-1769786343954-36">Ejes de calle</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-45" type="checkbox" obj-id="45"><label for="lid-visible-1769786343954-45"></label></div><label class="form-check-label" for="lid-visible-1769786343954-45">Cultivos</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-46" type="checkbox" obj-id="46"><label for="lid-visible-1769786343954-46"></label></div><label class="form-check-label" for="lid-visible-1769786343954-46">Curvas de Nivel</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-39" type="checkbox" obj-id="39"><label for="lid-visible-1769786343954-39"></label></div><label class="form-check-label" for="lid-visible-1769786343954-39">Cotas altimétricas</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-69" type="checkbox" obj-id="69"><label for="lid-visible-1769786343954-69"></label></div><label class="form-check-label" for="lid-visible-1769786343954-69">Parcelas Informales</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-65" type="checkbox" obj-id="65"><label for="lid-visible-1769786343954-65"></label></div><label class="form-check-label" for="lid-visible-1769786343954-65">Calles</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-66" type="checkbox" obj-id="66"><label for="lid-visible-1769786343954-66"></label></div><label class="form-check-label" for="lid-visible-1769786343954-66">Tramos de Calles</label></div></li></ul></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-57" type="checkbox" obj-id="57"><label for="lid-visible-1769786343954-57"></label></div><label class="form-check-label" for="lid-visible-1769786343954-57">Secciones</label></div></li></ul></div></li><li><div class="layer-group"><i class="fa fa-chevron-up pull-right closed"></i><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="gid-visible-1769786343954-200" type="checkbox" obj-id="200"><label for="gid-visible-1769786343954-200"></label></div><label class="form-check-label" for="gid-visible-1769786343954-200">Límites políticos</label><ul gid="200" class="closed"><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-13" type="checkbox" obj-id="13"><label for="lid-visible-1769786343954-13"></label></div><label class="form-check-label" for="lid-visible-1769786343954-13">Provincias</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-4" type="checkbox" obj-id="4"><label for="lid-visible-1769786343954-4"></label></div><label class="form-check-label" for="lid-visible-1769786343954-4">Jurisdicciones</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-3" type="checkbox" obj-id="3"><label for="lid-visible-1769786343954-3"></label></div><label class="form-check-label" for="lid-visible-1769786343954-3">Departamentos</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-51" type="checkbox" obj-id="51"><label for="lid-visible-1769786343954-51"></label></div><label class="form-check-label" for="lid-visible-1769786343954-51">Centros Urbanos</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-52" type="checkbox" obj-id="52"><label for="lid-visible-1769786343954-52"></label></div><label class="form-check-label" for="lid-visible-1769786343954-52">Barrios</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-53" type="checkbox" obj-id="53"><label for="lid-visible-1769786343954-53"></label></div><label class="form-check-label" for="lid-visible-1769786343954-53">Localidades</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-54" type="checkbox" obj-id="54"><label for="lid-visible-1769786343954-54"></label></div><label class="form-check-label" for="lid-visible-1769786343954-54">Parajes</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-55" type="checkbox" obj-id="55"><label for="lid-visible-1769786343954-55"></label></div><label class="form-check-label" for="lid-visible-1769786343954-55">Zonas de Planeamiento</label></div></li></ul></div></li><li><div class="layer-group"><i class="fa fa-chevron-up pull-right closed"></i><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="gid-visible-1769786343954-300" type="checkbox" obj-id="300"><label for="gid-visible-1769786343954-300"></label></div><label class="form-check-label" for="gid-visible-1769786343954-300">Cartografía básica</label><ul gid="300" class="closed"><li><div class="layer-group"><i class="fa fa-chevron-up pull-right closed"></i><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="gid-visible-1769786343954-7" type="checkbox" obj-id="7"><label for="gid-visible-1769786343954-7"></label></div><label class="form-check-label" for="gid-visible-1769786343954-7">Red de Transportes</label><ul gid="7" class="closed"><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-15" type="checkbox" obj-id="15"><label for="lid-visible-1769786343954-15"></label></div><label class="form-check-label" for="lid-visible-1769786343954-15">Líneas Férreas</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-17" type="checkbox" obj-id="17"><label for="lid-visible-1769786343954-17"></label></div><label class="form-check-label" for="lid-visible-1769786343954-17">Caminos IGN</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-16" type="checkbox" obj-id="16"><label for="lid-visible-1769786343954-16"></label></div><label class="form-check-label" for="lid-visible-1769786343954-16">Callejero IGN</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-29" type="checkbox" obj-id="29"><label for="lid-visible-1769786343954-29"></label></div><label class="form-check-label" for="lid-visible-1769786343954-29">Puentes</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-24" type="checkbox" obj-id="24"><label for="lid-visible-1769786343954-24"></label></div><label class="form-check-label" for="lid-visible-1769786343954-24">Infraestructura de Transporte</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-37" type="checkbox" obj-id="37"><label for="lid-visible-1769786343954-37"></label></div><label class="form-check-label" for="lid-visible-1769786343954-37">Rutas</label></div></li></ul></div></li><li><div class="layer-group"><i class="fa fa-chevron-up pull-right closed"></i><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="gid-visible-1769786343954-10" type="checkbox" obj-id="10"><label for="gid-visible-1769786343954-10"></label></div><label class="form-check-label" for="gid-visible-1769786343954-10">Hidrografía</label><ul gid="10" class="closed"><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-23" type="checkbox" obj-id="23"><label for="lid-visible-1769786343954-23"></label></div><label class="form-check-label" for="lid-visible-1769786343954-23">Embalses</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-19" type="checkbox" obj-id="19"><label for="lid-visible-1769786343954-19"></label></div><label class="form-check-label" for="lid-visible-1769786343954-19">Cuerpos de Agua</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343954-21" type="checkbox" obj-id="21"><label for="lid-visible-1769786343954-21"></label></div><label class="form-check-label" for="lid-visible-1769786343954-21">Cursos de Agua Naturales</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343955-20" type="checkbox" obj-id="20"><label for="lid-visible-1769786343955-20"></label></div><label class="form-check-label" for="lid-visible-1769786343955-20">Cursos de Agua Artificiales</label></div></li></ul></div></li><li><div class="layer-group"><i class="fa fa-chevron-up pull-right closed"></i><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="gid-visible-1769786343955-11" type="checkbox" obj-id="11"><label for="gid-visible-1769786343955-11"></label></div><label class="form-check-label" for="gid-visible-1769786343955-11">Áreas Protegidas</label><ul gid="11" class="closed"><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343955-14" type="checkbox" obj-id="14"><label for="lid-visible-1769786343955-14"></label></div><label class="form-check-label" for="lid-visible-1769786343955-14">Reservas</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343955-30" type="checkbox" obj-id="30"><label for="lid-visible-1769786343955-30"></label></div><label class="form-check-label" for="lid-visible-1769786343955-30">Sitios RAMSAR</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343955-27" type="checkbox" obj-id="27"><label for="lid-visible-1769786343955-27"></label></div><label class="form-check-label" for="lid-visible-1769786343955-27">Parques Nacionales</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343955-28" type="checkbox" obj-id="28"><label for="lid-visible-1769786343955-28"></label></div><label class="form-check-label" for="lid-visible-1769786343955-28">Parques Provinciales</label></div></li></ul></div></li><li><div class="layer-group"><i class="fa fa-chevron-up pull-right closed"></i><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="gid-visible-1769786343955-12" type="checkbox" obj-id="12"><label for="gid-visible-1769786343955-12"></label></div><label class="form-check-label" for="gid-visible-1769786343955-12">Geomorfología</label><ul gid="12" class="closed"><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343955-25" type="checkbox" obj-id="25"><label for="lid-visible-1769786343955-25"></label></div><label class="form-check-label" for="lid-visible-1769786343955-25">Islas</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343955-22" type="checkbox" obj-id="22"><label for="lid-visible-1769786343955-22"></label></div><label class="form-check-label" for="lid-visible-1769786343955-22">Curvas de Nivel IGN</label></div></li></ul></div></li><li><div class="layer-group"><i class="fa fa-chevron-up pull-right closed"></i><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="gid-visible-1769786343955-13" type="checkbox" obj-id="13"><label for="gid-visible-1769786343955-13"></label></div><label class="form-check-label" for="gid-visible-1769786343955-13">Servicios</label><ul gid="13" class="closed"><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343955-26" type="checkbox" obj-id="26"><label for="lid-visible-1769786343955-26"></label></div><label class="form-check-label" for="lid-visible-1769786343955-26">Líneas Eléctricas</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343955-18" type="checkbox" obj-id="18"><label for="lid-visible-1769786343955-18"></label></div><label class="form-check-label" for="lid-visible-1769786343955-18">Centrales Eléctricas</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343955-33" type="checkbox" obj-id="33"><label for="lid-visible-1769786343955-33"></label></div><label class="form-check-label" for="lid-visible-1769786343955-33">Cobertura Agua</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343955-32" type="checkbox" obj-id="32"><label for="lid-visible-1769786343955-32"></label></div><label class="form-check-label" for="lid-visible-1769786343955-32">Cañerías de Agua</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343955-31" type="checkbox" obj-id="31"><label for="lid-visible-1769786343955-31"></label></div><label class="form-check-label" for="lid-visible-1769786343955-31">Tanques de Agua</label></div></li></ul></div></li></ul></div></li><li><div class="layer-group"><i class="fa fa-chevron-up pull-right closed"></i><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="gid-visible-1769786343955-400" type="checkbox" obj-id="400"><label for="gid-visible-1769786343955-400"></label></div><label class="form-check-label" for="gid-visible-1769786343955-400">Cartografía pública</label><ul gid="400" class="closed"><li><div class="layer-group"><i class="fa fa-chevron-up pull-right closed"></i><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="gid-visible-1769786343955-2" type="checkbox" obj-id="2"><label for="gid-visible-1769786343955-2"></label></div><label class="form-check-label" for="gid-visible-1769786343955-2">Vectorial</label><ul gid="2" class="closed"><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343955-62" raster="400" type="checkbox" obj-id="62"><label for="lid-visible-1769786343955-62"></label></div><label class="form-check-label" for="lid-visible-1769786343955-62">OSM</label></div></li><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343955-59" raster="400" type="checkbox" obj-id="59"><label for="lid-visible-1769786343955-59"></label></div><label class="form-check-label" for="lid-visible-1769786343955-59">Bing</label></div></li></ul></div></li><li><div class="layer-group"><i class="fa fa-chevron-up pull-right closed"></i><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="gid-visible-1769786343955-3" type="checkbox" obj-id="3"><label for="gid-visible-1769786343955-3"></label></div><label class="form-check-label" for="gid-visible-1769786343955-3">Satelitales</label><ul gid="3" class="closed"><li><div class="layer"><div class="toggle-switcher toggle-switcher-visible pull-left"><input id="lid-visible-1769786343955-61" raster="400" type="checkbox" obj-id="61"><label for="lid-visible-1769786343955-61"></label></div><label class="form-check-label" for="lid-visible-1769786343955-61">Bing</label></div></li></ul></div></li></ul></div></li></ul></div><div class="map-controls toolbar"><button class="map-control"><i class="fa fa-2x icon-00"></i></button></div><div class="map-toolbar closed"><ul><li class="map-tool"><button title="Vista Inicial"><i class="fa fa-2x icon-globe"></i></button></li><li class="map-tool"><button title="Imprimir"><i class="fa fa-2x icon-print"></i></button></li><li class="map-tool"><button title="Medir Distancia"><i class="fa fa-2x icon-medir"></i></button></li><li class="map-tool"><button title="Medir Superficie"><i class="fa fa-2x icon-superficie"></i></button></li><li class="map-tool"><button title="Medir Área Circular"><i class="fa fa-2x icon-area-circ"></i></button></li><li class="map-tool"><button title="Dibujar Punto"><i class="fa fa-2x icon-punto"></i></button></li><li class="map-tool"><button title="Dibujar Línea"><i class="fa fa-2x icon-linea"></i></button></li><li class="map-tool"><button title="Dibujar Polígono"><i class="fa fa-2x icon-cubo"></i></button></li><li class="map-tool"><button title="Dibujar Círculo"><i class="fa fa-2x icon-dibujar-circ"></i></button></li><li class="map-tool"><button title="Limpiar Mapa"><i class="fa fa-2x icon-erase-2"></i></button></li></ul></div><aside id="mapbtns1769786343514" class="map-controls"><ul><li class="map-control north-rotation"><button title="Restaurar Rotación"><i class="icon-mover"></i></button></li><li class="map-control zoom-in"><button title="Acercarse"><i class="icon-in"></i></button></li><li class="map-control zoom-out"><button title="Alejarse"><i class="icon-out"></i></button></li><li class="map-control switcher"><button><i class="icon-001"></i></button></li></ul></aside></div></div></div><div class="map-controls toolbar"></div>
+            </div>
+
+            <div class="loading-status-ui" style="display: none;"><div class="loader"></div></div>
+            <div class="loading-status-ui-backdrop" style="display: none;"></div>
+
+            <div id="contenido"></div>
+        </section>
+    </section>
+</section>
+<div class="modal fade theme_new mensaje" id="ModalInputGenerico" tabindex="-3" role="dialog" aria-labelledby="TituloModalInputGenerico" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="TituloModalInputGenerico">Titulo</h3>
+                <span aria-hidden="true" class="fa fa-close fa-2x white cursor-pointer pull-right" data-dismiss="modal" aria-label="Cerrar" title="Cerrar"></span>
+            </div>
+            <div class="modal-body">
+                <div id="MensajeInputGenerico" class="alert alert-dismissible remove-padding" role="alert">
+                    <input id="txtInputGenerico" type="text" placeholder="input generico..." class="form-control">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-xs-4 pull-right">
+                    <span id="btnAceptarInputGenerico" aria-hidden="true" data-placement="right" title="Aceptar" data-original-title="Aceptar" class="fa fa-check-circle light-blue fa-3x cursor-pointer"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade theme_new mensaje" id="ModalErrorGenerico" tabindex="-3" role="dialog" aria-labelledby="TituloModalErrorGenerico" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="TituloModalErrorGenerico">Titulo</h3>
+                <span aria-hidden="true" class="fa fa-close fa-2x white cursor-pointer pull-right" data-dismiss="modal" aria-label="Cerrar" title="Cerrar"></span>
+            </div>
+            <div class="modal-body">
+                <div id="MensajeErrorGenerico" class="alert alert-dismissible" role="alert">
+                    <p id="DescripcionMensajeErrorGenerico">Descripcion de la informacion</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="modal fade theme_new mensaje" id="modalInfoProvisoria" tabindex="-3" role="dialog" aria-labelledby="TituloModalErrorGenerico" aria-hidden="true" data-backdrop="static" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Bienvenido</h3>
+                    <span aria-hidden="true" class="fa fa-close fa-2x white cursor-pointer pull-right" data-dismiss="modal" aria-label="Cerrar" title="Cerrar"></span>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-success" role="alert">
+                        <img class="qr" src="/webapp/Content/images/mobileqr.png">
+                        <img src="/webapp/Content/images/celus.png">
+                        <p>
+                            ¡Atención! Se encuentra disponible una nueva versión web mobile del módulo de consultas del Sistema de Gestión Catastral. Para acceder, escanee este código QR desde cualquier dispositivo móvil y acceda a la aplicación con su mismo usuario y clave.
+                        </p>
+                        <p>
+                            Ya puede buscar, navegar, visualizar las mensuras y toda la información catastral disponible en la web, ahora también desde su teléfono o tableta.
+                        </p>
+                        <p>
+                            Ante cualquier inquietud, por favor comuíquese con el Departamento de Sistemas a <a href="mailto:sistemas.catastroctes@gmail.com">sistemas.catastroctes@gmail.com</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="modal fade theme_new mensaje" id="modalVideoIFrame" tabindex="-3" role="dialog" aria-labelledby="TituloModalIframe" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="TituloModalIframe">Tutoriales - Introducción</h3>
+                <span aria-hidden="true" class="fa fa-close fa-2x white cursor-pointer pull-right" data-dismiss="modal" aria-label="Cerrar" title="Cerrar"></span>
+            </div>
+            <div class="modal-body">
+                <iframe id="YTPlayer" frameborder="0" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" title="YouTube video player" width="640" height="360" src="https://www.youtube.com/embed/?autoplay=1&amp;enablejsapi=1&amp;origin=https%3A%2F%2Fdgc.corrientes.gob.ar&amp;widgetid=1&amp;forigin=https%3A%2F%2Fdgc.corrientes.gob.ar%2Fwebapp%2F&amp;aoriginsup=1&amp;gporigin=https%3A%2F%2Fdgc.corrientes.gob.ar%2Fwebapp%2FAccount%2FLogin%3FReturnUrl%3D%252fwebapp%252f&amp;vf=1"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <div class="modal fade theme_new" id="blockScreenModal" tabindex="-100" role="dialog" aria-labelledby="LabelModal" aria-hidden="true" data-backdrop="false" data-keyboard="false">
+        <div class="col-md-4 col-lg-4"></div>
+        <div class="panel col-lg-4 col-md-4" style="height:200px; padding-top:10px">
+            <div class="center-block prompt">
+                <p>La aplicación se ha bloqueado por inactividad. Para desbloquearla, reingrese su contraseña</p>
+            </div>
+            <div class="form-group" style="display:none" data-ng-class="{'has-error': vm.submitAttempted &amp;&amp; vm.form.userName.$invalid}">
+                <div class="input-group">
+                    <input id="txtUser" name="userName" class="form-control" type="text" data-ng-model="vm.userName" required="">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-user"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group" data-ng-class="{'has-error': vm.submitAttempted &amp;&amp; vm.form.password.$invalid}">
+                <br>
+                <label>Contraseña:</label>
+                <div class="input-group">
+                    <input id="txtPass" autocomplete="off" name="password" class="form-control" type="password" data-ng-model="vm.password" required="" autofocus="">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-lock"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group buttons">
+                <div id="SumaryPassword" class="validation-summary-errors text-danger" style="display:none">
+                    <ul>
+                        <li>Contraseña incorrecta.</li>
+                    </ul>
+                </div>
+                <button id="btnIngresar" type="button" class="btn btn-theme btn-block">Ingresar</button>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4"></div>
+    </div>
+    <div class="blocking-backdrop"></div>
+
+
+<ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content" id="ui-id-1" tabindex="0" style="display: block; top: 49px; left: 228.719px; width: 331px;"><li class="ui-menu-item" id="ui-id-4" tabindex="-1">A10101921</li></ul><span role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"><div style="display: none;">1 result is available, use up and down arrow keys to navigate.</div><div style="display: none;">1 result is available, use up and down arrow keys to navigate.</div><div>1 result is available, use up and down arrow keys to navigate.</div></span></body></html>

@@ -1,0 +1,203 @@
+{
+    "name": "Actualizar Precios e Imágenes en Shopify",
+    "flow": [
+        {
+            "id": 1,
+            "module": "google-sheets:watchRows",
+            "version": 2,
+            "parameters": {
+                "limit": 5,
+                "headerRow": 1
+            },
+            "mapper": {
+                "mode": "select",
+                "spreadsheetId": "TU_ID_DE_HOJA_AQUI",
+                "sheetId": "TU_NOMBRE_DE_PESTAÑA_AQUI"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 0,
+                    "y": 0,
+                    "name": "Leer Datos (SKU, Precio, Img)"
+                },
+                "restore": {},
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:google",
+                        "label": "Conexión Google",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 2,
+            "module": "shopify:searchProductVariants",
+            "version": 1,
+            "parameters": {},
+            "mapper": {
+                "query": "sku:{{1.0}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 300,
+                    "y": 0,
+                    "name": "Buscar ID del Producto"
+                },
+                "restore": {},
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:shopify",
+                        "label": "Conexión Shopify",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "query",
+                        "type": "text",
+                        "label": "Consulta (SKU)"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 4,
+            "module": "shopify:createProductImage",
+            "version": 1,
+            "parameters": {
+                "productId": "{{2.productId}}"
+            },
+            "filter": {
+                "name": "Hay Imagen",
+                "conditions": [
+                    [
+                        {
+                            "a": "{{1.2}}",
+                            "o": "exist"
+                        }
+                    ]
+                ]
+            },
+            "mapper": {
+                "src": "{{1.2}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 600,
+                    "y": 0,
+                    "name": "Subir Imagen a Shopify"
+                },
+                "restore": {},
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:shopify",
+                        "label": "Conexión Shopify",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "src",
+                        "type": "url",
+                        "label": "Image URL"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 3,
+            "module": "shopify:updateProductVariant",
+            "version": 1,
+            "parameters": {
+                "variantId": "{{2.variants[].id}}"
+            },
+            "mapper": {
+                "price": "{{1.1}}",
+                "imageId": "{{4.id}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 900,
+                    "y": 0,
+                    "name": "Actualizar Precio y Vincular Foto"
+                },
+                "restore": {},
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:shopify",
+                        "label": "Conexión Shopify",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "price",
+                        "type": "number",
+                        "label": "Nuevo Precio"
+                    },
+                    {
+                        "name": "imageId",
+                        "type": "number",
+                        "label": "ID de Imagen"
+                    }
+                ]
+            }
+        }
+    ],
+    "metadata": {
+        "instant": false,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "us1.make.com",
+        "notes": [
+            {
+                "moduleIds": [
+                    1
+                ],
+                "content": "<h1>Mapeo de Columnas</h1><p>Se asume:<br>Col A (1.0) = SKU<br>Col B (1.1) = Precio<br>Col C (1.2) = URL Imagen</p>",
+                "isFilterNote": false,
+                "metadata": {
+                    "color": "#1fae5b"
+                }
+            },
+            {
+                "moduleIds": [
+                    4
+                ],
+                "content": "<h1>Subida de Imagen</h1><p>Este paso solo se ejecuta si la celda de la URL de imagen NO está vacía. Toma la URL, la sube a Shopify y genera un ID de imagen nuevo.</p>",
+                "isFilterNote": false,
+                "metadata": {
+                    "color": "#95c905"
+                }
+            },
+            {
+                "moduleIds": [
+                    3
+                ],
+                "content": "<h1>Vincular</h1><p>Aquí actualizamos el precio Y asignamos la imagen que acabamos de subir a esta variante específica.</p>",
+                "isFilterNote": false,
+                "metadata": {
+                    "color": "#95c905"
+                }
+            }
+        ]
+    }
+}

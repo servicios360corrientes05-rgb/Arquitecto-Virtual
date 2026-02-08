@@ -1,0 +1,214 @@
+        <!DOCTYPE html>
+          <html lang="es" dir="ltr" xmlns:fb="http://ogp.me/ns/fb#" xmlns:og="http://ogp.me/ns#" xmlns:article="http://ogp.me/ns/article#" xmlns:book="http://ogp.me/ns/book#" xmlns:profile="http://ogp.me/ns/profile#" xmlns:video="http://ogp.me/ns/video#" xmlns:product="http://ogp.me/ns/product#" class="js">
+            <head>
+              <meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1'>
+              <link rel="profile" href="http://www.w3.org/1999/xhtml/vocab">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+              <link rel="alternate" type="application/rss+xml" title="Municipalidad de Corrientes RSS" href="http://ciudaddecorrientes.gov.ar/rss.xml">
+              <title>Municipalidad de Corrientes | Latiendo Juntos</title>
+              <link type="text/css" rel="stylesheet" href="css/css_lU30tqrc7jsLrtbiqD9OFccfIpqMJ1c7U15iqBP84q4.css" media="all">
+
+              <link rel='stylesheet' type='text/css' href='css/estilo.css' > 
+              <link rel='Shortcut Icon' type='image/x-icon' href='images/favicon.png'  />
+              <script type='text/javascript' src='js/jquery-1.9.0.js'></script>
+              <script type='text/javascript' src='js/jquery-2.1.0.min.js'></script>
+              <script type='text/javascript' src='js/funciones_uso_suelo.js'></script> 
+              <script type='text/javascript' src='js/jspdf.min.js'></script>
+                            <script type='text/javascript' src='js/bootstrap.min.js' ></script>    
+              <script> function new_window(url){ link = window.open(url,'Link','toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=yes,resizable=0,width=850,height=410,left=80,top=180'); } </script>	
+            </head>
+           <body> 
+          <header id="navbar" role="banner" class="navbar navbar-static-top navbar-default">
+           <div class="container">
+            <div class="navbar-header">
+                <a class="logo navbar-btn pull-left" href="http://ciudaddecorrientes.gov.ar/" title="Inicio">
+                    <img style="max-width:100%" src="imagenes/inicial/logo.png" alt="Inicio">
+                </a>
+                <div class="navbar-brand pull-right" style="padding-top: 20px;">
+                    <div class="social text-right hidden-xs">
+                        <a href="http://facebook.com/corrientesmuni/" target="_blank"><img src="imagenes/inicial/face.png"></a>
+                        <a href="http://twitter.com/municorrientes" target="_blank"><img src="imagenes/inicial/twitter.png"></a>
+                        <a href="http://www.instagram.com/municorrientes/" target="_blank"><img src="imagenes/inicial/instagram.png"></a>
+                        <a href="http://youtube.com/channel/UCQIaXdSQ5qI3AUMItIErjjA" target="_blank"><img src="imagenes/inicial/you.png"></a>
+                        <a href="http://concejocorrientes.gob.ar/" target="_blank"><img src="imagenes/inicial/concejo.png"></a>
+                        <a href="http://www.cmpcorrientes.com.ar/" target="_blank"><img src="imagenes/inicial/cajamunicipal.png"></a>
+                        <a href="http://acor.gob.ar/" target="_blank"><img src="imagenes/inicial/acor.png"></a>
+                    </div>
+                </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+             </div>
+             <div class="navbar-collapse collapse" id="navbar-collapse">
+                <nav role="navigation">
+                    <div class="row">
+                        <ul class="menu nav navbar-nav">
+                            <li class="first leaf inicio active"><a href="index.php" class="active">inicio</a></li>
+                        </ul>
+                    </div>
+                </nav>
+              </div>
+              <ul id='nav' style='display:none;'>         
+		         <li><a class='especifico' href='index.php?superficie=1&t=pdf&sup_habilitar='>Exporta a PDF</a></li>
+                 <li><a class='imprime' href='index.php?superficie=1&clave7=imprime_uno&imp=1&sup_habilitar=' target='_blank'>Imprimir</a></li>
+              </ul>
+           </div>
+         </header>
+         <div class="main-container container">
+         <header role="banner" id="page-header"></header>
+         <div class="row" id="row">
+            <section class="col-sm-12">
+                <a id="main-content"></a>
+         <h3 class="page-header">Prefactibilidad de Uso de Suelo</h3>      	<div class='sistema_uso_suelo'>
+           <div id='cont'>          
+    <div class="alert alert-success" role="alert">
+         Si ya descargo el PDF con el Numero de <b>Prefactibilidad de Uso de Suelo.</b> Para iniciar el tr&aacute;mite ingrese al siguiente link.
+          <center><button type='button' name='link_id' class="btn" id='link_id' value='' onclick=window.location.assign('http://comercio.ciudaddecorrientes.gov.ar/web/') title='' >
+              <span><img alt='' src='images/instanciar.gif' style='vertical-align: middle;'> <u>A</u>qui</span>
+         </button> </center> 
+    </div>      
+    <FORM NAME='principal' ID='principal' ACTION='index.php?superficie=1' METHOD='POST'>
+      <div class='form-group col-md-12 col-md-offset-2' > <!-- style='display:none' --> 
+         <label for='t_uso_suelo'>Tipo de Prefactibilidad: </label>         
+           <select onchange='consult_sele();' class="custom-select mr-sm-2" name='t_uso_suelo' id='t_uso_suelo' > 
+              <option  value='0'>Seleccione el Tipo de Prefactibilidad de Uso de Suelo</option>
+              <option  value='1'>Uso de suelo para Obra</option>
+              <option  value='2'>Uso de suelo para Comercio</option>
+           </select>
+      </div><br><br>
+                                                                        
+      <div class='form-group col-md-12 col-md-offset-2' id="tipo_act" style='display:none' > 
+         <label for='tipo_actividad'>Tipo de Actividad</label>     
+           <select onchange='buscar_actividad();' class="custom-select mr-sm-2" name='tipo_actividad' id='tipo_actividad' > 
+              <option  value=''>---Seleccione el Tipo de Actividad---</option>
+              <option  value='n1'>-----BUSCAR EN TODOS LOS TIPOS DE ACTIVIDADES-----</option> <option  value=65>ACTIVIDADES INDUSTRIALES</option><option  value=11>ADMINISTRACIÓN PÚBLICA</option><option  value=62>Arenera</option><option  value=48>COMERCIO MINORISTA - ALIMENTACION</option><option  value=50>COMERCIO MINORISTA - LOCAL COMERCIAL c/ exigencia de estacionamiento y/o carga y descarga</option><option  value=51>COMERCIO MINORISTA - LOCAL COMERCIAL PARA AFLUENCIA MASIVA</option><option  value=49>COMERCIO MINORISTA - VARIOS</option><option  value=6>COMERCIO P/MAYOR</option><option  value=4>CULTURA Y CULTO</option><option  value=7>DEPÓSITOS</option><option  value=3>EDUCACION</option><option  value=14>ENTRETENIMIENTO</option><option  value=31>ENTRETENIMIENTO Y ESPARCIMIENTO</option><option  value=66>EQUIPAMIENTOS GENERALES</option><option  value=56>ESTACION DE RADIO - TIPO 1: Contenedor p/ Equipo de Transmisión Digital</option><option  value=57>ESTACION DE RADIO - TIPO 2: Estructura Soporte Antena sobre suelo (Hasta 60m de altura)</option><option  value=58>ESTACION DE RADIO - TIPO 3: Estructura Soporte Antena sobre suelo (más de 60 m de altura)</option><option  value=59>ESTACION DE RADIO - TIPO 4: Estaciones de Radiocomunicación situadas sobre cubierta de edificios</option><option  value=12>INFRAESTRUCTURA DE SERVICIOS</option><option  value=15>LOCAL COMERCIAL</option><option  value=16>LOCAL COMERCIAL DE AFLUENCIA MASIVA</option><option  value=17>LOCAL DE PRODUCTOS ESPECIALES, MOLESTOS O PELIGROSOS</option><option  value=52>LOCAL - INFLAMABLES</option><option  value=53>LOCAL - NO INFLAMABLES</option><option  value=54>LOCAL - PRODUCTIVO</option><option  value=63>Otras Actividades No Contempladas</option><option  value=61>otros</option><option  value=1>RESIDENCIA</option><option  value=29>SANIDAD - ALTO RIESGO CON TERAPIA INTENSIVA (ALTA COMPLEJIDAD)</option><option  value=30>SANIDAD - ALTO RIESGO CON TERAPIA INTENSIVA ESPECIALIZADA (ALTA COMPLEJIDAD)</option><option  value=20>SANIDAD - ATENCION PRIMARIA</option><option  value=28>SANIDAD - BAJO RIESGO (MEDIANA COMPLEJIDAD)</option><option  value=26>SANIDAD - COMPLEMENTARIO</option><option  value=25>SANIDAD - DIAGNOSTICO Y TRATAMIENTO</option><option  value=27>SANIDAD - OTROS</option><option  value=10>SERVICIOS</option><option  value=42>SERVICIOS - AUTOMOTOR / RODADOS/ TRANSPORTE / EMBARCACIONES</option><option  value=34>SERVICIOS - BANCOS/ FINANCIARAS/ AGENCIAS</option><option  value=38>SERVICIOS - COMUNICACIÓN / INFORMATICA / ELECTRODOMESTICOS / EQUIPOS</option><option  value=33>SERVICIOS - ESTABLECIMIENTO GASTRONÓMICO / ESPARCIMIENTO</option><option  value=36>SERVICIOS - ESTETICA Y BELLEZA</option><option  value=40>SERVICIOS - ESTUDIOS RADIO/ TV/ SONIDO</option><option  value=43>SERVICIOS - FUNERARIO</option><option  value=45>SERVICIOS - HOSPEDAJE</option><option  value=39>SERVICIOS - IMPRENTAS/ GRAFICAS/ IMPRESIÓN 3D</option><option  value=41>SERVICIOS - LIMPIEZA / MANTENIMIENTO / DESINFECCION / FUMIGACION/ OTROS</option><option  value=35>SERVICIOS - OFICINAS PROFESIONALES /COMERCIALES</option><option  value=46>SERVICIOS - OTROS</option><option  value=44>SERVICIOS - SERVICIO DE DEPÓSITOS</option><option  value=32>SERVICIOS - SERVICIOS GASTRONOMICOS CON CADETERIA O PARA EVENTOS</option><option  value=37>SERVICIOS - TEXTIL/ OTROS</option><option  value=55>TRANSPORTE</option><option  value=60>TRATAMIENTO RESIDUOS</option><option  value=9>VARIOS</option>           </select>
+      </div> 
+      
+      <input type='hidden' id='actividad'  name='actividad'> 
+      <input type='hidden' id='tipo_actividad_desc'  name='tipo_actividad_desc'>
+      <input type='hidden' name='id_actividad3'  id='id_actividad3' value=''>  
+      <div class='form-group col-md-12'> <div  id='respuesta_ajax'> </div></div>     
+    
+      <div class='form-group col-md-4'> 
+            <label class="mr-sm-2" style='display:none' id='n_actividad' for="activida_d">Seleccione la  Actividad de la Lista</label>
+      </div>
+      <div class='form-group col-md-4'>
+            <INPUT  style='display:none' class="form-control" onkeyup='buscar_actividad2();' type='text' name='text_actividad2' id='text_actividad2' value='' size='50' placeholder="Filtrar" >
+            <INPUT  style='display:none' class="form-control"  onkeyup='buscar_total_actividad();' type='text' name='text_actividad2_2' id='text_actividad2_2' value='' placeholder="Buscar" size='50'>
+      </div> 
+           
+      <div class='form-group col-md-4'> </div>
+      
+      <div class='form-group col-md-12' style='display:none' id="descri_act">       
+          <select name="activida_d" class="form-control" id="activida_d" size="5"  onchange="javascript:act_sele(activida_d.value,this.options[activida_d.selectedIndex].text ,document.getElementById('tipo_actividad').options[document.getElementById('tipo_actividad').selectedIndex].text);" > </select>
+	  </div>              
+   
+      <div class='form-group col-md-12'><div style='color:green ' class='su_textarea' id='text_actividad' ></div> </div>
+      
+      <div style='display:none' id='n_ubicacion'></div>
+      
+      <div class="form-group col-md-12">      
+           <select class="custom-select mr-sm-2" style='display:none' name='ubicacion' id='ubicacion'  onchange='com_ubi(this.value)' required > 
+               <option  value=''>---Seleccione Ubicacion---</option>                                      
+               <option value='mapa_parcela' >Por MAPA seleccionando la parcela</option> 
+               <option value='adrema'>Ingresando el ADREMA</option>
+           </select>
+      </div>
+      
+      <div class='form-group col-md-12'>
+        <div style='display:none' id='n_adrema'>ADREMA:
+          <INPUT  type='text' name='adrema'  autocomplete="off" title='Ej. A10447401(9 caracteres de seguidos) <br/>Si su Adrema es A1-0044740-1 ingrese A10447401' placeholder='A10447401' id='adrema' size='15' maxlength='9'  value='' onkeyup='veri_adrema();' ></div>
+      </div>
+      <div class='form-group col-md-12'>
+            <span style="background-Color:#FFFF99; display:none; padding:15px; border-Radius:8px; color:#000000;
+                margin-left: 35px; font-size: 12pt; " id='adrema_desc'  >Ej. A10447401 (9 caracteres de seguidos) <br />Si su Adrema es A1-0044740-1 ingrese A10447401</span>
+      </div> 
+      <br>
+      <div class='form-group row'>
+           <div align='center' style='display:none' id='n_siguiente'>
+             <button type='button' name='siguiente' class="btn btn-secondary center-block" id='siguiente' value='' onclick="boton_sig(document.getElementById('adrema').value,document.getElementById('ubicacion').value)" title='' >
+                  <span><img alt='' src='images/instanciar.gif' style='vertical-align: middle;'> <u>S</u>iguiente</span>
+             </button> 
+           </div>
+      </div>  <br>   
+  </form> 
+ </div>  
+</div> 
+ <div class='modal fade' id='mostrarmodal' tabindex='-1' role='dialog' aria-labelledby='basicModal' aria-hidden='true'>
+      <div class='modal-dialog'>
+        <div class='modal-content'>
+           <div class='modal-header'>
+              <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+           </div>
+           <div class='modal-body'></div>
+           <div class='modal-footer'>
+                <a href='#' data-dismiss='modal' class='btn btn-danger'>Cerrar</a>
+           </div>
+        </div>
+      </div>
+     </div>  
+         </section>
+          </div>
+          <div class="row" id="foot2">
+          <div class="col-md-12 text-center"><span><b>Debido al proceso de actualizaci&oacute;n de la plataforma, el tr&aacute;mite se encuentra sujeto a la <a href="pdf/int/PLANILLAS_ORDENANZA_VIGENTE.pdf" target="_blank">Ordenanza vigente N&#186; 7423/23</a> 
+            </b></span>
+          
+            <div class="row" style="padding-bottom:20px;">
+                <span style="color:#fbfbfb;padding-left:20px;">
+                   <a href="pdf/int/PLANILLAS_ORDENANZA_VIGENTE.pdf" target="_blank"><img alt="" width="20px" height="20px"  src="images/pdf.png"> Ordenanza vigente N&#186; 7423/23</a> 
+                </span>
+            </div>
+
+          </div>
+            <div class="bottom-bg">
+                <img class="img-responsive" src="imagenes/inicial/bottom-bg.png">
+            </div>
+          </div>
+         </div>
+         <footer id="foot" style="position: relative; z-index: 3;" class="footer container">
+           <div class="region region-footer">
+            
+              <section id="block-block-9" class="block block-block clearfix">
+                <div class="row">
+                    <div class="col-md-6 text-center"><img src="imagenes/inicial/call_negro.png"></div>
+                    <div class="col-md-6 text-center"><img style="max-width:250px;" src="imagenes/inicial/DIRECCION_NEGRO.png"></div>
+                </div>
+                <div  class="row" >
+                    <div class="col-md-12 text-center">TODOS LOS DERECHOS RESERVADOS &#8226; MUNICIPALIDAD DE LA CIUDAD DE
+                        CORRIENTES &#8226; &#169; 2018</div>
+                </div>
+             </section>
+           </div>
+         </footer>
+         <div id="cboxOverlay" style="display: none;"></div>
+         <div id="colorbox" class="" role="dialog" tabindex="-1" style="display: none;">
+           <div id="cboxWrapper">
+            <div>
+                <div id="cboxTopLeft" style="float: left;"></div>
+                <div id="cboxTopCenter" style="float: left;"></div>
+                <div id="cboxTopRight" style="float: left;"></div>
+            </div>
+            <div style="clear: left;">
+              <div id="cboxMiddleLeft" style="float: left;"></div>
+              <div id="cboxContent" style="float: left;">
+                 <div id="cboxTitle" style="float: left;"></div>
+                 <div id="cboxCurrent" style="float: left;"></div><button type="button" id="cboxPrevious"></button><button
+                      type="button" id="cboxNext"></button><button id="cboxSlideshow"></button>
+                 <div id="cboxLoadingOverlay" style="float: left;"></div>
+                 <div id="cboxLoadingGraphic" style="float: left;"></div>
+              </div>
+              <div id="cboxMiddleRight" style="float: left;"></div>
+             </div>
+             <div style="clear: left;">
+                <div id="cboxBottomLeft" style="float: left;"></div>
+                <div id="cboxBottomCenter" style="float: left;"></div>
+                <div id="cboxBottomRight" style="float: left;"></div>
+             </div>
+            </div>
+          <div style="position: absolute; width: 9999px; visibility: hidden; display: none; max-width: none;"></div>
+         </div>
+        </body>
+       </html>           

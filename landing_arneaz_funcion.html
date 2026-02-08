@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arquitecto Virtual - ArNeaz</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #050505;
+            --bg-card: #121212;
+            --text-white: #ffffff;
+            --text-gray: #b0b0b0;
+            --accent-red: #ff0000;
+            --accent-orange: #ff8c00;
+            --gradient-primary: linear-gradient(135deg, var(--accent-red), var(--accent-orange));
+            --glow-red: 0 0 20px rgba(255, 0, 0, 0.4);
+            --glow-orange: 0 0 15px rgba(255, 140, 0, 0.4);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            overflow-x: hidden;
+        }
+
+        /* --- Animations --- */
+        @keyframes electricPulse {
+            0% {
+                box-shadow: 0 0 5px var(--accent-red);
+                opacity: 0.8;
+            }
+
+            50% {
+                box-shadow: 0 0 20px var(--accent-orange), 0 0 10px var(--accent-red);
+                opacity: 1;
+            }
+
+            100% {
+                box-shadow: 0 0 5px var(--accent-red);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px) rotateY(-15deg) rotateX(10deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotateY(-15deg) rotateX(10deg);
+            }
+
+            100% {
+                transform: translateY(0px) rotateY(-15deg) rotateX(10deg);
+            }
+        }
+
+        @keyframes beamScan {
+            0% {
+                top: -10%;
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            80% {
+                opacity: 1;
+            }
+
+            100% {
+                top: 110%;
+                opacity: 0;
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* --- Global Styles --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 0, 0, 0.2);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-white);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: var(--accent-red);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            color: var(--text-white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        nav a:hover {
+            color: var(--accent-orange);
+        }
+
+        /* --- Input Styles --- */
+        .input-group {
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+
+        .field-label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--accent-orange);
+            margin-bottom: 8px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid #333;
+            border-radius: 5px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-field:focus {
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 10px rgba(255, 140, 0, 0.2);
+        }
+
+        .analyze-btn {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 15px 40px;
+            width: 100%;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 69, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .analyze-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 25px rgba(255, 69, 0, 0.6);
+        }
+
+        .analyze-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            filter: grayscale(0.5);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 120px 50px 50px 50px;
+            position: relative;
+            background: radial-gradient(circle at 70% 30%, #1a0505 0%, #000000 70%);
+        }
+
+        .hero-content {
+            max-width: 45%;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            font-weight: 900;
+        }
+
+        h1 span {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        /* --- 3D Visual / Results Card --- */
+        .hero-visual {
+            width: 50%;
+            height: 600px;
+            position: relative;
+            perspective: 1200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .floating-card {
+            width: 450px;
+            min-height: 550px;
+            background: rgba(15, 15, 15, 0.85);
+            /* Darker for better read */
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            border-radius: 20px;
+            position: relative;
+            transform: rotateY(-15deg) rotateX(10deg);
+            box-shadow: -20px 20px 60px rgba(0, 0, 0, 0.7), inset 0 0 30px rgba(255, 0, 0, 0.1);
+            backdrop-filter: blur(20px);
+            animation: float 8s ease-in-out infinite;
+            padding: 30px;
+            transition: all 0.5s ease;
+        }
+
+        .floating-card.active {
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 40px rgba(255, 140, 0, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+        }
+
+        .status-dot {
+            height: 10px;
+            width: 10px;
+            background-color: var(--accent-red);
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+            box-shadow: 0 0 10px var(--accent-red);
+        }
+
+        .scan-beam {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-red);
+            box-shadow: 0 0 20px var(--accent-red);
+            opacity: 0;
+            left: 0;
+            top: 0;
+            pointer-events: none;
+        }
+
+        .scanning .scan-beam {
+            opacity: 1;
+            animation: beamScan 2s linear infinite;
+        }
+
+        /* --- Results Display --- */
+        .results-container {
+            display: none;
+            /* Hidden by default */
+            flex-direction: column;
+            gap: 15px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .results-container.visible {
+            display: flex;
+            opacity: 1;
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .data-label {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .data-val {
+            font-weight: bold;
+            color: white;
+            text-align: right;
+        }
+
+        .ai-box {
+            background: rgba(255, 140, 0, 0.1);
+            border: 1px solid var(--accent-orange);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .ai-title {
+            color: var(--accent-orange);
+            font-weight: bold;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .download-btn {
+            background: transparent;
+            border: 1px solid #555;
+            color: #aaa;
+            padding: 10px;
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .download-btn:hover {
+            border-color: var(--text-white);
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* --- Loading Spinner --- */
+        .loader {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid var(--accent-orange);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        .placeholder-visual {
+            text-align: center;
+            color: #444;
+            margin-top: 50px;
+        }
+
+        /* Particles */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">Ar<span>Neaz</span> Tech</div>
+        <nav>
+            <ul>
+                <li><a href="#">Simulador</a></li>
+                <li><a href="#">Reportes</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="particles" id="particles"></div>
+
+        <div class="hero-content">
+            <h1>ANÁLISIS DE<br><span>TERRENO IA</span></h1>
+            <p class="hero-desc">
+                Ingresa el número de Adrema de tu terreno para obtener instantáneamente los indicadores urbanísticos y
+                el análisis de factibilidad IA en Corrientes.
+            </p>
+
+            <form id="analysisForm" onsubmit="handleAnalyze(event)">
+                <div class="input-group">
+                    <label class="field-label">NÚMERO DE ADREMA</label>
+                    <input type="text" id="adremaInput" class="input-field" placeholder="ej. A10939431" required>
+                </div>
+                <button type="submit" class="analyze-btn" id="analyzeBtn">
+                    <div class="loader" id="loader"></div>
+                    <span id="btnText">ANALIZAR TERRENO</span>
+                </button>
+            </form>
+        </div>
+
+        <div class="hero-visual">
+            <div class="floating-card" id="resultCard">
+                <div class="scan-beam"></div>
+
+                <div class="card-header">
+                    <span style="color: var(--accent-orange); font-weight: bold; letter-spacing: 1px;">SISTEMA
+                        INTELIGENTE</span>
+                    <span style="font-size: 0.8rem; color: #666;"><span class="status-dot"></span>ONLINE</span>
+                </div>
+
+                <!-- Initial Placeholder -->
+                <div id="initialState" class="placeholder-visual">
+                    <div style="font-size: 3rem; margin-bottom: 20px; opacity: 0.2">🏢</div>
+                    <p style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;">Esperando Datos...</p>
+                </div>
+
+                <!-- Results Display -->
+                <div id="resultsContainer" class="results-container">
+                    <h3 style="color:white; margin-bottom:15px; border-bottom: 1px solid #333; padding-bottom:10px;">
+                        Datos Municipales</h3>
+
+                    <div class="data-row">
+                        <span class="data-label">Distrito (Zonificación)</span>
+                        <span class="data-val" id="resDistrito">EM.2 (Simulated)</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Superficie Total</span>
+                        <span class="data-val" id="resSuperficie">350 m²</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">F.O.S.</span>
+                        <span class="data-val" id="resFos">0.70</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">F.O.T.</span>
+                        <span class="data-val" id="resFot">3.0</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Altura Máx (Total)</span>
+                        <span class="data-val" id="resAltura">21.00 m</span>
+                    </div>
+
+                    <div class="ai-box">
+                        <div class="ai-title">⚡ Análisis ArNeaz IA</div>
+                        <p style="font-size: 0.85rem; color: #ccc; line-height: 1.4; margin-bottom: 10px;">
+                            Basado en la zonificación <strong style="color:white" id="resZone">EM.2</strong>, estimamos
+                            un alto potencial de desarrollo.
+                        </p>
+                        <ul style="font-size: 0.85rem; color: #bbb; padding-left: 20px; line-height: 1.6;">
+                            <li>Pisos Construibles: <strong style="color:white" id="resPisos">7 pisos</strong></li>
+                            <li>Volumen Total: <strong style="color:white" id="resVolumen">1715 m²</strong></li>
+                        </ul>
+                    </div>
+
+                    <button class="download-btn" onclick="generatePDF()">📥 Descargar Informe PDF</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 40; i++) {
+            let p = document.createElement('div');
+            p.style.position = 'absolute';
+            p.style.width = Math.random() * 3 + 'px';
+            p.style.height = p.style.width;
+            p.style.background = Math.random() > 0.5 ? '#ff0000' : '#ff8c00';
+            p.style.borderRadius = '50%';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.top = Math.random() * 100 + '%';
+            p.style.opacity = Math.random() * 0.4;
+            p.style.animation = `float ${Math.random() * 10 + 5}s infinite linear`;
+            particlesContainer.appendChild(p);
+        }
+
+        // State
+        let currentData = null;
+
+        function handleAnalyze(e) {
+            e.preventDefault();
+            const adrema = document.getElementById('adremaInput').value;
+            const btn = document.getElementById('analyzeBtn');
+            const loader = document.getElementById('loader');
+            const btnText = document.getElementById('btnText');
+            const card = document.getElementById('resultCard');
+
+            if (!adrema) return;
+
+            // UI Loading State
+            btn.disabled = true;
+            loader.style.display = 'block';
+            btnText.innerText = 'PROCESANDO...';
+            card.classList.add('scanning');
+
+            // Simulate API Call delay
+            setTimeout(() => {
+                // Mock Data (Simulation)
+                currentData = {
+                    adrema: adrema,
+                    distrito: "EM.2 (Simulated)",
+                    superficie: "350 m²",
+                    fos: "0.70",
+                    fot: "3.0",
+                    altura: "21.00 m",
+                    pisos: "7 pisos",
+                    volumen: "1715 m²"
+                };
+
+                // Update UI
+                document.getElementById('resDistrito').innerText = currentData.distrito;
+                document.getElementById('resSuperficie').innerText = currentData.superficie;
+                document.getElementById('resFos').innerText = currentData.fos;
+                document.getElementById('resFot').innerText = currentData.fot;
+                document.getElementById('resAltura').innerText = currentData.altura;
+                document.getElementById('resZone').innerText = currentData.distrito;
+                document.getElementById('resPisos').innerText = currentData.pisos;
+                document.getElementById('resVolumen').innerText = currentData.volumen;
+
+                // Show Results
+                document.getElementById('initialState').style.display = 'none';
+                document.getElementById('resultsContainer').classList.add('visible');
+
+                // Reset Loading State
+                btn.disabled = false;
+                loader.style.display = 'none';
+                btnText.innerText = 'ANALIZAR TERRENO';
+                card.classList.remove('scanning');
+                card.classList.add('active'); // Glow effect
+
+            }, 2000); // 2 second fake delay
+        }
+
+        async function generatePDF() {
+            if (!currentData) return;
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Background
+            doc.setFillColor(10, 10, 10);
+            doc.rect(0, 0, 210, 297, 'F');
+
+            // Header Stripe
+            doc.setFillColor(20, 20, 20);
+            doc.rect(0, 0, 210, 40, 'F');
+
+            // Logo Text
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(22);
+            doc.setFont("helvetica", "bold");
+            doc.text("AR", 20, 25);
+            doc.setTextColor(255, 0, 0); // Red
+            doc.text("NEAZ", 33, 25);
+            doc.setTextColor(255, 255, 255);
+            doc.text("TECH", 55, 25);
+
+            doc.setFontSize(10);
+            doc.setTextColor(200, 200, 200);
+            doc.text("Informe de Factibilidad", 150, 25);
+
+            // Title
+            let y = 60;
+            doc.setTextColor(255, 140, 0); // Orange
+            doc.setFontSize(16);
+            doc.text(`Reporte para Adrema: ${currentData.adrema}`, 20, y);
+
+            y += 10;
+            doc.setTextColor(150, 150, 150);
+            doc.setFontSize(10);
+            doc.text(`Generado el: ${new Date().toLocaleDateString()}`, 20, y);
+
+            y += 20;
+
+            // Details Function
+            const addRow = (label, val) => {
+                doc.setDrawColor(50, 50, 50);
+                doc.line(20, y, 190, y);
+                y += 8;
+                doc.setTextColor(200, 200, 200);
+                doc.setFont("helvetica", "normal");
+                doc.text(label, 20, y);
+                doc.setTextColor(255, 255, 255);
+                doc.setFont("helvetica", "bold");
+                doc.text(val, 140, y, { align: 'right' });
+                y += 5;
+            };
+
+            doc.setFontSize(12);
+            addRow("Distrito / Zonificación", currentData.distrito);
+            addRow("Superficie Total", currentData.superficie);
+            addRow("F.O.S.", currentData.fos);
+            addRow("F.O.T.", currentData.fot);
+            addRow("Altura Máxima Permitida", currentData.altura);
+
+            y += 20;
+
+            // AI Section Box
+            doc.setFillColor(25, 10, 10); // Very dark red bg
+            doc.setDrawColor(255, 0, 0);
+            doc.rect(15, y, 180, 50, 'FD');
+
+            y += 10;
+            doc.setTextColor(255, 140, 0);
+            doc.setFontSize(14);
+            doc.text("Recomendación deIA", 20, y);
+
+            y += 10;
+            doc.setTextColor(220, 220, 220);
+            doc.setFontSize(11);
+            doc.setFont("helvetica", "normal");
+            doc.text("Basado en el análisis de normativas vigentes:", 20, y);
+
+            y += 10;
+            doc.text(`• Potencial Vertical: ${currentData.pisos}`, 25, y);
+            y += 7;
+            doc.text(`• Volumen Constructible: ${currentData.volumen}`, 25, y);
+
+            // Footer
+            doc.setFontSize(8);
+            doc.setTextColor(100, 100, 100);
+            doc.text("Documento generado automáticamente por Arquitecto Virtual - ArNeaz.", 20, 280);
+
+            doc.save(`Informe_ArNeaz_${currentData.adrema}.pdf`);
+        }
+    </script>
+</body>
+
+</html>

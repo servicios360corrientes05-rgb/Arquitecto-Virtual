@@ -1,0 +1,354 @@
+{
+    "name": "Actualizar Precios e Imágenes en Shopify (Como el Video)",
+    "flow": [
+        {
+            "id": 1,
+            "module": "google-sheets:watchRows",
+            "version": 2,
+            "parameters": {
+                "limit": 100,
+                "headerRow": 1
+            },
+            "mapper": {
+                "mode": "select",
+                "spreadsheetId": "TU_ID_DE_SPREADSHEET_AQUI",
+                "sheetId": "Hoja1",
+                "includesHeaders": true
+            },
+            "metadata": {
+                "designer": {
+                    "x": 0,
+                    "y": 0,
+                    "name": "1. Watch New Rows (Google Sheets)"
+                },
+                "restore": {},
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:google",
+                        "label": "Conexión Google",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "spreadsheetId",
+                        "type": "text",
+                        "label": "Spreadsheet ID",
+                        "required": true
+                    },
+                    {
+                        "name": "sheetId",
+                        "type": "text",
+                        "label": "Nombre de la Hoja",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 2,
+            "module": "shopify:searchProducts",
+            "version": 4,
+            "parameters": {},
+            "mapper": {
+                "query": "handle:{{1.Handle}}",
+                "limit": 1
+            },
+            "metadata": {
+                "designer": {
+                    "x": 300,
+                    "y": 0,
+                    "name": "2. Buscar Producto por Handle"
+                },
+                "restore": {},
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:shopify",
+                        "label": "Conexión Shopify",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "query",
+                        "type": "text",
+                        "label": "Búsqueda por Handle"
+                    },
+                    {
+                        "name": "limit",
+                        "type": "number",
+                        "label": "Límite"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 3,
+            "module": "http:ActionGetFile",
+            "version": 3,
+            "parameters": {},
+            "filter": {
+                "name": "Si hay URL de Imagen",
+                "conditions": [
+                    [
+                        {
+                            "a": "{{1.`Image Src`}}",
+                            "o": "exist"
+                        },
+                        {
+                            "a": "{{1.`Image Src`}}",
+                            "b": "",
+                            "o": "text:notequal"
+                        }
+                    ]
+                ]
+            },
+            "mapper": {
+                "url": "{{1.`Image Src`}}",
+                "serializeUrl": false,
+                "shareCookies": false
+            },
+            "metadata": {
+                "designer": {
+                    "x": 600,
+                    "y": 0,
+                    "name": "3. HTTP Get a File (Descargar Imagen)"
+                },
+                "restore": {},
+                "parameters": [],
+                "expect": [
+                    {
+                        "name": "url",
+                        "type": "url",
+                        "label": "URL de la imagen",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 4,
+            "module": "shopify:updateProductVariant",
+            "version": 5,
+            "parameters": {},
+            "filter": {
+                "name": "Producto Encontrado",
+                "conditions": [
+                    [
+                        {
+                            "a": "{{2.id}}",
+                            "o": "exist"
+                        }
+                    ]
+                ]
+            },
+            "mapper": {
+                "productId": "{{2.id}}",
+                "variantId": "{{2.variants[1].id}}",
+                "price": "{{1.`Variant Price`}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 900,
+                    "y": 0,
+                    "name": "4. Actualizar Precio de Variante"
+                },
+                "restore": {},
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:shopify",
+                        "label": "Conexión Shopify",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "productId",
+                        "type": "uinteger",
+                        "label": "Product ID",
+                        "required": true
+                    },
+                    {
+                        "name": "variantId",
+                        "type": "uinteger",
+                        "label": "Variant ID",
+                        "required": true
+                    },
+                    {
+                        "name": "price",
+                        "type": "number",
+                        "label": "Precio"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 5,
+            "module": "shopify:createProductImage",
+            "version": 3,
+            "parameters": {},
+            "filter": {
+                "name": "Si se descargó imagen",
+                "conditions": [
+                    [
+                        {
+                            "a": "{{3.data}}",
+                            "o": "exist"
+                        }
+                    ]
+                ]
+            },
+            "mapper": {
+                "productId": "{{2.id}}",
+                "attachment": "{{3.data}}",
+                "filename": "{{3.fileName}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1200,
+                    "y": 0,
+                    "name": "5. Subir Nueva Imagen a Shopify"
+                },
+                "restore": {},
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:shopify",
+                        "label": "Conexión Shopify",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "productId",
+                        "type": "uinteger",
+                        "label": "Product ID",
+                        "required": true
+                    },
+                    {
+                        "name": "attachment",
+                        "type": "buffer",
+                        "label": "Archivo de imagen (base64)"
+                    },
+                    {
+                        "name": "filename",
+                        "type": "text",
+                        "label": "Nombre del archivo"
+                    }
+                ]
+            }
+        }
+    ],
+    "metadata": {
+        "instant": false,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": true,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "us1.make.com",
+        "notes": [
+            {
+                "moduleIds": [
+                    1
+                ],
+                "content": "<h1>📋 Google Sheets - Watch New Rows</h1><p>Este módulo detecta cuando agregas nuevas filas a tu planilla.</p><p><strong>Columnas requeridas:</strong></p><ul><li><strong>Handle</strong> - Identificador del producto en Shopify</li><li><strong>Variant Price</strong> - Nuevo precio</li><li><strong>Image Src</strong> - URL de la nueva imagen (opcional)</li></ul><p>⚠️ Reemplaza TU_ID_DE_SPREADSHEET_AQUI con el ID real de tu Google Sheet.</p>",
+                "isFilterNote": false,
+                "metadata": {
+                    "color": "#1fae5b"
+                }
+            },
+            {
+                "moduleIds": [
+                    2
+                ],
+                "content": "<h1>🔍 Shopify - Search Products</h1><p>Busca el producto existente en Shopify usando el Handle.</p><p>El Handle es el identificador único que aparece en la URL:<br><code>tutienda.myshopify.com/products/<strong>handle-aqui</strong></code></p>",
+                "isFilterNote": false,
+                "metadata": {
+                    "color": "#0d8ce9"
+                }
+            },
+            {
+                "moduleIds": [
+                    3
+                ],
+                "content": "<h1>📥 HTTP - Get a File</h1><p>Descarga la imagen desde la URL proporcionada en 'Image Src'.</p><p>Este paso solo se ejecuta si hay una URL de imagen en la fila.</p><p>💡 <strong>Como en el video:</strong> Primero descargamos la foto antes de subirla a Shopify.</p>",
+                "isFilterNote": false,
+                "metadata": {
+                    "color": "#ff6a00"
+                }
+            },
+            {
+                "moduleIds": [
+                    4
+                ],
+                "content": "<h1>💰 Shopify - Update Product Variant</h1><p>Actualiza el precio de la primera variante del producto.</p><p>Se ejecuta solo si el producto fue encontrado en el paso 2.</p>",
+                "isFilterNote": false,
+                "metadata": {
+                    "color": "#9b59b6"
+                }
+            },
+            {
+                "moduleIds": [
+                    5
+                ],
+                "content": "<h1>🖼️ Shopify - Create Product Image</h1><p>Sube la imagen descargada al producto en Shopify.</p><p>Este paso solo se ejecuta si la imagen fue descargada correctamente en el paso 3.</p><p>⚠️ <strong>Nota:</strong> Esto AGREGA una nueva imagen, no reemplaza las existentes.</p>",
+                "isFilterNote": false,
+                "metadata": {
+                    "color": "#e74c3c"
+                }
+            }
+        ]
+    },
+    "instructions": {
+        "paso_a_paso": [
+            "1. Abre Make.com y crea un nuevo escenario (Scenario)",
+            "2. Click en los 3 puntos (...) → Import Blueprint",
+            "3. Pega todo el contenido de este archivo JSON",
+            "4. Conecta tu cuenta de Google en el módulo 1 (Watch New Rows)",
+            "5. Reemplaza 'TU_ID_DE_SPREADSHEET_AQUI' con el ID de tu Google Sheet",
+            "6. Conecta tu tienda Shopify en los módulos 2, 4 y 5",
+            "7. Haz click en 'Run once' para probar",
+            "8. Si todo funciona, activa el escenario con el botón ON"
+        ],
+        "formato_google_sheet": {
+            "columnas_requeridas": [
+                "Handle - El identificador único del producto (ej: camiseta-azul-xl)",
+                "Variant Price - El nuevo precio (ej: 29.99)",
+                "Image Src - URL de la imagen (opcional, ej: https://ejemplo.com/foto.jpg)"
+            ],
+            "ejemplo_filas": [
+                {
+                    "Handle": "camiseta-azul",
+                    "Variant Price": "29.99",
+                    "Image Src": "https://cdn.ejemplo.com/camiseta-azul.jpg"
+                },
+                {
+                    "Handle": "pantalon-negro",
+                    "Variant Price": "49.99",
+                    "Image Src": ""
+                },
+                {
+                    "Handle": "zapatos-rojos",
+                    "Variant Price": "89.99",
+                    "Image Src": "https://cdn.ejemplo.com/zapatos.png"
+                }
+            ]
+        },
+        "como_obtener_spreadsheet_id": "El ID está en la URL de tu Google Sheet: https://docs.google.com/spreadsheets/d/ESTE_ES_EL_ID/edit"
+    }
+}

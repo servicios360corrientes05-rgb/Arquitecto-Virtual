@@ -1,0 +1,351 @@
+/* --- LAYOUT GENERAL --- */
+.container {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  background-color: #000;
+  color: #fff;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Video de Fondo */
+.videoBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.videoOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  /* Oscuridad ajustable */
+  z-index: 1;
+}
+
+/* Grilla Principal - 3 Columnas */
+.main {
+  position: relative;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+  padding: 3rem;
+  display: grid;
+  /* Distribución porcentual: Left (34%) | Center (38%) | Right (28%) */
+  grid-template-columns: 34% 38% 28%;
+  gap: 2rem;
+  align-items: center;
+}
+
+/* --- COLUMNA 1: IZQUIERDA --- */
+.leftPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.mainTitle {
+  font-family: 'Orbitron', sans-serif;
+  /* Si no carga, usa sans-serif */
+  font-size: 2.8rem;
+  line-height: 1;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  letter-spacing: 2px;
+}
+
+.highlight {
+  color: #FF9900;
+  /* Naranja/Dorado */
+  font-weight: bold;
+}
+
+.description {
+  color: #ccc;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  max-width: 90%;
+}
+
+/* Tarjeta del Formulario (Estilo Imagen e5836e) */
+.card {
+  background: rgba(18, 22, 33, 0.95);
+  /* Azul muy oscuro casi negro */
+  border: 1px solid #333;
+  padding: 1.8rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.cardInstruction {
+  font-size: 0.9rem;
+  color: #a0a0a0;
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
+}
+
+.label {
+  display: block;
+  font-size: 0.75rem;
+  color: #666;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.input {
+  width: 100%;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #FF9900;
+  background: rgba(255, 153, 0, 0.05);
+}
+
+.button {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(90deg, #e68a00, #ffad33);
+  border: none;
+  border-radius: 6px;
+  color: #000;
+  font-weight: 800;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(230, 138, 0, 0.4);
+  transition: transform 0.2s;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+/* --- COLUMNA 2: CENTRO --- */
+.centerPanel {
+  height: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.visualContainer {
+  width: 100%;
+  height: 100%;
+  /* Borde sutil para encuadrar el video de fondo si se desea */
+  /* border: 1px solid rgba(255, 153, 0, 0.1); */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heroImage {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 20px rgba(255, 153, 0, 0.3));
+}
+
+/* Scanner effect removed per user request */
+
+/* --- COLUMNA 3: DERECHA (DASHBOARD + CHAT) --- */
+.rightPanel {
+  height: 85%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: space-between;
+}
+
+/* Dashboard Estilo Tech */
+.dashboardWidget {
+  flex: 0 0 auto;
+  /* No estirar, usar tamaño contenido */
+  background: rgba(15, 19, 26, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dashHeader {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #aaa;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 0.5rem;
+}
+
+.liveIndicator {
+  color: #FF9900;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.chartContainer {
+  height: 80px;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  margin: 0.5rem 0;
+}
+
+.bar {
+  flex: 1;
+  background: #333;
+  border-radius: 2px 2px 0 0;
+}
+
+.barActive {
+  flex: 1;
+  background: linear-gradient(to top, #FF9900, #ffcc00);
+  border-radius: 2px 2px 0 0;
+  box-shadow: 0 0 10px rgba(255, 153, 0, 0.4);
+}
+
+.statsRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.statBox {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.5rem;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.statLabel {
+  display: block;
+  font-size: 0.65rem;
+  color: #888;
+}
+
+.statValue {
+  font-size: 1rem;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* Contenedor del Chat (Debe ocupar el resto) */
+.chatWrapper {
+  flex: 1;
+  min-height: 300px;
+  background: rgba(10, 10, 10, 0.6);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  position: relative;
+}
+
+/* --- MODAL RESULTADOS --- */
+.resultOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.resultCard {
+  width: 900px;
+  max-width: 95%;
+  background: #111;
+  border: 1px solid #FF9900;
+  border-radius: 16px;
+  padding: 2rem;
+  position: relative;
+}
+
+.closeButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.resultTitle {
+  color: #FF9900;
+  font-family: 'Orbitron', sans-serif;
+  margin-top: 0;
+}
+
+.resultGrid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #333;
+  padding: 8px 0;
+  color: #ccc;
+}
+
+.aiCol h3 {
+  color: #fff;
+  font-size: 1rem;
+  border-left: 3px solid #FF9900;
+  padding-left: 10px;
+}
+
+.aiCol p {
+  line-height: 1.6;
+  color: #ddd;
+}
+
+/* Responsivo */
+@media (max-width: 1200px) {
+  .main {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+    overflow-y: auto;
+  }
+
+  .centerPanel {
+    height: 300px;
+    order: -1;
+  }
+
+  .rightPanel {
+    height: auto;
+  }
+}

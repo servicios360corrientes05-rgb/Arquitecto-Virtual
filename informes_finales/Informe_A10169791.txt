@@ -1,0 +1,45 @@
+INFORME TÉCNICO ARQUITECTÓNICO
+
+FECHA: 24 de octubre de 2023
+PARA: Inversores y Stakeholders
+DE: [Su Nombre/Departamento de Arquitectura Senior]
+ASUNTO: Análisis de Factibilidad Constructiva - Partida A10169791
+
+1. FICHA TÉCNICA
+
+IDENTIFICACIÓN DE PARTIDA: A10169791
+DISTRITO GEOGRÁFICO: CN
+SUPERFICIE DEL TERRENO: 232.36 metros cuadrados (m²)
+FACTOR DE OCUPACIÓN DEL SUELO (FOS) MÁXIMO: 0.75
+ALTURA MÁXIMA PERMITIDA: 30 metros
+CAPACIDAD CONSTRUCTIVA TOTAL: 1580 metros cuadrados (m²)
+
+2. ANÁLISIS URBANO Y NORMATIVA
+
+El terreno objeto de estudio, identificado con la Partida A10169791, se ubica en el Distrito CN. Este distrito, por su zonificación, establece parámetros claros para el desarrollo edilicio, los cuales han sido considerados en la presente evaluación.
+
+El Factor de Ocupación del Suelo (FOS) máximo del 0.75 implica que la huella máxima edificable en planta baja, y subsecuentes, no debe exceder el 75% de la superficie total del terreno. Para una superficie de 232.36 m², esto permite una huella máxima de 174.27 m² (232.36 m² x 0.75).
+
+La altura máxima permitida es de 30 metros. Considerando una altura estándar de piso a piso de aproximadamente 3 metros para edificios residenciales o de oficinas, esta altura máxima posibilitaría la construcción de un total de 10 niveles (Planta Baja más 9 pisos superiores).
+
+La Capacidad Constructiva Total, fijada en 1580 m², es el límite absoluto de superficie cubierta edificable para el proyecto. Es crucial señalar que, si bien la combinación de FOS y altura podría teóricamente generar una superficie mayor (10 pisos x 174.27 m² = 1742.7 m²), la capacidad total de 1580 m² prevalece como el volumen máximo autorizado, lo que implica que las plantas deberán tener una superficie promedio menor a la máxima permitida por el FOS, o que no todas las plantas alcanzarán la huella máxima.
+
+3. PROPUESTA VOLUMÉTRICA (PB + 9 PISOS)
+
+Dadas las restricciones normativas y la capacidad constructiva total, se propone una estructura que contempla Planta Baja más 9 pisos superiores, sumando un total de 10 niveles.
+
+Para cumplir con la Capacidad Constructiva Total de 1580 m² distribuidos en 10 niveles, la superficie promedio por planta deberá ser de 158 m² (1580 m² / 10 niveles). Esta superficie promedio de 158 m² por planta es inferior a la huella máxima permitida por el FOS (174.27 m²), lo que otorga flexibilidad en el diseño para retranqueos, patios interiores o áreas comunes, siempre y cuando la huella de cada planta no supere los 174.27 m².
+
+La altura de 30 metros se adecua perfectamente a la propuesta de 10 niveles, asumiendo una altura libre entre losas de aproximadamente 2.70 metros, más el espesor de las losas y estructura.
+
+La Planta Baja podría destinarse a acceso, circulaciones verticales (ascensores y escaleras), espacios técnicos y, eventualmente, una unidad funcional o áreas de servicios comunes, manteniendo la huella edificable dentro de los 158 m² promedio. Los 9 pisos superiores se destinarían al uso principal del edificio (residencial, oficinas, etc.), cada uno con una superficie máxima de 158 m², respetando la volumetría total.
+
+4. ANÁLISIS FINANCIERO Y CONCLUSIÓN
+
+El análisis preliminar revela una alta viabilidad técnica para el desarrollo del proyecto. La Capacidad Constructiva Total de 1580 m² es un parámetro clave para la estimación de la rentabilidad del proyecto, ya que define el metraje vendible o arrendable.
+
+La propuesta volumétrica de Planta Baja más 9 pisos, con una superficie promedio de 158 m² por nivel, es coherente con la normativa de altura y FOS, y cumple estrictamente con la capacidad máxima establecida. Este diseño optimiza el uso del terreno y el potencial edificatorio concedido por la normativa.
+
+Se recomienda proceder con el desarrollo de anteproyectos que detallen la distribución interna de las plantas, la definición de fachadas y la integración paisajística del entorno. Es fundamental la realización de un estudio de mercado detallado para el Distrito CN que permita ajustar la tipología y calidad de los espacios a las demandas del mercado, maximizando así el retorno de inversión sobre los 1580 m² de superficie construible.
+
+En conclusión, el proyecto es factible desde el punto de vista técnico y normativo, ofreciendo una superficie constructiva significativa que permite un desarrollo de volumen adecuado y potencialmente rentable dentro de los parámetros urbanísticos del Distrito CN.

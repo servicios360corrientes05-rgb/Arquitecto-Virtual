@@ -1,0 +1,18 @@
+{
+    "current": {
+        "color_schemes": {
+            "scheme-1": {
+                "id": "scheme-1",
+                "settings": {
+                    "background": "#FFFFFF",
+                    "background_gradient": "",
+                    "text": "#1C1B1F",
+                    "button": "#FF4500",
+                    "button_label": "#FFFFFF",
+                    "secondary_button_label": "#1C1B1F",
+                    "shadow": "#000000"
+                }
+            }
+        }
+    }
+}

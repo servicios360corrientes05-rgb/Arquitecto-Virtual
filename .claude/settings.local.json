@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(echo:*)",
+      "Bash(node ejecucion/catastro_provincial_scraper.js:*)",
+      "Bash(taskkill:*)"
+    ]
+  }
+}
