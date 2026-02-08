@@ -35,6 +35,7 @@ yarn-error.log*
 !.env.example
 
 # Google OAuth credentials (NUNCA commitear)
+service-account.json
 credentials.json
 token.json
 
