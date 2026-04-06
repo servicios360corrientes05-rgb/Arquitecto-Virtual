@@ -1,8 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
 import styles from './page.module.css';
-import ChatWidget from './components/ChatWidget';
-import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function Home() {
   const [adrema, setAdrema] = useState('');
@@ -81,8 +79,12 @@ export default function Home() {
           return; // Stop rendering the full app
         }
 
-        // Auto-trigger analysis to show modal + polling
-        fetchAnalysis(adremaParam, true);
+        // IMPORTANTE: iniciar polling INMEDIATAMENTE (en paralelo con el analyze)
+        // Así no se pierde tiempo esperando que scraping termine antes de buscar el PDF
+        pollForPDF(adremaParam);
+
+        // Auto-trigger analysis to show modal + datos preview
+        fetchAnalysis(adremaParam, false); // false = ya lanzamos pollForPDF arriba
       }
     }
   }, []);
@@ -152,10 +154,42 @@ export default function Home() {
   const [showDataModal, setShowDataModal] = useState(false);
   const [userData, setUserData] = useState({ nombre: '', telefono: '', email: '' });
   const [isRegistering, setIsRegistering] = useState(false);
+  const [isVerifyingPayment, setIsVerifyingPayment] = useState(false);
+  const [verifyMessage, setVerifyMessage] = useState('');
 
   const handleBuyReport = () => {
     // Open Data Modal instead of going directly to pay
     setShowDataModal(true);
+  };
+
+  const handleVerifyPayment = async () => {
+    setIsVerifyingPayment(true);
+    setVerifyMessage('');
+    try {
+      const res = await fetch('/api/verify-payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ adrema })
+      });
+      const data = await res.json();
+      if (data.paid) {
+        setShowDataModal(false);
+        setPaymentStatus('approved');
+        // Disparar generación de PDF (el watcher.js lo procesa)
+        fetch('/api/localhost-trigger', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ adrema })
+        }).catch(err => console.error("Trigger Error", err));
+        pollForPDF(adrema);
+      } else {
+        setVerifyMessage('No encontramos tu pago aún. Esperá unos segundos e intentá de nuevo.');
+      }
+    } catch (e) {
+      setVerifyMessage('Error al verificar el pago. Revisá tu conexión.');
+    } finally {
+      setIsVerifyingPayment(false);
+    }
   };
 
   const handleConfirmUserData = async (e) => {
@@ -167,14 +201,15 @@ export default function Home() {
 
     setIsRegistering(true);
     try {
-      // 1. Register in Backend
-      await fetch('/api/register-client', {
+      // 1. Registrar datos del cliente
+      const regRes = await fetch('/api/register-client', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...userData, adrema: adrema }) // Ensure ADREMA is sent
+        body: JSON.stringify({ ...userData, adrema: adrema })
       });
+      if (!regRes.ok) throw new Error("Error registrando datos");
 
-      // 2. Proceed to Payment (Mercado Pago / Backend)
+      // 2. Ir al pago (misma tab para que el redirect de vuelta funcione)
       await initiatePayment();
 
     } catch (err) {
@@ -187,43 +222,32 @@ export default function Home() {
 
   const initiatePayment = async () => {
     setIsProcessingPayment(true);
-
-    // UX FIX: Open window IMMEDIATELY to bypass popup blockers
-    const paymentWindow = window.open('', '_blank');
-    if (paymentWindow) {
-      paymentWindow.document.write('<html><body style="background:#111;color:#fff;font-family:sans-serif;display:flex;justify-content:center;align-items:center;height:100vh;"><h2>Conectando con Mercado Pago...</h2></body></html>');
-    } else {
-      alert("Por favor, permite las ventanas emergentes (popups) para continuar con el pago.");
-      setIsProcessingPayment(false);
-      return;
-    }
-
     try {
       const res = await fetch('/api/create_preference', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          adrema: result.distrito ? adrema : 'ADREMA-UNKNOWN',
+          adrema: adrema || 'ADREMA-UNKNOWN',
           price: 100,
           title: `Informe Factibilidad - ${adrema}`,
-          payer_email: userData.email
+          payer_email: userData.email,
+          payer_name: userData.nombre,
+          payer_phone: userData.telefono
         })
       });
       const data = await res.json();
       if (data.init_point) {
-        // Redirect the already opened window
-        paymentWindow.location.href = data.init_point;
-
-        // Optional: Show message in original tab that payment is in progress
-        alert("Se ha abierto una nueva pestaña para el pago. Al finalizar, el informe se generará automáticamente.");
+        // Guardar adrema en localStorage para recuperarla al volver de MP
+        localStorage.setItem('pending_adrema', adrema);
+        // Redirigir la tab actual a MP (no popup)
+        // Al volver, MP redirige a /?status=approved&adrema=X y el useEffect lo maneja
+        window.location.href = data.init_point;
       } else {
-        paymentWindow.close(); // Close if error
-        alert("Error iniciando pago");
+        alert("Error iniciando pago: " + (data.details || "Desconocido"));
         setIsProcessingPayment(false);
       }
     } catch (e) {
       console.error(e);
-      if (paymentWindow) paymentWindow.close();
       alert("Error de conexión con Mercado Pago");
       setIsProcessingPayment(false);
     }
@@ -233,8 +257,8 @@ export default function Home() {
     <div className={styles.container}>
 
       {/* --- VIDEO DE FONDO --- */}
-      <video autoPlay loop muted className={styles.videoBackground} playsInline>
-        <source src="/video_bg_final.mp4" type="video/mp4" />
+      <video autoPlay loop muted className={styles.videoBackground} playsInline poster="/arneaz_clean_bg.png">
+        <source src="/video_background.mp4" type="video/mp4" />
       </video>
       <div className={styles.videoOverlay}></div>
 
@@ -396,24 +420,50 @@ export default function Home() {
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
                         <div className={styles.loader} style={{ border: '4px solid #f3f3f3', borderTop: '4px solid #FF9900', borderRadius: '50%', width: '30px', height: '30px', animation: 'spin 1s linear infinite' }}></div>
                         <p style={{ color: '#fff' }}>Generando informe completo... (Esto puede tomar unos segundos)</p>
+                        <button
+                          onClick={() => pollForPDF(adrema)}
+                          style={{ background: 'transparent', border: '1px solid #FF9900', color: '#FF9900', padding: '6px 16px', borderRadius: '4px', cursor: 'pointer', fontSize: '0.85rem', marginTop: '4px' }}
+                        >
+                          🔄 Verificar si ya está listo
+                        </button>
                       </div>
                     )}
                   </>
                 ) : (
                   // FLOW: PAGO PENDIENTE -> Trigger Modal
-                  <button
-                    onClick={handleBuyReport}
-                    className={styles.button}
-                    disabled={isProcessingPayment}
-                    style={{
-                      fontSize: '1.3rem',
-                      padding: '15px 40px',
-                      background: 'linear-gradient(90deg, #009EE3, #005F99)', // MercadoPago Blue
-                      boxShadow: '0 0 20px rgba(0, 158, 227, 0.4)'
-                    }}
-                  >
-                    {isProcessingPayment ? "Redirigiendo..." : "COMPRAR INFORME COMPLETO ($100)"}
-                  </button>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+                    <button
+                      onClick={handleBuyReport}
+                      className={styles.button}
+                      disabled={isProcessingPayment}
+                      style={{
+                        fontSize: '1.3rem',
+                        padding: '15px 40px',
+                        background: 'linear-gradient(90deg, #009EE3, #005F99)',
+                        boxShadow: '0 0 20px rgba(0, 158, 227, 0.4)'
+                      }}
+                    >
+                      {isProcessingPayment ? "Redirigiendo..." : "COMPRAR INFORME COMPLETO ($100)"}
+                    </button>
+                    <button
+                      onClick={handleVerifyPayment}
+                      disabled={isVerifyingPayment}
+                      style={{
+                        background: 'transparent',
+                        border: '1px solid #4CAF50',
+                        color: '#4CAF50',
+                        padding: '10px 24px',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        fontSize: '0.95rem'
+                      }}
+                    >
+                      {isVerifyingPayment ? "Verificando..." : "✅ YA REALICÉ EL PAGO"}
+                    </button>
+                    {verifyMessage && (
+                      <p style={{ color: '#ffaaaa', fontSize: '0.85rem', margin: 0 }}>{verifyMessage}</p>
+                    )}
+                  </div>
                 )}
 
                 <p style={{ marginTop: '15px', fontSize: '0.8rem', color: '#666' }}>

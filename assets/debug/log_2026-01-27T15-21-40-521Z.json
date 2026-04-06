@@ -1,6 +1,0 @@
-{
-  "timestamp": "2026-01-27T15-21-40-521Z",
-  "context": "Attempt 3",
-  "error": "page.waitForSelector: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.lista-resultados, .resultados-item') to be visible\u001b[22m\n",
-  "screenshot": "D:\\DANIEL\\Downloads\\Antigravity\\Proyectos\\Arquitecto Virtual\\assets\\debug\\error_2026-01-27T15-21-40-521Z.png"
-}

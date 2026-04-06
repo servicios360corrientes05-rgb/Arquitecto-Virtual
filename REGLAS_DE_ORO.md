@@ -1,17 +1,49 @@
 # REGLAS DE ORO DE AUTOMATIZACIÓN — Arquitecto Virtual
 
 > Documento de referencia obligatoria antes de cualquier tarea de scraping o automatización de navegación.
-> Última actualización: 2026-01-30 | Validado con Adremas A10020941 (3 mensuras) y A10101921 (2 mensuras).
+> **IDIOMA OBLIGATORIO**: Toda comunicación, documentación, comentarios y logs debe ser en **ESPAÑOL**.
+> Última actualización: 2026-04-05 | Validado con A10020941, A10101921, A10180461, A10180471, A10209221, A10169301.
 
 ---
 
-## 0. Artefactos de Solo Lectura
+## ⛔ REGLA DE ORO — PIPELINE PRODUCTIVO BLINDADO (2026-04-05)
+
+> ### 🔒 PROHIBIDO MODIFICAR LOS SIGUIENTES ARCHIVOS SIN AUTORIZACIÓN EXPLÍCITA DEL USUARIO:
+>
+> | Archivo | Función | Estado |
+> |---------|---------|--------|
+> | `lib/scraperMunicipal.js` | Scraping portal Municipalidad de Corrientes (Uso de Suelo) | **BLINDADO** |
+> | `lib/scraperProvincial.js` | Scraping DGC Catastro Provincia (titular, manzana, lote, mensuras) | **BLINDADO** |
+> | `watcher.js` | Orquestador del pipeline: cola → scraping → PDF → cosido | **BLINDADO** |
+>
+> ### ¿Por qué están blindados?
+>
+> El pipeline fue validado el **2026-04-05** y produce informes con:
+> - ✅ Datos municipales: Distrito, Superficie, Frente, FOS, Altura Máxima
+> - ✅ Datos provinciales: Titular/Propietario, Manzana, Número de Lote, Ubicación exacta
+> - ✅ Descarga automática de mensuras (Protocolo 7 Pasos CDP)
+> - ✅ Cosido (stitching) PDF de mensura al informe principal con `pdf-lib`
+> - ✅ Informe final de 4+ páginas con todos los datos completos
+>
+> Adremas de referencia validadas en producción: **A10180471** (completo), **A10169301** (completo), **A10209221** (4 págs con mensura).
+>
+> ### Si algo parece roto, ANTES de modificar:
+> 1. Leer el dump en `assets/debug/dump_provincia.txt` y `data/ultimo_scrapeo.json`
+> 2. Verificar que el selector CSS del portal sigue siendo el mismo (los portales cambian)
+> 3. Correr un test manual con `node -e "require('./lib/scraperProvincial').scrapeProvincial('ADREMA', './public/informes')"`
+> 4. Solo modificar si se confirma un cambio en el portal externo, nunca por "refactoring"
+>
+> **CUALQUIER CAMBIO NO AUTORIZADO A ESTOS ARCHIVOS ES UNA VIOLACIÓN DE ESTA REGLA.**
+
+---
+
+## 0. Artefactos de Solo Lectura (Legado)
 
 > **ORDEN DE RESTRICCIÓN TÉCNICA (BLINDAJE)**: 
-> 1. **Municipalidad**: El módulo `escrapearDatosReales` está **BLINDADO**. Prohibido modificar selectores o lógica.
-> 2. **Catastro (Provincia)**: La lógica de `escrapearProvincia` (Protocolo Bunker) está **BLINDADO**. Prohibido modificarla.
+> 1. **Municipalidad**: El módulo `scraperMunicipal.js` está **BLINDADO**. Prohibido modificar selectores o lógica.
+> 2. **Catastro (Provincia)**: El módulo `scraperProvincial.js` (Protocolo Bunker) está **BLINDADO**. Prohibido modificarlo.
 > 
-> **MOTIVO**: Funciona "de 10". Cualquier cambio pone en riesgo la estabilidad lograda. Si se requiere una mejora, debe ser en archivos externos o wrappers, NUNCA tocando el núcleo estos archivos.
+> **MOTIVO**: Funciona "de 10". Cualquier cambio pone en riesgo la estabilidad lograda. Si se requiere una mejora, debe ser en archivos externos o wrappers, NUNCA tocando el núcleo de estos archivos.
 
 ---
 

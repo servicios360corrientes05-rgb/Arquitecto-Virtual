@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "start:prod": "npm run build && pm2-runtime start ecosystem.config.js",
+    "start:watcher": "node watcher.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

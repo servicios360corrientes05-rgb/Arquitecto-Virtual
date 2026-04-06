@@ -28,6 +28,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# logs PM2
+/logs/
 .pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
@@ -38,6 +41,27 @@ yarn-error.log*
 service-account.json
 credentials.json
 token.json
+
+# Perfiles de Chrome (sesión DGC - datos sensibles)
+/data/chrome_profile_provincia*/
+/data/chrome_profile*/
+
+# Archivos generados / caché de scraping
+/data/scraper_cache.json
+/data/ultimo_scrapeo.json
+/data/mensura_extracted_data.json
+/data/error_dump_*.html
+/data/regulations/
+
+# PDFs generados e informes (no van al repo)
+/public/informes/
+/cola_de_proceso/
+
+# Archivos de debug
+/assets/debug/
+
+# Backups locales
+/backups/
 
 # vercel
 .vercel

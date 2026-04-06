@@ -1,11 +1,56 @@
 
 import { NextResponse } from 'next/server';
-import { chromium } from 'playwright';
 import OpenAI from 'openai';
 import { loadAllRegulations, findRegulation } from '@/lib/regulationsLoader';
+import fs from 'fs';
+import path from 'path';
 
 // Cache regulations
 const regulationsMap = loadAllRegulations();
+
+// --- CACHÉ DE SCRAPING ---
+const CACHE_PATH = path.join(process.cwd(), 'data', 'scraper_cache.json');
+const CACHE_TTL_DAYS = 30;
+
+function loadScraperCache() {
+    try {
+        if (fs.existsSync(CACHE_PATH)) {
+            return JSON.parse(fs.readFileSync(CACHE_PATH, 'utf8'));
+        }
+    } catch (e) {
+        console.warn("⚠️ No se pudo leer la caché del scraper:", e.message);
+    }
+    return {};
+}
+
+function saveScraperCache(cache) {
+    try {
+        fs.writeFileSync(CACHE_PATH, JSON.stringify(cache, null, 2), 'utf8');
+    } catch (e) {
+        console.warn("⚠️ No se pudo guardar la caché del scraper:", e.message);
+    }
+}
+
+function getCachedData(adrema) {
+    const cache = loadScraperCache();
+    const entry = cache[adrema.toUpperCase()];
+    if (!entry) return null;
+    const ageMs = Date.now() - new Date(entry.timestamp).getTime();
+    const ageDays = ageMs / (1000 * 60 * 60 * 24);
+    if (ageDays > CACHE_TTL_DAYS) {
+        console.log(`⏰ Caché expirada para ${adrema} (${Math.floor(ageDays)} días)`);
+        return null;
+    }
+    console.log(`✅ Datos del caché para ${adrema} (${Math.floor(ageDays)} días de antigüedad)`);
+    return entry.data;
+}
+
+function setCachedData(adrema, data) {
+    const cache = loadScraperCache();
+    cache[adrema.toUpperCase()] = { data, timestamp: new Date().toISOString() };
+    saveScraperCache(cache);
+    console.log(`💾 Caché guardada para ${adrema}`);
+}
 
 // Initialize OpenAI
 const apiKey = process.env.OPENAI_API_KEY;
@@ -34,134 +79,47 @@ export async function POST(req) {
         // SMART FALLBACK ALGORITHM
         let scraperData = null;
         let usedFallback = false;
+        let usedCache = false;
 
-        try {
-            // Race: Scraper vs Timeout (120 seconds)
-            const timeoutPromise = new Promise((_, reject) =>
-                setTimeout(() => reject(new Error("Timeout: El sitio municipal tardó demasiado en responder (120s). Intente nuevamente.")), 120000)
-            );
+        // 1. Verificar caché antes de scrapear
+        const cachedData = getCachedData(adrema);
+        if (cachedData) {
+            scraperData = cachedData;
+            usedCache = true;
+            console.log("📦 Usando datos del caché para", adrema);
+        }
 
-            const scraperPromise = (async () => {
-                const browser = await chromium.launch({ headless: true });
-                try {
-                    const context = await browser.newContext({
-                        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36'
-                    });
-                    const page = await context.newPage();
-
-                    console.log("Navigating to municipal site...");
-                    await page.goto('https://sistemas.ciudaddecorrientes.gov.ar/usosuelo/', { timeout: 30000, waitUntil: 'domcontentloaded' });
-
-                    // HELPER: Robust Selection
-                    const selectRobust = async (selector, value) => {
-                        try {
-                            await page.waitForSelector(selector, { state: 'visible', timeout: 10000 });
-                            await page.selectOption(selector, value);
-                            await page.evaluate(({ sel, val }) => {
-                                const el = document.querySelector(sel);
-                                if (el) {
-                                    el.value = val;
-                                    el.dispatchEvent(new Event('change', { bubbles: true }));
-                                    el.dispatchEvent(new Event('input', { bubbles: true }));
-                                }
-                            }, { sel: selector, val: value });
-                            await page.waitForTimeout(1500);
-                        } catch (e) {
-                            console.warn(`Robust Select Warning ${selector}: ${e.message}`);
-                        }
-                    };
-
-                    await selectRobust('#t_uso_suelo', '1');
-                    await selectRobust('#tipo_actividad', '1');
-
-                    await page.evaluate(() => {
-                        const select = document.querySelector('#activida_d');
-                        if (select) {
-                            const option = Array.from(select.options).find(o => o.text.includes('Viviendas Colectivas'));
-                            if (option) {
-                                select.value = option.value;
-                                select.dispatchEvent(new Event('change', { bubbles: true }));
-                            }
-                        }
-                    });
-                    await page.waitForTimeout(2500);
-
-                    await selectRobust('#ubicacion', 'adrema');
-                    await page.waitForSelector('#adrema', { state: 'visible', timeout: 5000 });
-                    await page.fill('#adrema', adrema);
-                    await page.waitForTimeout(1000);
-
-                    await page.click('#siguiente');
-
-                    console.log("   > Waiting for AJAX results...");
-                    try {
-                        await page.waitForFunction(() => {
-                            const body = document.body.innerText;
-                            return body.includes('Distrito:') || body.includes('Entre Medianeras') || body.includes('No se encontraron');
-                        }, { timeout: 90000 });
-                    } catch (e) {
-                        console.warn("   ⚠️ Timeout waiting for data text, but proceeding to extraction fallbacks.");
-                    }
-                    await page.waitForTimeout(2000);
-
-                    const data = await page.evaluate(() => {
-                        const resultDiv = document.querySelector('.alert-warning');
-                        if (!resultDiv) return null;
-                        const text = resultDiv.innerText;
-                        const extract = (regex) => {
-                            const match = text.match(regex);
-                            return match ? match[1].trim() : null;
-                        };
-                        const table = resultDiv.querySelector('table');
-                        let tableData = null;
-                        if (table) {
-                            const rows = Array.from(table.querySelectorAll('tbody tr'));
-                            const medianerasRow = rows.find(r => r.innerText.includes('Entre Medianeras'));
-                            if (medianerasRow) {
-                                const cells = Array.from(medianerasRow.querySelectorAll('td'));
-                                tableData = {
-                                    supMaxConstruir: cells[1]?.innerText.trim(),
-                                    altMax: cells[4]?.innerText.trim()
-                                };
-                            }
-                        }
-                        return {
-                            distrito: extract(/Distrito:\s*([^\s]+)/i),
-                            supParcela: extract(/Sup\. Parcela:\s*([\d\.]+)/i),
-                            frente: extract(/Frente:\s*([\d\.]+)/i),
-                            fos: extract(/Factor de ocupación de suelo:\s*([\d\.]+)/i),
-                            supMaxOcupar: extract(/Superficie máxima del terreno a ocupar:\s*([\d\.]+)/i),
-                            tableData
-                        };
-                    });
-
-                    await browser.close();
-                    if (!data) throw new Error("Could not parse data from municipal site.");
-
-                    return {
-                        distrito: data.distrito,
-                        superficieTotal: data.supParcela,
-                        frente: data.frente,
-                        fos: data.fos,
-                        supMaxOcupar: data.supMaxOcupar,
-                        volumenWeb: data.tableData?.supMaxConstruir?.replace('.', ''),
-                        alturaWeb: data.tableData?.altMax,
-                        tableRaw: data.tableData
-                    };
-
-                } catch (innerErr) {
-                    await browser.close();
-                    throw innerErr;
+        if (!scraperData) {
+            try {
+                const { scrapeMunicipal } = await import('@/lib/scraperMunicipal');
+                const rawData = await scrapeMunicipal(adrema);
+                if (rawData.distrito === 'Error') {
+                    throw new Error('El scraper no pudo extraer datos del portal municipal.');
                 }
-            })();
+                scraperData = rawData;
+                setCachedData(adrema, scraperData);
+                console.log("Scraper successful:", scraperData.distrito);
+            } catch (err) {
+                console.warn("Scraper failed:", err.message);
+                // Intentar usar caché expirada como último recurso
+                const expiredCache = (() => {
+                    try {
+                        const cache = loadScraperCache();
+                        const entry = cache[adrema.toUpperCase()];
+                        return entry ? entry.data : null;
+                    } catch { return null; }
+                })();
 
-            scraperData = await Promise.race([scraperPromise, timeoutPromise]);
-            console.log("Scraper successful:", scraperData);
-
-        } catch (err) {
-            console.warn("Scraper failed:", err.message);
-            usedFallback = true;
-            scraperData = { error: err.message };
+                if (expiredCache) {
+                    console.log("🕰️ Usando caché expirada como fallback para", adrema);
+                    scraperData = expiredCache;
+                    usedCache = true;
+                    usedFallback = false;
+                } else {
+                    usedFallback = true;
+                    scraperData = { error: err.message };
+                }
+            }
         }
 
         // --- CALCULATION LOGIC ---
@@ -181,20 +139,46 @@ export async function POST(req) {
             }
         }
 
-        const indicators = calculateUrbanIndicators(district, surf, front);
-        let { fotMax, heightMax, pisos, volTotal, areaPorPiso, regulationContext } = indicators;
+        // Resolver normativa del distrito para los cálculos y el dictamen IA
+        const regData = findRegulation(district, regulationsMap);
+
+        const indicators = calculateUrbanIndicators(district, surf, front, regData);
+        let { fotMax, heightMax, fosMax, basamentoAltura, pisos, volTotal, areaPorPiso, regulationContext } = indicators;
 
         // --- NEW AI DICTAMEN (OPENAI + REGULATIONS) ---
         let aiNarrative = "";
 
         if (usedFallback) {
-            aiNarrative = "Por problemas Técnicos del Servidor Municipal, la entrega de informes se encuentra interrumpida.";
+            // Intentar generar dictamen genérico basado solo en la regulación del distrito
+            if (apiKey && regData) {
+                try {
+                    const fallbackContext = `
+                        [NORMATIVA OFICIAL - DISTRITO ${district}]
+                        - Carácter: ${JSON.stringify(regData.a_caracter)}
+                        - Tejido: ${JSON.stringify(regData.tejido)}
+                    `;
+                    const completion = await openai.chat.completions.create({
+                        model: "gpt-4o-mini",
+                        messages: [{
+                            role: "system",
+                            content: `Actúa como Arquitecto Experto en Corrientes. El sitio municipal está temporalmente inaccesible, pero conocemos el distrito normativo. Genera un DICTAMEN TÉCNICO RESUMIDO basado solo en la normativa vigente, indicando que los datos catastrales (superficie, frente) no pudieron obtenerse en este momento. Normativa:\n${fallbackContext}\nMáx 800 caracteres. Sin markdown complejo.`
+                        }],
+                        temperature: 0.7,
+                        max_tokens: 350
+                    });
+                    aiNarrative = `⚠️ Datos del servidor municipal no disponibles. Dictamen basado en normativa del distrito:\n\n${completion.choices[0].message.content}`;
+                } catch (e) {
+                    console.error("OpenAI fallback error:", e);
+                    aiNarrative = "Por problemas técnicos del servidor municipal, la consulta catastral se encuentra interrumpida. Intente nuevamente en unos minutos.";
+                }
+            } else {
+                aiNarrative = "Por problemas técnicos del servidor municipal, la consulta catastral se encuentra interrumpida. Intente nuevamente en unos minutos.";
+            }
         } else {
             try {
                 if (apiKey) {
-                    // Inject Structured Regulations
+                    // Inject Structured Regulations (usa el regData ya resuelto)
                     let contextNormativa = "";
-                    const regData = findRegulation(district, regulationsMap);
 
                     if (regData) {
                         contextNormativa = `
@@ -254,7 +238,7 @@ export async function POST(req) {
             supMaxOcupar: scraperData?.supMaxOcupar || "-",
             fot: fotMax.toString(),
             alturaMaxima: scraperData?.alturaWeb || `${heightMax}`,
-            alturaBasamento: scraperData?.tableRaw?.altMaxBasamento || "9.00",
+            alturaBasamento: scraperData?.tableRaw?.altMaxBasamento || `${basamentoAltura}`,
             pisosEstimados: pisos.toString(),
             areaPorPiso: areaPorPiso,
             volumenConstructible: scraperData?.volumenWeb || volTotal,
@@ -262,6 +246,7 @@ export async function POST(req) {
             reglamentoTexto: usedFallback ? "Servicio Interrumpido" : (regulationContext ? regulationContext : "Normativa Oficial"),
             analisisIA: aiNarrative,
             isFallback: usedFallback,
+            usedCache: usedCache,
             rawWebData: scraperData
         };
 

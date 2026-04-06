@@ -21,7 +21,10 @@ export async function POST(req) {
         // Find the LATEST file for this Adrema
         // Filename format: Informe_A10169791_2026-01-16T04-21-54-187Z.pdf
         const matchingFiles = files
-            .filter(file => file.startsWith(`Informe_${adrema}_`) && file.endsWith('.pdf'))
+            .filter(file =>
+                (file.startsWith(`Informe_${adrema}_`) || file.startsWith(`Informe_Final_Adrema_${adrema}_`) || file === `Informe_Final_Adrema_${adrema}.pdf`)
+                && file.endsWith('.pdf')
+            )
             .map(file => {
                 const filePath = path.join(directoryPath, file);
                 const stats = fs.statSync(filePath);

@@ -1,6 +1,0 @@
-2026/02/03-15:41:39.475 931c Creating DB D:\DANIEL\Downloads\Antigravity\Proyectos\Arquitecto Virtual\data\chrome_profile_provincia_1770144056677_0lo9eq\Default\WebStorage\1\IndexedDB\indexeddb.leveldb since it was missing.
-2026/02/03-15:41:39.618 931c Reusing MANIFEST D:\DANIEL\Downloads\Antigravity\Proyectos\Arquitecto Virtual\data\chrome_profile_provincia_1770144056677_0lo9eq\Default\WebStorage\1\IndexedDB\indexeddb.leveldb/MANIFEST-000001
-2026/02/03-17:57:43.034 a62c Level-0 table #5: started
-2026/02/03-17:57:43.071 a62c Level-0 table #5: 12172 bytes OK
-2026/02/03-17:57:43.096 a62c Delete type=0 #3
-2026/02/03-17:57:43.097 a62c Manual compaction at level-0 from (begin) .. (end); will stop at (end)
