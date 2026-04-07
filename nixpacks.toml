@@ -2,10 +2,13 @@
 nixPkgs = ["nodejs_20"]
 
 [phases.install]
-cmds = ["npm ci --omit=dev"]
+cmds = [
+  "npm ci --omit=dev",
+  "PLAYWRIGHT_BROWSERS_PATH=/ms-playwright npx playwright install chromium"
+]
 
 [phases.build]
 cmds = ["NODE_OPTIONS='--max-old-space-size=450' NEXT_TELEMETRY_DISABLED=1 next build"]
 
 [start]
-cmd = "node_modules/.bin/next start"
+cmd = "mkdir -p cola_de_proceso public/informes data && node watcher.js & node_modules/.bin/next start"
