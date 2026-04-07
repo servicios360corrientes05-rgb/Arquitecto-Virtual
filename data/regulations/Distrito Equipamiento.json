@@ -1,0 +1,414 @@
+[
+  {
+    "5.3.1_Distrito_Eg": {
+      "identificacion": {
+        "distritos": [
+          "Eg"
+        ],
+        "nombre_completo": "Equipamiento General",
+        "normativas_referencia": [
+          "Ordenanza 4845",
+          "Ordenanza 6811",
+          "Ordenanza 6840"
+        ]
+      },
+      "a_caracter": {
+        "a1_propuesta": "Usos que sirven a la Ciudad en general, requieren buena accesibilidad y parcelas de gran tamaño",
+        "a2_existentes": "Localizaciones existentes de esos mismos usos",
+        "a3_historicos": "Usos que requieren protección histórica (Ej. Eg 37, Eg 38)"
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Según Plano Nº3. Incluye Eg 5 (Parque Urbano), Eg 6 (Parque Lineal), Eg 37 (Conjunto Monumental), etc.",
+        "c_subdivision": {
+          "general": {
+            "parcela_sup_min_m2": 1000,
+            "frente_minimo_m": 25
+          },
+          "Eg_37": {
+            "parcela_sup_min_m2": 450,
+            "frente_minimo_m": 15
+          },
+          "Eg_38": "Se mantiene el parcelamiento existente"
+        },
+        "d_tipologia_edilicia": {
+          "general": [
+            "Perímetro Libre"
+          ],
+          "Eg_37": [
+            "Entre Medianeras",
+            "Perímetro Libre (altura limitada)"
+          ],
+          "Eg_38": [
+            "Entre Medianeras (altura limitada)"
+          ]
+        }
+      },
+      "tejido": {
+        "general": {
+          "relacion_h_d": 1,
+          "fot_maximo": 2,
+          "fos_maximo": "Según Planillas 3 y 4"
+        },
+        "Eg_37": {
+          "relacion_h_d": 2,
+          "basamento_altura": "Mediana determinada por Comisión Casco Histórico",
+          "altura_maxima_PL": 24,
+          "fot_maximo": 2,
+          "fos_maximo": "65%",
+          "retiro_cuerpos_elevados": "7 metros sobre altura basamento"
+        },
+        "Eg_38": {
+          "relacion_h_d": 2,
+          "altura_maxima": "Mediana determinada por Comisión Casco Histórico",
+          "fot_maximo": 1.5,
+          "fos_maximo": "75%"
+        }
+      }
+    }
+  },
+  {
+    "5.3.2.1_Distrito_E1a": {
+      "identificacion": {
+        "distritos": [
+          "E.1.a"
+        ],
+        "nombre_completo": "Equipamiento Comercial Predominante Densidad Alta",
+        "normativas_referencia": [
+          "Ordenanza 6579"
+        ]
+      },
+      "a_caracter": {
+        "descripcion": "Comercial predominante de densidad alta"
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Según Plano 3 (Bandas Viales)",
+        "c_subdivision": {
+          "parcela_sup_min_m2": 300,
+          "frente_minimo_m": 12
+        },
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Entre Medianeras",
+            "Perímetro Libre",
+            "Semi Perímetro Libre"
+          ],
+          "condiciones": "Con y sin basamento, altura limitada"
+        }
+      },
+      "tejido": {
+        "relacion_h_d": 3,
+        "fos_maximo": 0.7,
+        "condicion_suelo": "50% de la superficie libre resultante deberá ser terreno absorbente",
+        "fot_maximos": {
+          "uso_residencial": 5,
+          "usos_complementarios": 7
+        },
+        "alturas_maximas_y_plantas": {
+          "PL": {
+            "metros": 30
+          },
+          "SPL_EM": {
+            "metros": 21
+          },
+          "basamento": {
+            "metros": 9
+          }
+        }
+      },
+      "retiros_de_frente": {
+        "inicio_de_retiro": "A partir de la altura del basamento",
+        "edificaciones_perimetro_libre": {
+          "general_m": 5,
+          "esquina_m": 3
+        },
+        "edificaciones_semi_perimetro_libre": {
+          "general_m": 3
+        }
+      },
+      "retiro_de_fondo": {
+        "excepcion_uso": "Superficie libre resultante podrá ocuparse hasta un 25% con edificaciones de hasta planta baja sin azotea accesible (respetando FOS)"
+      }
+    }
+  },
+  {
+    "5.3.2.2_Distrito_E1b": {
+      "identificacion": {
+        "distritos": [
+          "E.1.b"
+        ],
+        "nombre_completo": "Equipamiento Comercial Predominante Densidad Media"
+      },
+      "a_caracter": {
+        "descripcion": "Comercial predominante de densidad media"
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Según Plano 3 (Bandas Viales)",
+        "c_subdivision": {
+          "parcela_sup_min_m2": 300,
+          "frente_minimo_m": 12
+        },
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Entre Medianeras",
+            "Perímetro Libre",
+            "Semi Perímetro Libre"
+          ]
+        }
+      },
+      "tejido": {
+        "relacion_h_d": 2,
+        "fos_maximo": 0.7,
+        "condicion_suelo": "50% de la superficie libre resultante deberá ser terreno absorbente",
+        "fot_maximos": {
+          "uso_residencial": 3,
+          "usos_complementarios": 5
+        },
+        "alturas_maximas_y_plantas": {
+          "PL_SPL": {
+            "metros": 21
+          },
+          "EM": {
+            "metros": 12
+          },
+          "basamento": {
+            "metros": 9
+          }
+        }
+      },
+      "retiros_de_frente": {
+        "inicio_de_retiro": "A partir de la altura del basamento",
+        "edificaciones_perimetro_y_semi_libre": {
+          "general_m": 3
+        }
+      },
+      "retiro_de_fondo": {
+        "excepcion_uso": "Superficie libre resultante podrá ocuparse hasta un 25% con edificaciones de hasta planta baja sin azotea accesible (respetando FOS)"
+      }
+    }
+  },
+  {
+    "5.3.3_Distrito_Ee": {
+      "identificacion": {
+        "distritos": [
+          "Ee"
+        ],
+        "nombre_completo": "Equipamiento Especial",
+        "normativas_referencia": [
+          "Ordenanza 4845",
+          "Ordenanza 6811"
+        ]
+      },
+      "a_caracter": {
+        "descripcion": "Usos singulares relevantes, ya localizados (Cementerios, Estaciones, Aeropuerto, etc.)"
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Según Plano Nº3",
+        "observaciones": "Todo cambio de uso se someterá a consideración del Organismo de Aplicación"
+      }
+    }
+  },
+  {
+    "5.3.4_Distrito_E2": {
+      "identificacion": {
+        "distritos": [
+          "E2"
+        ],
+        "normativas_referencia": [
+          "Ordenanza 5050",
+          "Ordenanza 6840"
+        ]
+      },
+      "a_caracter": {
+        "descripcion": "Usos mixtos: industrial, comercial mayorista y servicios a escala urbana"
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Parcelas frentistas a vías demarcadas. En fraccionamientos rige hasta la primera vía proyectada requerida.",
+        "c_subdivision": {
+          "parcela_sup_min_m2": 2500,
+          "frente_minimo_m": 30
+        },
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Perímetro Libre"
+          ],
+          "excepcion": "En parcelas preexistentes <12m frente se admite Entre Medianeras"
+        }
+      },
+      "tejido": {
+        "fos_maximo": 0.70,
+        "alturas_maximas_y_plantas": {
+          "metros": 12
+        }
+      },
+      "retiros_obligatorios": {
+        "perimetro_parcela": {
+          "minimo_m": 4,
+          "condicion": "Superficie forestada. Solo admite solados para estacionamiento."
+        }
+      },
+      "usos": {
+        "restriccion": "Todas las molestias deben absorberse dentro de la parcela"
+      }
+    }
+  },
+  {
+    "5.3.5.1_Distrito_EM1": {
+      "identificacion": {
+        "distritos": [
+          "E. Mixto 1"
+        ],
+        "normativas_referencia": [
+          "Ordenanza 6579"
+        ]
+      },
+      "a_caracter": {
+        "descripcion": "Mixto de densidad alta"
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Según Plano 3 – EM.1 (Bandas Viales)",
+        "c_subdivision": {
+          "parcela_sup_min_m2": 300,
+          "frente_minimo_m": 12
+        },
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Entre Medianeras",
+            "Perímetro Libre",
+            "Semi Perímetro Libre"
+          ]
+        }
+      },
+      "tejido": {
+        "relacion_h_d": 3,
+        "fos_maximo": 0.7,
+        "condicion_suelo": "50% de la superficie libre resultante deberá ser terreno absorbente",
+        "fot_maximos": {
+          "uso_residencial": 7,
+          "usos_complementarios": 5
+        },
+        "alturas_maximas_y_plantas": {
+          "PL": {
+            "metros": 30
+          },
+          "SPL_EM": {
+            "metros": 21
+          },
+          "basamento": {
+            "metros": 9
+          }
+        }
+      },
+      "retiros_de_frente": {
+        "inicio_de_retiro": "A partir de la altura del basamento",
+        "edificaciones_perimetro_libre": {
+          "general_m": 5,
+          "esquina_m": 3
+        },
+        "edificaciones_semi_perimetro_libre": {
+          "general_m": 3
+        }
+      },
+      "retiro_de_fondo": {
+        "excepcion_uso": "Superficie libre resultante podrá ocuparse hasta un 25% con edificaciones de hasta planta baja sin azotea accesible"
+      }
+    }
+  },
+  {
+    "5.3.5.2_Distrito_EM2": {
+      "identificacion": {
+        "distritos": [
+          "E. Mixto 2"
+        ]
+      },
+      "a_caracter": {
+        "descripcion": "Mixto de densidad media"
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Según Plano 3 – EM.2 (Bandas Viales)",
+        "c_subdivision": {
+          "parcela_sup_min_m2": 300,
+          "frente_minimo_m": 12
+        },
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Entre Medianeras",
+            "Perímetro Libre",
+            "Semi Perímetro Libre"
+          ]
+        }
+      },
+      "tejido": {
+        "relacion_h_d": 2,
+        "fos_maximo": 0.7,
+        "condicion_suelo": "50% de la superficie libre resultante deberá ser terreno absorbente",
+        "fot_maximos": {
+          "uso_residencial": 5,
+          "usos_complementarios": 5
+        },
+        "alturas_maximas_y_plantas": {
+          "PL_SPL": {
+            "metros": 21
+          },
+          "EM": {
+            "metros": 12
+          },
+          "basamento": {
+            "metros": 9
+          }
+        }
+      },
+      "retiros_de_frente": {
+        "inicio_de_retiro": "A partir de la altura del basamento",
+        "edificaciones_perimetro_y_semi_libre": {
+          "general_m": 3
+        }
+      },
+      "retiro_de_fondo": {
+        "excepcion_uso": "Superficie libre resultante podrá ocuparse hasta un 25% con edificaciones de hasta planta baja sin azotea accesible"
+      }
+    }
+  },
+  {
+    "5.3.5.3_Distrito_EM3": {
+      "identificacion": {
+        "distritos": [
+          "E. Mixto 3"
+        ]
+      },
+      "a_caracter": {
+        "descripcion": "Mixto de densidad baja"
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Según Plano 3 – EM.3 (Bandas Viales)",
+        "c_subdivision": {
+          "parcela_sup_min_m2": 300,
+          "frente_minimo_m": 12
+        },
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Entre Medianeras",
+            "Perímetro Libre",
+            "Semi Perímetro Libre"
+          ]
+        }
+      },
+      "tejido": {
+        "relacion_h_d": 1.5,
+        "fos_maximo": 0.7,
+        "condicion_suelo": "50% de la superficie libre resultante deberá ser terreno absorbente",
+        "fot_maximos": {
+          "uso_residencial": 2,
+          "usos_complementarios": 2
+        },
+        "alturas_maximas_y_plantas": {
+          "todas_tipologias": {
+            "metros": 9
+          }
+        }
+      },
+      "retiro_de_fondo": {
+        "excepcion_uso": "Superficie libre resultante podrá ocuparse hasta un 25% con edificaciones de hasta planta baja sin azotea accesible"
+      }
+    }
+  }
+]

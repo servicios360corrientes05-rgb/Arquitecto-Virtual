@@ -1,0 +1,267 @@
+[
+  {
+    "5.2.1_Distrito_Chm": {
+      "identificacion": {
+        "distritos": [
+          "C.h.m"
+        ],
+        "nombre_completo": "Distrito Centro Histórico Monumental",
+        "normativas_referencia": [
+          "Ordenanza 4845",
+          "Ordenanza 964"
+        ]
+      },
+      "a_caracter": {
+        "descripcion": "Mixto, administrativo predominante, comercial y residencial. Sitio histórico fundacional. Concentración de edificios declarados Monumento Histórico."
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Según Plano 3 – Zonificación",
+        "c_subdivision": "Se mantendrá el actual parcelamiento catastral",
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Entre Medianeras"
+          ],
+          "alineacion": "Mantener alineación sin entrantes ni salientes respecto a L.M. Prohibido ensanche de calles y veredas."
+        }
+      },
+      "tejido": {
+        "altura_maxima": {
+          "criterio": "Altura Mediana de la cuadra",
+          "determinacion": "Comisión de Casco Histórico ratificada por DEM"
+        },
+        "fot_maximo": 1.5,
+        "fos_maximo": "Resultante de aplicar las normas del tejido",
+        "cocheras": {
+          "exencion": "Para conservación/rehabilitación de edificios existentes",
+          "obligatoriedad": "Para obras nuevas"
+        },
+        "demoliciones": "Requiere memoria descriptiva, planos y fotos de fachada y linderos. Prohibido para playas de estacionamiento."
+      }
+    }
+  },
+  {
+    "5.2.2_Distrito_Ch": {
+      "identificacion": {
+        "distritos": [
+          "C.h"
+        ],
+        "nombre_completo": "Distrito Centro Histórico",
+        "normativas_referencia": [
+          "Ordenanza 4845"
+        ]
+      },
+      "a_caracter": {
+        "descripcion": "Mixto-administrativo-comercial predominante, residencial. Concentración de edificios de interés histórico-arquitectónico."
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Según Plano Nº3. Abarca totalidad de lotes con frente a ambas vías.",
+        "c_subdivision": "Se mantendrá el actual parcelamiento catastral salvo unificación.",
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Entre Medianeras",
+            "Perímetro Libre con basamento sobre L.M."
+          ],
+          "alineacion": "Mantener alineación sin entrantes ni salientes. Prohibido ensanche."
+        }
+      },
+      "tejido": {
+        "relacion_h_d": 2,
+        "fot_maximos": {
+          "uso_residencial": 2.5,
+          "usos_complementarios": 3.5
+        },
+        "fos_maximo": "75% (20% suelo absorbente)",
+        "alturas_maximas": {
+          "basamento": "Altura Mediana de la cuadra",
+          "entre_medianeras": "Altura Mediana de la cuadra",
+          "perimetro_libre": "24 metros"
+        },
+        "retiros_altura_PL": {
+          "distancia": "7 metros sobre altura de basamento desde L.M."
+        }
+      }
+    }
+  },
+  {
+    "5.2.3_Distritos_Centrales": {
+      "identificacion": {
+        "distritos": [
+          "CN",
+          "CS",
+          "C3A"
+        ],
+        "normativas_referencia": [
+          "Ordenanza 6755",
+          "Ordenanza 6840 (Item e)"
+        ]
+      },
+      "a_caracter": {
+        "Distrito_Central_Norte_CN": "Central, Comercial-Residencial-Administrativo",
+        "Distrito_Central_Sur_CS": "Central, Residencial-Comercial-Administrativo",
+        "Distrito_Central_Avenida_3_de_Abril_C3A": "Central, Comercial-Residencial-Administrativo"
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Según plano Nº3. El Distrito C3A comprende las parcelas frentistas a la Avenida 3 de Abril.",
+        "c_subdivision": {
+          "parcela_sup_min_m2": 300,
+          "frente_minimo_m": 10
+        },
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Entre Medianeras",
+            "Perímetro Libre",
+            "Semi Perímetro Libre"
+          ],
+          "especificacion_CN": {
+            "basamento_obligatorio": true,
+            "retiro_LM_planta_baja": "No permitido (excepto Art. 3.3.2 Vías con ensanche de acera)"
+          },
+          "requisitos_por_frente": {
+            "EM": "Altura limitada",
+            "SPL": "Ancho de frente >= 15 metros. Altura limitada.",
+            "PL": "Ancho de frente >= 20 metros. Altura limitada."
+          }
+        }
+      },
+      "tejido": {
+        "superficie_edificable_basica": "FOT Básico = 3 (Todas las tipologías)",
+        "fos_maximo": 0.75,
+        "condicion_suelo": "Superficie libre resultante debe ser absorbente",
+        "fot_maximos": {
+          "EM": 6.8,
+          "SPL": 6.8,
+          "PL": 7.0
+        },
+        "alturas_maximas_y_plantas": {
+          "EM": {
+            "metros": 30,
+            "plantas": 10
+          },
+          "SPL": {
+            "metros": 36,
+            "plantas": 12
+          },
+          "PL": {
+            "metros": 42,
+            "plantas": 14
+          },
+          "basamento": {
+            "metros": 9,
+            "plantas": 3
+          },
+          "tolerancia": "5% en altura, sin superar número de plantas",
+          "superacion_permitida": [
+            "Tanques",
+            "Salas de máquinas",
+            "Conductos",
+            "Ventilaciones",
+            "Chimeneas",
+            "Lucernarios",
+            "Pararrayos",
+            "Balizamiento"
+          ],
+          "parcelas_internas": {
+            "altura_max_m": 9,
+            "condicion": "No afectar centro libre de manzana"
+          }
+        }
+      },
+      "retiros_de_frente": {
+        "inicio_de_retiro": "A partir de la altura de basamento (9m) o nivel de acera",
+        "edificaciones_entre_medianeras": {
+          "C3A": {
+            "retiro_m": 0
+          },
+          "CN_CS_hasta_18m_altura": {
+            "retiro_m": 0
+          },
+          "CN_CS_mayor_18m_altura": {
+            "general_m": 5,
+            "esquina_min_m": 3,
+            "aplicacion": "Desde altura máxima de basamento"
+          }
+        },
+        "edificaciones_semi_perimetro_libre": {
+          "general_m": 5,
+          "esquina_m": 3
+        },
+        "edificaciones_perimetro_libre": {
+          "general_m": 7,
+          "esquina_m": 5
+        }
+      },
+      "retiro_de_fondo": {
+        "regla_calculo": "20% de la longitud de fondo de la parcela",
+        "verificacion_minimos_obligatorios": [
+          {
+            "condicion": "Altura <= 24m (8 plantas)",
+            "minimo_m": 4.0
+          },
+          {
+            "condicion": "Altura > 24m (8 plantas)",
+            "minimo_m": 6.0
+          },
+          {
+            "condicion": "Altura > 36m (12 plantas)",
+            "minimo_m": 7.0
+          }
+        ],
+        "casos_esquina": "Retiro igual respecto a L.D. Fondo y L.D. Lateral",
+        "vivienda_unifamiliar_excepcion": {
+          "altura_max_m": 4.0,
+          "condicion": "No invadir centro libre de manzana y respetar FOS"
+        }
+      },
+      "retiros_laterales": {
+        "PL_SPL": {
+          "minimo_m": 5
+        }
+      }
+    }
+  },
+  {
+    "5.2.4_Distrito_C2": {
+      "identificacion": {
+        "distritos": [
+          "C2"
+        ],
+        "nombre_completo": "Centro Local",
+        "normativas_referencia": [
+          "Ordenanza 6755"
+        ]
+      },
+      "a_caracter": {
+        "descripcion": "Comercial, administrativo e institucional predominante, a escala de las áreas residenciales próximas."
+      },
+      "disposiciones_generales": {
+        "b_delimitacion": "Según Plano Nº3 Zonificación",
+        "c_subdivision": {
+          "parcela_sup_min_m2": 400,
+          "frente_minimo_m": 15
+        },
+        "d_tipologia_edilicia": {
+          "permitidas": [
+            "Entre Medianeras",
+            "Perímetro Libre",
+            "Semi Perímetro Libre"
+          ],
+          "condiciones": "Altura limitada"
+        }
+      },
+      "tejido": {
+        "fot_maximos": {
+          "uso_residencial": 1.0,
+          "usos_complementarios": 1.8
+        },
+        "fos_maximo": "Resultante de aplicar las normas del tejido",
+        "alturas_maximas": {
+          "entre_medianeras": "9 metros",
+          "perimetro_libre_y_semi": "12 metros"
+        }
+      },
+      "observaciones": {
+        "vivienda": "Se admite más de 1 vivienda por parcela solo si dispone de red de agua, cloaca y energía eléctrica."
+      }
+    }
+  }
+]

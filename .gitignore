@@ -51,7 +51,9 @@ token.json
 /data/ultimo_scrapeo.json
 /data/mensura_extracted_data.json
 /data/error_dump_*.html
-/data/regulations/
+# /data/regulations/ (Habilitado para que se suba a Railway)
+!/data/regulations/
+!/data/regulations/*.json
 
 # PDFs generados e informes (no van al repo)
 /public/informes/
