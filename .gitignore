@@ -71,6 +71,9 @@ token.json
 *.webm
 *.mov
 
+# Excepción: video de fondo optimizado (4MB, se sirve desde Railway)
+!public/video_background_opt.mp4
+
 # vercel
 .vercel
 
