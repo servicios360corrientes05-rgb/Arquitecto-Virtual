@@ -35,7 +35,7 @@ export async function POST(req) {
         if (matchingFiles.length > 0) {
             return NextResponse.json({
                 found: true,
-                url: `/informes/${matchingFiles[0].file}`
+                url: `/api/serve-pdf/${matchingFiles[0].file}`
             });
         } else {
             return NextResponse.json({ found: false });
