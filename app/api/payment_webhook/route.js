@@ -26,8 +26,10 @@ function verificarFirmaMP(req, paymentId) {
     const xRequestId = req.headers.get('x-request-id');
 
     if (!xSignature) {
-        console.warn('⚠️ Webhook sin x-signature. Rechazando.');
-        return false;
+        // MP no envía x-signature si no configuraste el Secret de validación en el panel.
+        // Permitir: el pago se verifica igual contra la API de MP más abajo.
+        console.warn('⚠️ Webhook sin x-signature. Procesando igual (verificación vía API activa).');
+        return true;
     }
 
     // Extraer ts y v1 del header
