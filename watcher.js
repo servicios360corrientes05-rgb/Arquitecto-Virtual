@@ -699,7 +699,10 @@ async function procesarAdrema(adrema, filePath) {
         const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
         const outputFilename = `Informe_${adrema}_${timestamp}.pdf`;
 
-        const browser = await puppeteer.launch({ headless: "new" });
+        const browser = await puppeteer.launch({
+            headless: "new",
+            args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-gpu']
+        });
         const page = await browser.newPage();
 
         await page.setContent(htmlContent, { waitUntil: 'networkidle0', timeout: 240000 });
