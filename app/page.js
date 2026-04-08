@@ -265,7 +265,7 @@ export default function Home() {
         className={styles.videoBackground} 
         poster="/arneaz_clean_bg.png"
       >
-        <source src="/video_background.mp4" type="video/mp4" />
+        <source src="https://drive.google.com/uc?export=download&id=1vpc_p0494nyGyTnY38jApOi6GnaxmUws" type="video/mp4" />
       </video>
       <div className={styles.videoOverlay}></div>
 

@@ -103,14 +103,16 @@ export default function ChatWidget({ embedded = false }) {
 
     return (
         <>
-            {/* Floating Button Logic (Legacy support) */}
-            <button
-                className={styles.floatBtn}
-                onClick={() => setIsOpen(!isOpen)}
-                aria-label="Abrir Chat"
-            >
-                {isOpen ? <X size={24} /> : <MessageCircle size={28} />}
-            </button>
+            {/* Floating Button — solo visible cuando el chat está CERRADO */}
+            {!isOpen && (
+                <button
+                    className={styles.floatBtn}
+                    onClick={() => setIsOpen(true)}
+                    aria-label="Abrir Chat"
+                >
+                    <MessageCircle size={28} />
+                </button>
+            )}
 
             {/* Chat Window */}
             {isOpen && (
@@ -120,7 +122,7 @@ export default function ChatWidget({ embedded = false }) {
                             <Bot size={20} className="mr-2" />
                             <span>Asistente Normativo</span>
                         </div>
-                        <button onClick={() => setIsOpen(false)} className={styles.closeBtn}><X size={18} /></button>
+                        <button onClick={() => setIsOpen(false)} className={styles.closeBtn}><X size={16} /></button>
                     </div>
 
                     <div className={styles.messages}>

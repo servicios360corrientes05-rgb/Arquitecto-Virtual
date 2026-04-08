@@ -79,14 +79,23 @@
 }
 
 .closeBtn {
-  background: none;
-  border: none;
-  color: #888;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
   cursor: pointer;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  flex-shrink: 0;
 }
 
 .closeBtn:hover {
-  color: #fff;
+  background: rgba(255, 80, 80, 0.4);
+  border-color: rgba(255, 80, 80, 0.6);
 }
 
 .messages {
@@ -182,15 +191,25 @@
 }
 
 @keyframes pulse {
-  0% {
-    opacity: 0.3;
+  0% { opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { opacity: 0.3; }
+}
+
+/* Móvil */
+@media (max-width: 768px) {
+  .chatWindow {
+    width: calc(100vw - 2rem);
+    height: 55vh;
+    bottom: 5rem;
+    right: 1rem;
+    left: 1rem;
   }
 
-  50% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0.3;
+  .floatBtn {
+    width: 48px;
+    height: 48px;
+    bottom: 1.2rem;
+    right: 1.2rem;
   }
 }
