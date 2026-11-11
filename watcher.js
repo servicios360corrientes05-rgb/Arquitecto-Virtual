@@ -21,6 +21,49 @@ const ASSETS_FOLDER = path.resolve('./assets');
 if (!fs.existsSync(INPUT_FOLDER)) fs.mkdirSync(INPUT_FOLDER);
 if (!fs.existsSync(OUTPUT_FOLDER)) fs.mkdirSync(OUTPUT_FOLDER);
 
+// --- REUTILIZAR LA CONSULTA AL CATASTRO QUE YA HIZO LA PAGINA ---
+// La pagina consulta /api/catastro mientras el cliente espera. Esa consulta ya baja la
+// mensura a /tmp/mensuras/<ADREMA>. Si el generador de informes abriera una SEGUNDA sesion
+// en el DGC con la misma cuenta, el portal rechaza una de las dos y la mensura se pierde.
+const PROV_CACHE = path.resolve('./data/provincial');
+
+function leerProvincialGuardado(adrema) {
+    try {
+        const archivo = path.join(PROV_CACHE, adrema + '.json');
+        if (!fs.existsSync(archivo)) return null;
+        const d = JSON.parse(fs.readFileSync(archivo, 'utf8'));
+        if (!d || !d.timestamp) return null;
+        const edadMs = Date.now() - new Date(d.timestamp).getTime();
+        if (!isFinite(edadMs) || edadMs > 30 * 60 * 1000) return null;
+        return d;
+    } catch (e) {
+        return null;
+    }
+}
+
+function consultaEnCurso(adrema) {
+    try { return fs.existsSync(path.join(PROV_CACHE, adrema + '.corriendo')); } catch (e) { return false; }
+}
+
+async function obtenerDatosProvinciales(adrema, scrapear) {
+    let guardado = leerProvincialGuardado(adrema);
+    if (guardado) {
+        console.log('♻️ Reutilizando la consulta al catastro que ya hizo la pagina.');
+        return guardado;
+    }
+    for (let i = 0; i < 15 && consultaEnCurso(adrema); i++) {
+        console.log('⏳ La pagina esta consultando el catastro... esperando 10 s (' + (i + 1) + '/15)');
+        await delay(10000);
+        guardado = leerProvincialGuardado(adrema);
+        if (guardado) {
+            console.log('♻️ Consulta del catastro reutilizada.');
+            return guardado;
+        }
+    }
+    console.log('🌍 No habia consulta previa del catastro: se consulta el DGC ahora.');
+    return await scrapear(adrema);
+}
+
 const watcher = chokidar.watch(INPUT_FOLDER, { persistent: true });
 
 console.log("[-] Arquitecto Virtual (v19 - OpenAI GPT-4o-mini) listo...");
@@ -69,6 +112,7 @@ const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 // Scrapers modulares (sin duplicación)
 const { scrapeMunicipal } = require('./lib/scraperMunicipal');
 const { scrapeProvincial } = require('./lib/scraperProvincial');
+const { buscarMensuras, coser, guardarEstadoInforme } = require('./lib/coserInforme');
 
 
 
@@ -509,7 +553,7 @@ async function procesarAdrema(adrema, filePath) {
         }
         await delay(3000); // Delay de seguridad post-limpieza (aumentado)
 
-        const datosProv = await scrapeProvincial(partida, OUTPUT_FOLDER);
+        const datosProv = await obtenerDatosProvinciales(partida, (a) => scrapeProvincial(a, OUTPUT_FOLDER));
 
         const resultado = {
             ...datosMuni,
@@ -519,14 +563,22 @@ async function procesarAdrema(adrema, filePath) {
         };
 
         // 💾 PERSISTENCIA PARA STITCHING (Crucial para Informe Final)
+        // Solo se pisa el archivo si la consulta provincial trajo datos; si fallo se
+        // conserva el titular y la ubicacion que ya estaban guardados.
         const metadataPath = path.resolve('./data/mensura_extracted_data.json');
-        fs.writeFileSync(metadataPath, JSON.stringify({
-            titular: resultado.titular,
-            ubicacion: resultado.ubicacion,
-            manzana: resultado.manzana || "N/A",
-            superficieDGC: resultado.superficieDGC
-        }, null, 2));
-        console.log("💾 Metadatos guardados para stitching:", resultado.titular);
+        const titularValido = resultado.titular && String(resultado.titular).trim().length > 3;
+        if (titularValido) {
+            fs.writeFileSync(metadataPath, JSON.stringify({
+                titular: resultado.titular,
+                ubicacion: resultado.ubicacion,
+                manzana: resultado.manzana || "N/A",
+                superficieDGC: resultado.superficieDGC,
+                timestamp: new Date().toISOString()
+            }, null, 2));
+            console.log("💾 Metadatos guardados para stitching:", resultado.titular);
+        } else {
+            console.log("⚠️ La consulta provincial no trajo datos: se conservan los metadatos anteriores.");
+        }
 
         // Validar si el scrapeo fue exitoso (Distrito detectado o datos mínimos)
         if (resultado.distrito && resultado.distrito !== "Error" && resultado.distrito !== "N/A") {
@@ -721,83 +773,44 @@ async function procesarAdrema(adrema, filePath) {
         console.log(`[+] ¡ÉXITO! Informe municipal generado: ${outputFilename}`);
 
         // --- PROTOCOLO DE COSTURA (STITCHING) - MULTI-MENSURA ---
+        // La mensura puede estar en public/informes, en /tmp/mensuras/<ADREMA> (la baja la
+        // pagina) o en data/mensuras/<ADREMA>. Se buscan todas, se copian a la carpeta de
+        // informes y se anexan TODAS sus paginas al final del informe. Si el adrema no tiene
+        // mensura registrada, se entrega solo el informe municipal.
         try {
             const municipalPath = `${OUTPUT_FOLDER}/${outputFilename}`;
-            // TIMESTAMP EN NOMBRE FINAL para evitar conflictos
-            const now = new Date();
-            const fechaHora = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}`;
+            const ahora = new Date();
+            const fechaHora = `${ahora.getFullYear()}-${String(ahora.getMonth() + 1).padStart(2, '0')}-${String(ahora.getDate()).padStart(2, '0')}_${String(ahora.getHours()).padStart(2, '0')}-${String(ahora.getMinutes()).padStart(2, '0')}-${String(ahora.getSeconds()).padStart(2, '0')}`;
             const finalOutputPath = `${OUTPUT_FOLDER}/Informe_Final_Adrema_${adrema}_${fechaHora}.pdf`;
 
+            const encontradas = buscarMensuras(adrema, OUTPUT_FOLDER);
+            console.log(`🔍 Mensuras encontradas para ${adrema}: ${encontradas.length}` + (encontradas.length ? ` (${encontradas.map(m => m.archivo).join(', ')})` : ''));
 
-            // MULTI-MENSURA: Buscar TODOS los PDFs de mensura disponibles para esta adrema específica
-            // 3. AGREGAR MENSURAS (SOLO DE ESTA ADREMA)
-            // CAPA DE COSTURA (BUNKER PROTOCOL)
-            const files = fs.readdirSync(OUTPUT_FOLDER);
-            console.log(`📂 Archivos en ${OUTPUT_FOLDER}:`, files);
-            const pattern = new RegExp('Mensura_.*' + adrema + '.*\\.pdf', 'i');
-            const mensurasPDFs = files.filter(f => pattern.test(f));
-
-            mensurasPDFs.sort(); // Ordenar alfabéticamente (por timestamp o sufijo)
-
-
-            console.log(`🔍 Buscando mensuras para ${adrema} (patrón: ${pattern})...`);
-            console.log(`   > Mensuras encontradas: ${mensurasPDFs.length}`);
-            if (mensurasPDFs.length > 0) {
-                console.log(`   > Archivos: ${mensurasPDFs.join(', ')}`);
+            if (encontradas.length > 0) {
+                console.log(`🧵 Cosiendo ${encontradas.length} mensura(s) al informe municipal...`);
             }
 
-            if (mensurasPDFs.length > 0) {
-                console.log(`🧵 Cosiendo ${mensurasPDFs.length} Mensura(s) al Informe Municipal...`);
-                const municipalPdf = await PDFDocument.load(fs.readFileSync(municipalPath));
-                const finalPdf = await PDFDocument.create();
+            const cosido = await coser(adrema, OUTPUT_FOLDER, {
+                informe: municipalPath,
+                destino: finalOutputPath
+            });
 
-                // Copiar páginas municipales (1-3)
-                const pagesMuni = await finalPdf.copyPages(municipalPdf, municipalPdf.getPageIndices());
-                pagesMuni.forEach(p => finalPdf.addPage(p));
-                console.log(`   > Páginas municipales copiadas: ${pagesMuni.length}`);
-
-                // MULTI-MENSURA: Copiar TODAS las páginas de CADA mensura
-                let paginasMensuraAnexadas = 0;
-                for (const mensuraFile of mensurasPDFs) {
-                    try {
-                        const mensuraFullPath = `${OUTPUT_FOLDER}/${mensuraFile}`;
-                        console.log(`   > 📄 Anexando: ${mensuraFile}...`);
-                        const mensuraPdf = await PDFDocument.load(fs.readFileSync(mensuraFullPath));
-
-                        // Copiar TODAS las páginas de cada mensura (no solo la primera)
-                        const allIndices = mensuraPdf.getPageIndices();
-                        const copiedPages = await finalPdf.copyPages(mensuraPdf, allIndices);
-                        copiedPages.forEach(p => finalPdf.addPage(p));
-                        paginasMensuraAnexadas += allIndices.length;
-                        console.log(`   > ✅ ${mensuraFile}: ${allIndices.length} página(s) anexada(s)`);
-                    } catch (annexErr) {
-                        console.log(`   > ⚠️ Error anexando ${mensuraFile}: ${annexErr.message}`);
-                    }
+            if (cosido.ok) {
+                console.log(`✅ Informe final: ${cosido.paginasInforme + cosido.paginasMensura} páginas (${cosido.paginasInforme} de informe + ${cosido.paginasMensura} de mensura)`);
+                if (cosido.paginasMensura === 0) {
+                    console.log('ℹ️ Este adrema no tiene mensura registrada en el catastro: se entrega solo el informe.');
                 }
-
-                const pdfBytes = await finalPdf.save();
-                fs.writeFileSync(finalOutputPath, pdfBytes);
-
-                const totalPaginas = pagesMuni.length + paginasMensuraAnexadas;
-                console.log(`✅ ¡ÉXITO TOTAL! Informe integrado generado: ${totalPaginas} páginas (${pagesMuni.length} muni + ${paginasMensuraAnexadas} mensuras)`);
-                console.log(`   > Archivo: ${finalOutputPath}`);
-
-                // Abrir el PDF final
-                exec(`start "" "${path.resolve(finalOutputPath)}"`);
+                console.log(`   > Archivo: ${cosido.destino}`);
             } else {
-                console.log("⚠️ ESCENARIO B: No se encontró PDF de mensura para anexar.");
-                // Guardar el informe municipal con timestamp como final
+                console.log('⚠️ No se pudo coser (' + cosido.motivo + '): se entrega el informe municipal.');
                 fs.copyFileSync(municipalPath, finalOutputPath);
-                console.log(`   > Informe municipal guardado como: ${finalOutputPath}`);
-                // Abrir solo el informe municipal
-                exec(`start "" "${path.resolve(finalOutputPath)}"`);
+                guardarEstadoInforme(adrema, finalOutputPath, { paginasInforme: 0, paginasMensura: 0, mensuras: [] });
             }
-
         } catch (stitchErr) {
             console.error("❌ Error en la costura de PDFs:", stitchErr.message);
-            // Fallback: abrir el PDF municipal sin mensura
-            const absPath = path.resolve(`${OUTPUT_FOLDER}/${outputFilename}`);
-            exec(`start "" "${absPath}"`);
+            try {
+                fs.copyFileSync(`${OUTPUT_FOLDER}/${outputFilename}`, `${OUTPUT_FOLDER}/Informe_Final_Adrema_${adrema}_${Date.now()}.pdf`);
+            } catch (e) { }
         }
 
         try { fs.unlinkSync(filePath); } catch (e) { }

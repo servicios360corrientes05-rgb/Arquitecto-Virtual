@@ -11,6 +11,9 @@ export const dynamic = 'force-dynamic';
 const trabajos = globalThis.__catastroJobs || (globalThis.__catastroJobs = new Map());
 
 const BASE = '/tmp/mensuras';
+// Carpeta donde se deja el resultado para que el generador de informes lo reutilice
+// (asi no se abre una segunda sesion en el DGC con la misma cuenta).
+const ESTADO = path.join(process.cwd(), 'data', 'provincial');
 const TTL_MS = 15 * 60 * 1000;
 
 function limpiar() {
@@ -23,8 +26,13 @@ function limpiar() {
 async function correr(id, adrema) {
     const job = trabajos.get(id);
     const salida = path.join(BASE, adrema);
+    const marca = path.join(ESTADO, adrema + '.corriendo');
     try {
         fs.mkdirSync(salida, { recursive: true });
+        try {
+            fs.mkdirSync(ESTADO, { recursive: true });
+            fs.writeFileSync(marca, new Date().toISOString());
+        } catch (e) { }
         const mod = await import('@/lib/scraperProvincial');
         const scrapeProvincial = mod.scrapeProvincial || (mod.default && mod.default.scrapeProvincial);
         if (typeof scrapeProvincial !== 'function') {
@@ -45,6 +53,19 @@ async function correr(id, adrema) {
             }))
         };
         job.fin = Date.now();
+
+        // Se deja el resultado en disco: el generador de informes lo lee y NO vuelve
+        // a consultar el DGC (dos sesiones con la misma cuenta rompen el portal).
+        try {
+            fs.writeFileSync(path.join(ESTADO, adrema + '.json'), JSON.stringify({
+                titular: job.datos.titular,
+                ubicacion: job.datos.ubicacion,
+                superficieDGC: job.datos.superficieDGC,
+                hayMensuras: job.datos.hayMensuras,
+                mensuras: archivos,
+                timestamp: new Date().toISOString()
+            }, null, 2));
+        } catch (e) { }
     } catch (e) {
         job.estado = 'error';
         job.error = e?.message || String(e);
@@ -53,6 +74,8 @@ async function correr(id, adrema) {
         job.pista = msg.includes('DGC_CATASTRO')
             ? 'Faltan las credenciales del catastro provincial (DGC_CATASTRO_USER / DGC_CATASTRO_PASS).'
             : msg;
+    } finally {
+        try { if (fs.existsSync(marca)) fs.unlinkSync(marca); } catch (e) { }
     }
 }
 
