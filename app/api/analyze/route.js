@@ -164,7 +164,7 @@ export async function POST(req) {
                     const completion = await openai.chat.completions.create({
                         model: AI_MODEL,
                         messages: [{
-                            role: "system",
+                            role: "user",
                             content: `Actúa como Arquitecto Experto en Corrientes. El sitio municipal está temporalmente inaccesible, pero conocemos el distrito normativo. Genera un DICTAMEN TÉCNICO RESUMIDO basado solo en la normativa vigente, indicando que los datos catastrales (superficie, frente) no pudieron obtenerse en este momento. Normativa:\n${fallbackContext}\nMáx 800 caracteres. Sin markdown complejo.`
                         }],
                         temperature: 0.7,
@@ -217,7 +217,7 @@ export async function POST(req) {
                     const completion = await openai.chat.completions.create({
                         model: AI_MODEL,
                         messages: [
-                            { role: "system", content: systemPrompt }
+                            { role: "user", content: systemPrompt }
                         ],
                         temperature: 0.7,
                         max_tokens: 400
