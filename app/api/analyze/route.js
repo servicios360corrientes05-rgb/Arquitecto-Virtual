@@ -52,9 +52,13 @@ function setCachedData(adrema, data) {
     console.log(`💾 Caché guardada para ${adrema}`);
 }
 
-// Initialize OpenAI
-const apiKey = process.env.OPENAI_API_KEY;
-const openai = new OpenAI({ apiKey: apiKey });
+// Initialize AI - Gemini por el endpoint compatible con OpenAI.
+// La cuenta de OpenAI quedo sin saldo (429 credit_balance_exhausted),
+// asi que el dictamen usa GOOGLE_API_KEY, que ya tiene credito y sale mas barato.
+const apiKey = process.env.GOOGLE_API_KEY || process.env.OPENAI_API_KEY;
+const AI_BASE_URL = process.env.AI_BASE_URL || "https://generativelanguage.googleapis.com/v1beta/openai/";
+const AI_MODEL = process.env.AI_MODEL || "gemini-3.5-flash-lite";
+const openai = new OpenAI({ apiKey: apiKey, baseURL: AI_BASE_URL });
 
 export async function POST(req) {
     try {
@@ -158,7 +162,7 @@ export async function POST(req) {
                         - Tejido: ${JSON.stringify(regData.tejido)}
                     `;
                     const completion = await openai.chat.completions.create({
-                        model: "gpt-4o-mini",
+                        model: AI_MODEL,
                         messages: [{
                             role: "system",
                             content: `Actúa como Arquitecto Experto en Corrientes. El sitio municipal está temporalmente inaccesible, pero conocemos el distrito normativo. Genera un DICTAMEN TÉCNICO RESUMIDO basado solo en la normativa vigente, indicando que los datos catastrales (superficie, frente) no pudieron obtenerse en este momento. Normativa:\n${fallbackContext}\nMáx 800 caracteres. Sin markdown complejo.`
@@ -211,7 +215,7 @@ export async function POST(req) {
                     `;
 
                     const completion = await openai.chat.completions.create({
-                        model: "gpt-4o-mini",
+                        model: AI_MODEL,
                         messages: [
                             { role: "system", content: systemPrompt }
                         ],
