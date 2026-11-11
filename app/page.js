@@ -12,6 +12,7 @@ export default function Home() {
 
   // Poll for PDF logic
   const [pdfUrl, setPdfUrl] = useState(null);
+  const [catastro, setCatastro] = useState(null);
 
   const pollForPDF = async (adremaToPoll) => {
     setPdfUrl(null);
@@ -128,6 +129,7 @@ export default function Home() {
 
       const data = await response.json();
       setResult(data);
+      fetchCatastro(adremaValue);
 
       // Logic:
       // If isPostPayment -> start polling immediately.
@@ -142,6 +144,40 @@ export default function Home() {
       console.error(err);
       setError(err.message || "Error de conexión.");
       setLoading(false);
+    }
+  };
+
+  // Registro Catastral Provincial (DGC): se consulta aparte porque tarda
+  // entre 40 y 150 segundos y no debe demorar el análisis municipal.
+  const fetchCatastro = async (adremaValue) => {
+    setCatastro({ estado: 'corriendo' });
+    try {
+      const r = await fetch('/api/catastro', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ adrema: adremaValue })
+      });
+      const j = await r.json();
+      if (!j.jobId) {
+        setCatastro({ estado: 'error', error: j.error || 'No se pudo iniciar la consulta al catastro.' });
+        return;
+      }
+      for (let i = 0; i < 60; i++) {
+        await new Promise(res => setTimeout(res, 4000));
+        const res2 = await fetch('/api/catastro?job=' + j.jobId);
+        const d = await res2.json();
+        if (d.estado === 'listo') {
+          setCatastro({ estado: 'listo', ...d.datos, segundos: d.segundos });
+          return;
+        }
+        if (d.estado === 'error' || d.estado === 'desconocido') {
+          setCatastro({ estado: 'error', error: d.pista || d.error || 'No se pudo leer el catastro provincial.' });
+          return;
+        }
+      }
+      setCatastro({ estado: 'error', error: 'El catastro provincial está tardando más de lo normal. Probá de nuevo en unos minutos.' });
+    } catch (e) {
+      setCatastro({ estado: 'error', error: 'No se pudo conectar con el catastro provincial.' });
     }
   };
 
@@ -384,6 +420,15 @@ export default function Home() {
           <div className={styles.resultOverlay}>
             <div className={styles.resultCard}>
               <button onClick={() => setResult(null)} className={styles.closeButton}>✕</button>
+              <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: '16px', paddingBottom: '12px', marginBottom: '14px', borderBottom: '3px solid #D32F2F' }}>
+                <div>
+                  <div style={{ fontSize: '1.2rem', letterSpacing: '1px', color: '#fff' }}>ArNeaz · Estudio de Arquitectura</div>
+                  <div style={{ fontSize: '0.9rem', color: '#bbb' }}>Informe técnico de factibilidad · Corrientes, Argentina</div>
+                </div>
+                <div style={{ fontSize: '0.8rem', color: '#888', textAlign: 'right', lineHeight: 1.4 }}>
+                  Registro municipal<br />y provincial
+                </div>
+              </div>
               <h2 className={styles.resultTitle}>ANÁLISIS DE FACTIBILIDAD (PREVIEW)</h2>
               <div className={styles.resultGrid}>
                 <div className={styles.dataCol}>
@@ -404,6 +449,36 @@ export default function Home() {
                   <h3>DICTAMEN IA</h3>
                   <p>{result.analisisIA}</p>
                 </div>
+              </div>
+
+              {/* REGISTRO CATASTRAL PROVINCIAL (DGC) */}
+              <div style={{ marginTop: '20px', padding: '16px', border: '1px solid #444', borderRadius: '6px', background: 'rgba(255,255,255,0.03)' }}>
+                <div style={{ color: '#D32F2F', fontSize: '0.85rem', letterSpacing: '1px', marginBottom: '10px' }}>REGISTRO CATASTRAL PROVINCIAL (DGC)</div>
+                {(!catastro || catastro.estado === 'corriendo') && (
+                  <p style={{ color: '#bbb', fontSize: '0.95rem' }}>Consultando el catastro de la provincia... puede tardar hasta un minuto.</p>
+                )}
+                {catastro && catastro.estado === 'listo' && (
+                  <>
+                    <div className={styles.row}><span>Titular:</span> <strong>{catastro.titular || 'Consultar en el registro'}</strong></div>
+                    <div className={styles.row}><span>Ubicación:</span> <strong>{catastro.ubicacion || 'Según mensura'}</strong></div>
+                    <div className={styles.row}><span>Superficie s/ catastro:</span> <strong>{catastro.superficieDGC ? catastro.superficieDGC + ' m²' : 'Sin dato'}</strong></div>
+                    {catastro.mensuras && catastro.mensuras.length > 0 ? (
+                      <div style={{ marginTop: '12px' }}>
+                        <p style={{ color: '#bbb', fontSize: '0.95rem', marginBottom: '8px' }}>Mensura disponible ({catastro.mensuras.length}):</p>
+                        {catastro.mensuras.map(m => (
+                          <a key={m.archivo} href={m.url} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginRight: '12px', marginBottom: '8px', color: '#FF9900', fontSize: '0.95rem' }}>
+                            Ver mensura ({(m.bytes / 1024 / 1024).toFixed(1)} MB)
+                          </a>
+                        ))}
+                      </div>
+                    ) : (
+                      <p style={{ color: '#bbb', fontSize: '0.95rem', marginTop: '10px' }}>No hay mensura cargada en el catastro para esta partida.</p>
+                    )}
+                  </>
+                )}
+                {catastro && catastro.estado === 'error' && (
+                  <p style={{ color: '#ffaaaa', fontSize: '0.95rem' }}>{catastro.error}</p>
+                )}
               </div>
 
               {/* ACTION AREA (PAYMENT or DOWNLOAD) */}
