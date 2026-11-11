@@ -819,3 +819,138 @@ async function procesarAdrema(adrema, filePath) {
         console.error("❌ Error Fatal en PDF:", (error && error.message) ? error.message : error);
     }
 }
+// ============================================================
+// RED DE SEGURIDAD DE PAGOS (MercadoPago)
+// Cada 5 minutos le preguntamos a MercadoPago si entro algun pago aprobado
+// que todavia no tenga su informe. Si lo hay, se manda a la cola igual que
+// si el cliente hubiera vuelto a la pagina. Sirve para el caso "pago y cerro
+// la pagina" y tambien si el aviso automatico de MercadoPago no llega.
+// ============================================================
+const ESTADO_MP = path.resolve('./data/mp_reconciliacion.json');
+const MINUTOS_DE_REVISION = 5;
+const ATRASO_PRIMERA_VEZ_MS = 24 * 60 * 60 * 1000; // la primera vez mira 24 h para atras
+const MAX_INTENTOS_POR_ADREMA = 2;
+
+function leerEstadoMP() {
+    try {
+        const d = JSON.parse(fs.readFileSync(ESTADO_MP, 'utf8'));
+        if (d && typeof d === 'object') return d;
+    } catch (e) { }
+    return { ultimo: null, intentos: {} };
+}
+
+function guardarEstadoMP(estado) {
+    try {
+        const dir = path.dirname(ESTADO_MP);
+        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+        fs.writeFileSync(ESTADO_MP, JSON.stringify(estado, null, 2));
+    } catch (e) { }
+}
+
+// Formato que pide MercadoPago para las fechas: 2026-11-11T14:00:00.000-00:00
+function fechaMP(d) {
+    const iso = new Date(d).toISOString(); // termina en Z
+    return iso.replace('Z', '-00:00');
+}
+
+async function buscarPagosAprobados(desde, hasta) {
+    const mp = require('mercadopago');
+    const clienteMP = new mp.MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN });
+    const pagos = new mp.Payment(clienteMP);
+
+    const juegosDeParametros = [
+        { criteria: 'desc', sort: 'date_created', range: 'date_created', begin_date: fechaMP(desde), end_date: fechaMP(hasta) },
+        { criteria: 'desc', sort: 'date_created', range: 'date_created', begin_date: new Date(desde).toISOString(), end_date: new Date(hasta).toISOString() },
+        { criteria: 'desc', sort: 'date_created', status: 'approved' }
+    ];
+
+    let ultimoError = null;
+    for (const options of juegosDeParametros) {
+        try {
+            const r = await pagos.search({ options });
+            return (r && r.results) ? r.results : [];
+        } catch (e) {
+            ultimoError = e;
+        }
+    }
+    throw ultimoError || new Error('MercadoPago no devolvio resultados');
+}
+
+// Hay informe para este adrema y es mas nuevo que el pago?
+function informePosteriorAlPago(adrema, fechaPago) {
+    try {
+        const limite = new Date(fechaPago).getTime();
+        const archivos = fs.readdirSync(OUTPUT_FOLDER);
+        for (const f of archivos) {
+            if (!f.endsWith('.pdf')) continue;
+            if (!f.includes(adrema)) continue;
+            const st = fs.statSync(path.join(OUTPUT_FOLDER, f));
+            if (st.mtime.getTime() >= limite) return f;
+        }
+    } catch (e) { }
+    return null;
+}
+
+async function reconciliarPagos(motivo) {
+    if (!process.env.MP_ACCESS_TOKEN) {
+        console.log('[MP] Sin llave de MercadoPago: no hay nada que reconciliar.');
+        return;
+    }
+
+    const estado = leerEstadoMP();
+    if (!estado.intentos || typeof estado.intentos !== 'object') estado.intentos = {};
+
+    const ahora = new Date();
+    const desde = estado.ultimo ? new Date(estado.ultimo) : new Date(ahora.getTime() - ATRASO_PRIMERA_VEZ_MS);
+    const desdeConSolape = new Date(desde.getTime() - 2 * 60 * 1000);
+
+    let pagos;
+    try {
+        pagos = await buscarPagosAprobados(desdeConSolape, ahora);
+    } catch (e) {
+        console.log('[MP] No pude leer los pagos (' + (e && e.message ? e.message : e) + '). Reintento en ' + MINUTOS_DE_REVISION + ' min.');
+        return;
+    }
+
+    const aprobados = pagos.filter(p => p && p.status === 'approved');
+    let disparados = 0;
+
+    for (const pago of aprobados) {
+        const referencia = String(pago.external_reference || '').trim();
+        if (!/^[A-Z]\d{4,}$/i.test(referencia)) continue;
+        const adrema = referencia.toUpperCase();
+
+        if (informePosteriorAlPago(adrema, pago.date_approved || pago.date_created || ahora)) {
+            continue; // ya lo tiene
+        }
+
+        const clave = adrema + '_' + (pago.id || '');
+        if ((estado.intentos[clave] || 0) >= MAX_INTENTOS_POR_ADREMA) continue;
+        estado.intentos[clave] = (estado.intentos[clave] || 0) + 1;
+
+        try {
+            const dest = path.join(INPUT_FOLDER, adrema + '.txt');
+            if (!fs.existsSync(dest)) {
+                fs.writeFileSync(dest, adrema);
+                disparados++;
+                console.log('[MP] Pago aprobado ' + pago.id + ' del ' + (pago.date_approved || '') + ' sin informe: mando ' + adrema + ' a la cola (' + motivo + ').');
+            }
+        } catch (e) {
+            console.log('[MP] No pude encolar ' + adrema + ': ' + e.message);
+        }
+    }
+
+    // Limpieza: los intentos viejos no se guardan para siempre
+    const claves = Object.keys(estado.intentos);
+    if (claves.length > 200) {
+        estado.intentos = {};
+    }
+
+    estado.ultimo = ahora.toISOString();
+    guardarEstadoMP(estado);
+
+    console.log('[MP] Revision de pagos (' + motivo + '): ' + aprobados.length + ' aprobados en la ventana, ' + disparados + ' informe(s) disparado(s).');
+}
+
+setTimeout(() => { reconciliarPagos('al arrancar'); }, 15000);
+setInterval(() => { reconciliarPagos('periodica'); }, MINUTOS_DE_REVISION * 60 * 1000);
